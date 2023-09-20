@@ -5,7 +5,7 @@ This is my place on the universe, where I share my thoughts with others. [Visit 
 
 ## Tech
 
-Blog is written in [Astro web framework](https://astro.build/) 
+Blog is developed in [Astro web framework](https://astro.build/) 
 
 ## Credit
 
