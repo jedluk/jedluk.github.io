@@ -2,7 +2,7 @@
 title: 'Hello World!'
 description: "Not too long of an introduction."
 pubDate: 'Sep 22 2023'
-heroImage: '/pexels-vie-studio-4439410.jpg'
+heroImage: '/blog/hello/pexels-vie-studio-4439410.jpg'
 ---
 <style>
     p {
