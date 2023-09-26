@@ -100,8 +100,8 @@ cv2.imwrite('./bambo_gray.jpg', gray)
 ```
 As you can see conversion is pretty straightforward. Only thing to remember is that openCV keeps channels in reversed order (BGR), this is why as second argument we pass `cv2.COLOR_BGR2GRAY`. Calculating histogram is done in similar way as previous, except that we don't need to iterate over channels, as we have only 1. In last line you can see how we can save new images in openCV. First argument is just a path to image, second image instance.
 <div class="pictures" sty>
-    <img src="/blog/opencv/bambo_gray.jpg" alt="bambo" />
-    <img src="/blog/opencv/bambo_hist_gray.png" alt="histogram" />
+    <img src="/blog/opencv/bambo_gray.jpg" alt="bambo-gray" />
+    <img src="/blog/opencv/bambo_hist_gray.png" alt="gray-histogram" />
 </div>
 
 Quite similar results to RGB image, don't you think ? As you see we practially don't loose any image details during conversion. Even histogram looks quite similar to our RGB image. Now we can go step further and transform such an image into binary image (this operation is known as thresholding). Binary image contains pixels with value 0 or 1 (think about benefits - we have single channel with each pixel stored on 1 bit only 🤯). The main purpose of this operation is to separate foreground characters from the background. Classic approach to binarization is done in such way that we create two groups with minimal variance inside each group. This method has official name - [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method). Looking only on histogram we can guess that approximate threshold equals around 60. This is how we do it in opencCV.
@@ -114,18 +114,18 @@ print(ret_otsu)
 display_img('bin', tresh)
 display_img('bin_inv',tresh_otsu)
 ```
-I've binarized image twice - one with arbitrary value `60` (threshold is passed as second argument, third is max pixel value) and second time with treshold computed by algorithm. Script told me that true value is `84` (cv2.threshold function returns threshold as the first output - in case of using `cv2.THRESH_OTSU` second function argument might be random). But as you see it's not far away from value I bet only on looking on histogram. So we can conclude that sometimes observing histogram only might be enough to do the job. Below you can find both images, left - my own threshold 60 , right 84.
+I've binarized image twice - first with arbitrary value `60` (threshold is passed as second argument, third is max pixel value) and second time with treshold computed by algorithm. Script told me that true value is `84` (cv2.threshold function returns threshold as the first output - in case of using `cv2.THRESH_OTSU` second function argument might be discretionary). But as you see it's not far away from value I bet only on looking on histogram. So we can conclude that sometimes observing histogram only might be enough to do the job. Below you can find both images, left - my own threshold 60 , right 84.
 <div class="pictures">
-    <img src="/blog/opencv/bambo_bin.jpg" alt="cartoon">
-    <img src="/blog/opencv/bambo_bin_otsu.jpg" alt="cartoon">
+    <img src="/blog/opencv/bambo_bin.jpg" alt="bambo-binary">
+    <img src="/blog/opencv/bambo_bin_otsu.jpg" alt="bambo-binary-otsu">
 </div>
 
-Do we see Bambo as main character on this image ? For sure! For the sake of precision, I want to mention that the global thresholding method (like Otsu) doesn't always work in practice, especially when the image has uneven lighting. In such cases, adaptive thresholding with local thresholds is used. In general it works like that we split image into smaller parts (so called windows) and find local threshold. After tresholidng we join those parts together. I will try to write post about adaptive thresholding as well. 
+Do we see Bambo as main character on this image ? For sure! For the sake of precision, I want to mention that the global thresholding method (like Otsu) doesn't always work in practice, especially when the image has uneven lighting. In such cases, adaptive thresholding with local thresholds should be used. In general it works like that we split image into smaller parts (so called windows) and find local threshold. After tresholidng in separation we join those parts together. I will try to write post about adaptive thresholding as well. 
 
-And at the end I want to explain why I've choosen picture of my pug as testing image. Final operation presente in this article was binarization. And if you look into pug You might think that's perfect example of binarization - all you can see is just two group of colors (black and silver/silver-like). 
+And at the end I want to explain why I've choosen picture of my pug as testing image. Final operation presented in this article was binarization. And if you look on a pug You might think that's perfect example of binarization without even perfoming operation - from colors point of view, there are only two groups (black and silver/silver-like). This is also the reason why we did not have a problem to apporximate threshold based on histogram, without any computation. 
 
 <div class="pictures">
-    <img src="/blog/opencv/bambo_cartoon.jpg" alt="cartoon">
+    <img src="/blog/opencv/bambo_cartoon.jpg" alt="bambo-cartoon">
 </div>
 
 I hope that You liked this content (and above image as well 😆) /hint: cartoon filter/. See You in the next post then ! (I'm not promising it will be about image processing as well, but for sure it's not last from this series).
