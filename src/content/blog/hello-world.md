@@ -6,7 +6,7 @@ heroImage: '/pexels-vie-studio-4439410.jpg'
 ---
 <style>
     p {
-            text-align: justify;
+        text-align: justify;
     }
     a {
         color: blueviolet;
