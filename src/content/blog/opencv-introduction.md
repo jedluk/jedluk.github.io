@@ -112,9 +112,9 @@ ret, tresh = cv2.threshold(gray, 60, 255, cv2.THRESH_BINARY)
 ret_otsu, tresh_otsu = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU)
 print(ret_otsu)
 display_img('bin', tresh)
-display_img('bin_inv',tresh_otsu)
+display_img('bin_otsu',tresh_otsu)
 ```
-I've binarized image twice - first with arbitrary value `60` (threshold is passed as second argument, third is max pixel value) and second time with treshold computed by algorithm. Script told me that true value is `84` (cv2.threshold function returns threshold as the first output - in case of using `cv2.THRESH_OTSU` second function argument might be discretionary). But as you see it's not far away from value I bet only on looking on histogram. So we can conclude that sometimes observing histogram only might be enough to do the job. Below you can find both images, left - my own threshold 60 , right 84.
+I've binarized image twice - first with arbitrary value `60` (threshold is passed as second argument, third is max pixel value) and second time with treshold computed by algorithm. Script told me that true value is `84` (cv2.threshold function returns threshold as the first output - in case of using `cv2.THRESH_OTSU` function second argument might be discretionary). But as you see it's not far away from value I bet only on looking on histogram. So we can conclude that sometimes observing histogram only might be enough to do the job. Below you can find both images, left - my own threshold 60 , right 84.
 <div class="pictures">
     <img src="/blog/opencv/bambo_bin.jpg" alt="bambo-binary">
     <img src="/blog/opencv/bambo_bin_otsu.jpg" alt="bambo-binary-otsu">
