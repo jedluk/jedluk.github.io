@@ -9,7 +9,7 @@ heroImage: '/blog/hello/pexels-vie-studio-4439410.jpg'
         text-align: justify;
     }
     a {
-        color: blueviolet;
+        color: var(--accent);
     }
     ul, ol {
         margin-bottom: 1em;
