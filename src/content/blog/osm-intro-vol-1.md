@@ -1,7 +1,7 @@
 ---
 title: 'Build your own Planet with OSM vol. 1/2'
 description: "Comprehensive introduction to Open Street Map and vector tiles"
-pubDate: 'Nov 7, 2023'
+pubDate: 'Nov 8, 2023'
 heroImage: '/blog/osm-planet/nyc_hero.png'
 ---
 <style>
