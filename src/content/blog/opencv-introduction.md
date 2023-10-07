@@ -9,7 +9,7 @@ heroImage: '/blog/opencv/bambo_bin.jpg'
         text-align: justify;
     }
     a {
-        color: cadetblue;
+        color: var(--accent);
     }
     .pictures {
         display: flex;
