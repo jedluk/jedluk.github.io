@@ -10,25 +10,133 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
+	<style>
+		main {
+			position: relative;
+		}
+		main ul {
+			list-style-type: circle;
+		}
+		.tech-icons {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			z-index:-1;
+		}
+		.tech-icons div {
+			background-position: center; 
+			background-repeat: no-repeat;
+			background-size: contain; 
+			position: absolute;
+			display: block;
+			animation: animate 25s linear infinite;
+			bottom: -150px;
+			
+		}
+		.tech-icons div:nth-child(1){
+			background-image: url("/tech/osm.svg");
+			left: 25%;
+			width: 80px;
+			height: 80px;
+			animation-delay: 0s;
+		}
+		.tech-icons div:nth-child(2){
+			border-radius: 10px;
+			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg");
+			left: 10%;
+			width: 30px;
+			height: 30px;
+			animation-delay: 2s;
+			animation-duration: 12s;
+		}
+		.tech-icons div:nth-child(3){
+			background-image: url("/tech/clickhouse.svg");
+			left: 70%;
+			width: 30px;
+			height: 30px;
+			animation-delay: 4s;
+		}
+		.tech-icons div:nth-child(4){
+			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg");
+			left: 40%;
+			width: 60px;
+			height: 60px;
+			animation-delay: 0s;
+			animation-duration: 18s;
+		}
+		.tech-icons div:nth-child(5){
+			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg");
+			left: 65%;
+			width: 30px;
+			height: 30px;
+			animation-delay: 0s;
+		}
+		.tech-icons div:nth-child(6){
+			background-image: url("/tech/maplibre.svg");
+			left: 75%;
+			width: 110px;
+			height: 110px;
+			animation-delay: 3s;
+		}
+		.tech-icons div:nth-child(7){
+			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg");
+			left: 35%;
+			width: 70px;
+			height: 70px;
+			animation-delay: 7s;
+		}
+		.tech-icons div:nth-child(8){
+			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg");
+			left: 50%;
+			width: 25px;
+			height: 25px;
+			animation-delay: 15s;
+			animation-duration: 45s;
+		}
+		.tech-icons div:nth-child(9){
+			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg");
+			right: -10%;
+			width: 150px;
+			height: 150px;
+			animation-delay: 0s;
+			animation-duration: 11s;
+		}
+
+		@keyframes animate {
+
+			0% {
+				transform: translateY(0) rotate(0deg);
+				opacity: 1;
+			}
+			50% {
+				opacity: 0.4;
+				filter: grayscale(1);
+			}
+			100%{
+				transform: translateY(-1000px) rotate(720deg) scale(0.5);
+				opacity: 0;
+			}
+
+		}
+	</style>
 	<body>
 		<Header title={SITE_TITLE} />
 		<main>
 			<h1>Hello, Stranger 👩👨!</h1>
 			<p class="text-justify">
 				Welcome to Jedrzej Lukasiuk's home page. This is my little space in the universe. If you're interested in to know me better, go to <a href="/about">about</a> page. 
-				Below, you'll find a visual list of technologies that are the subject of discussion on my blog (it's not an exhaustive list, but it will give you a general idea 
-				of what to expect)
-				<div class="flex flex-wrap [&>*]:mx-2 [&>*]:my-2 py-4">
-					<img width="46" height="46" alt="React" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"/>
-					<img width="46" height="46" alt="JavaScript" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" />
-					<img width="46" height="46" alt="TypeScript" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg" />
-					<img width="46" height="46" alt="OSM" src="/tech/osm.svg"/>
-					<img alt="MapLibre" src="/tech/maplibre.svg"/>
-					<img width="46" height="46" alt="ClickHouse" src="/tech/clickhouse.svg"/>
-					<img width="46" height="46" alt="NodeJS" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg" />
-					<img width="46" height="46" alt="Python" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" />
-					<img width="46" height="46" alt="OpenCV" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg" />
-				</div>
+				Below, you'll find list of technologies that are the subject of discussion on my blog (it's not an exhaustive list, but it will give you a general idea 
+				of what to expect):
+				<ul>
+					<li>React</li>
+					<li>Javascript / Typescript / NodeJS</li>
+					<li>Python / OpenCV</li>
+					<li>MapLibre / Open Steet Map</li>
+					<li>ClickHouse</li>
+				</ul>
 			</p>
 			<p class="mt-1 text-justify">
 				At the end let me explain why I've decided to run this blog. I strongly belive that each good developer should pay off his dept to open-source
@@ -41,6 +149,17 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 					annorum series et fuga temporum.
 				</blockquote>
 			</p>
+			<div class="tech-icons">
+				<div />
+				<div />
+				<div />
+				<div />
+				<div />
+				<div />
+				<div />
+				<div />
+				<div />
+			</div>
 		</main>
 		<Footer />
 	</body>
