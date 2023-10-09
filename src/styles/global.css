@@ -179,7 +179,7 @@ hr {
 	}
 
 	body {
-		font-size: var(--base-font-size) - 4px;
+		font-size: calc(var(--base-font-size) - 4px);
 	}
 
 	main {
