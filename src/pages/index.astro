@@ -10,122 +10,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<style>
-		main {
-			position: relative;
-			padding: 2em 1em;
-		}
-		main ul {
-			list-style-type: circle;
-		}
-		.tech-icons {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			z-index:-1;
-		}
-		.tech-icons div {
-			background-position: center; 
-			background-repeat: no-repeat;
-			background-size: contain; 
-			position: absolute;
-			display: block;
-			animation: animate 25s linear infinite;
-			bottom: -150px;
-			
-		}
-		.tech-icons div:nth-child(1){
-			background-image: url("/tech/osm.svg");
-			left: 25%;
-			width: 80px;
-			height: 80px;
-			animation-delay: 0s;
-		}
-		.tech-icons div:nth-child(2){
-			border-radius: 10px;
-			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg");
-			left: 10%;
-			width: 30px;
-			height: 30px;
-			animation-delay: 2s;
-			animation-duration: 12s;
-		}
-		.tech-icons div:nth-child(3){
-			background-image: url("/tech/clickhouse.svg");
-			left: 70%;
-			width: 30px;
-			height: 30px;
-			animation-delay: 4s;
-		}
-		.tech-icons div:nth-child(4){
-			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg");
-			left: 40%;
-			width: 60px;
-			height: 60px;
-			animation-delay: 0s;
-			animation-duration: 18s;
-		}
-		.tech-icons div:nth-child(5){
-			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-plain.svg");
-			left: 65%;
-			width: 30px;
-			height: 30px;
-			animation-delay: 0s;
-		}
-		.tech-icons div:nth-child(6){
-			background-image: url("/tech/maplibre.svg");
-			left: 75%;
-			width: 110px;
-			height: 110px;
-			animation-delay: 3s;
-		}
-		.tech-icons div:nth-child(7){
-			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg");
-			left: 35%;
-			width: 70px;
-			height: 70px;
-			animation-delay: 7s;
-		}
-		.tech-icons div:nth-child(8){
-			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-plain.svg");
-			left: 50%;
-			width: 25px;
-			height: 25px;
-			animation-delay: 15s;
-			animation-duration: 45s;
-		}
-		.tech-icons div:nth-child(9){
-			background-image: url("https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opencv/opencv-original.svg");
-			right: -10%;
-			width: 150px;
-			height: 150px;
-			animation-delay: 0s;
-			animation-duration: 11s;
-		}
-
-		@keyframes animate {
-
-			0% {
-				transform: translateY(0) rotate(0deg);
-				opacity: 1;
-			}
-			50% {
-				opacity: 0.4;
-				filter: grayscale(1);
-			}
-			100%{
-				transform: translateY(-1000px) rotate(720deg) scale(0.5);
-				opacity: 0;
-			}
-
-		}
-	</style>
 	<body>
 		<Header title={SITE_TITLE} />
-		<main>
+		<main class="relative py-[2em] px-[1em]">
 			<h1>Hello, Stranger 👩👨!</h1>
 			<p class="text-justify">
 				Welcome to Jedrzej Lukasiuk's home page. This is my little space in the universe. If you'd like to get to know me better, go to <a href="/about">about</a> page. 
@@ -143,16 +30,16 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 					annorum series et fuga temporum.
 				</blockquote>
 			</p>
-			<div class="tech-icons">
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
-				<div />
+			<div class="tech-icons absolute top-0 left-0 w-full h-full overflow-hidden -z-1 [&>div]:block [&>div]:absolute [&>div]:bottom-[-150px] [&>div]:bg-center [&>div]:bg-contain [&>div]:bg-no-repeat">
+				<div class="bg-[url('/tech/osm.svg')] w-20 h-20 left-1/4 animate-tech animation-delay-0" />
+				<div class="bg-[url('/tech/react.svg')] w-8 h-8 left-[10%] animate-tech animation-delay-[2000ms] animation-duration-[12000ms]" />
+				<div class="bg-[url('/tech/clickhouse.svg')] w-8 h-8 left-3/4 animate-tech animation-delay-[4000ms]" />
+				<div class="bg-[url('/tech/js.svg')] w-16 h-16 left-[40%] animate-tech animation-delay-[2500ms] animation-duration-[18000ms]" />
+				<div class="bg-[url('/tech/ts.svg')] w-8 h-8 left-[65%] animate-tech animation-delay-[3000ms]" />
+				<div class="bg-[url('/tech/mapblibre.svg')] w-28 h-28 left-3/4 animate-tech animation-delay-[3000ms]" />
+				<div class="bg-[url('/tech/python.svg')] w-14 h-14 left-[20%] animate-tech animation-delay-[7000ms]" />
+				<div class="bg-[url('/tech/nodejs.svg')] left-1/2 w-7 h-7 animate-tech animation-delay-[4000ms] animation-duration-[20000ms]" />
+				<div class="bg-[url('/tech/opencv.svg')] -right-2 w-36 h-36 animate-tech animation-delay-0 animation-duration-[11000ms]" />
 			</div>
 		</main>
 		<Footer />
