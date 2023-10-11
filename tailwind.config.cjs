@@ -12,7 +12,7 @@ module.exports = {
           '0%': { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
           '50%': { filter: 'grayscale', opacity: 0.4 },
           '100%': {
-            transform: 'translateY(-1000px) rotate(720deg)',
+            transform: 'translateY(-1000px) rotate(720deg) scale(0.5)',
             opacity: 0,
           },
         },
