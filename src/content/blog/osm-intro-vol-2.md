@@ -1,7 +1,7 @@
 ---
 title: 'Build your own Planet with OSM vol. 2/2'
 description: "Comprehensive introduction to Open Street Map and Maplibre"
-pubDate: 'Nov 12, 2023'
+pubDate: 'Oct 12, 2023'
 heroImage: '/blog/osm-planet/nyc_hero_vol2.png'
 ---
 <style>
