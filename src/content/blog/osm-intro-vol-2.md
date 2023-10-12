@@ -189,9 +189,9 @@ In this place I want to mention about [map generalization](https://en.wikipedia.
   }
 },
 ```
-Third layer represents subway entrances around the city. In this case we have to choose `poi` (points of interests) source layer and apply appropriate filter. We can present those points as circles (for this reason we choose <i>circle</i> type).
+Third layer represents subway entrances around the city. In this case we have to choose `poi` (points of interests) source layer and apply appropriate filter. We present those points as circles (<i>circle</i> type).
 
-And to top it all off, the cherry on the cake - buildings. In first episode I mentioned that in current post I will reveal a secret - why actually NYC area was chosen as training material. Answer is simple. OSM is driven by community. If the society is active and technically proficient, then quality of data is high. NYC is good example of area when majority of buildings have height assigned, so we are able to create magnificent 3D visualizations.
+And to top it all off, the cherry on the cake - buildings. In first episode I mentioned that in current post I will reveal a secret - why actually NYC area was chosen as training material. Answer is simple. OSM is driven by community. If the society is active and technically proficient, then quality of data is high. NYC is good example of area with high quality data, majority of buildings have height assigned, so we are able to create magnificent 3D visualizations.
 
 We will do generalization here as well - buildings will begin to appear at zoom level 13 (only as footprints), while from zoom level 14, they will turn into three-dimensional models with the same extrusion as currently assigned in the OSM database. Also for building higher than 50 meters different color will be applied.
 
@@ -231,4 +231,4 @@ Please notice that we've used <i>fill-extrusion</i> type for second layer. By re
 
 I really like it how it looks. Now, I think you have no doubts that the data we created in the previous post indeed represents an NYC area 😅. Also I have good news for you; if you got lost somewhere while analyzing the layers, you can download the entire JSON file from [here](/scripts/mapStyle.json). 
 
-In this two-part series, I've included a wealth of information, but I hope you can see now that it was worth it. I still don't know what the next post's topic will be, but I have some ideas. See you soon then!
+That's enough for today. In two-part series, I’ve included a wealth of information, we got to know OSM and maplibre (and a few other necessary tools).  I hope that the world of interactive vector maps is now wide open for you. Try to play around with OSM data - crop area around your city and create your own map (you can experiment with other layers). Maybe you'll spot missing data and consequently become OSM contributor ? See you soon!
