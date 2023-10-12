@@ -1,0 +1,133 @@
+{
+  "version": 8,
+  "name": "custom-style",
+  "center": [-73.97213924223371, 40.77749354550904],
+  "zoom": 10.7,
+  "sources": {
+    "openmaptiles": {
+      "type": "vector",
+      "tiles": ["http://localhost:8080/data/openmaptiles/{z}/{x}/{y}.pbf"],
+      "attribution": "© <a href='https://openstreetmap.org'>OpenStreetMap</a>",
+      "minzoom": 0,
+      "maxzoom": 14
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#212121"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "filter": ["==", "$type", "Polygon"],
+      "paint": {
+        "fill-color": "#0D47A1",
+        "fill-opacity": 0.2
+      }
+    },
+    {
+      "id": "grass",
+      "type": "fill",
+      "minzoom": 10,
+      "source": "openmaptiles",
+      "source-layer": "landcover",
+      "filter": ["all", ["==", "$type", "Polygon"], ["in", "class", "grass"]],
+      "paint": {
+        "fill-color": "#33691E"
+      }
+    },
+    {
+      "id": "highway_minor",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["in", "class", "secondary", "minor", "service", "track"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": "#FFB74D",
+        "line-opacity": 0.4,
+        "line-width": 2
+      }
+    },
+    {
+      "id": "highway_major",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": [
+        "all",
+        ["==", "$type", "LineString"],
+        ["in", "class", "motorway", "primary"]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round"
+      },
+      "paint": {
+        "line-color": [
+          "case",
+          ["==", ["get", "class"], "motorway"],
+          "#F57F17",
+          "#FBC02D"
+        ],
+        "line-opacity": 0.8,
+        "line-width": ["case", ["==", ["get", "class"], "motorway"], 3, 2]
+      }
+    },
+    {
+      "id": "subway_entrance",
+      "type": "circle",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 10,
+      "filter": ["all", ["in", "class", "railway"], ["==", "$type", "Point"]],
+      "paint": {
+        "circle-color": "#BF360C",
+        "circle-radius": 6
+      }
+    },
+    {
+      "id": "building-flat",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "minzoom": 13,
+      "maxzoom": 14,
+      "paint": {
+        "fill-color": "#263238",
+        "fill-outline-color": "#37474F"
+      }
+    },
+    {
+      "id": "building",
+      "type": "fill-extrusion",
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "minzoom": 14,
+      "filter": ["has", "render_height"],
+      "paint": {
+        "fill-extrusion-color": [
+          "case",
+          [">", ["get", "render_height"], 50],
+          "#263238",
+          "#37474F"
+        ],
+        "fill-extrusion-height": ["get", "render_height"]
+      }
+    }
+  ]
+}
