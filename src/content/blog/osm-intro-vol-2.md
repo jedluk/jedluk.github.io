@@ -91,7 +91,7 @@ tileserver-gl
 ```
 We've added mandatory properties, which are <strong>version, sources</strong> and <strong>layers</strong>. As told you before we're using our tiles served via `tileserver-gl` as a map source. In general we can define multiple sources but in our case we have just one. Additionally we defined initial center of the map (somewhere in Manhattan) and map zoom. At the same time we do a modification to `index.html`. Instead of prefedined maplibre style we want to use our own. All we need to do is to edit `style` property inside Map constructor. We can use relative path and assign `style: '/mapStyle.json'`. If you refresh a page you should see a blank scene. Why is that 🧐 ? Answer is simple. We have not defined layers yet. So, let's create first three layers then: <strong>background</strong>, <strong>water</strong> and <strong>grass</strong>.
 ```json
-layers: [
+"layers": [
     {
       "id": "background",
       "type": "background",
