@@ -1,0 +1,29 @@
+---
+title: 'Export CSV like a Pro in React'
+description: "Not too long of an introduction."
+pubDate: 'Oct 15 2023'
+heroImage: '/jl.svg'
+---
+
+If you've ever worked on an analytical dashboard or with various types of data that can be described in a standardized way, 
+you know that exporting it from the system is one of the fundamental features. In this post, I will show you how you can easily export 
+such data in CSV format in React-based applications.
+
+<bold>Comma-separated values (CSV)</bold> is text file format which usually uses commas to separate values (It can sound ridiculous but I've seen many times semicolon as delimiter even that format name is self explanatory).
+
+import ExportCSV from '../../components/blog-samples/ExportCSV.jsx';
+
+<div class="flex justify-center">
+    <button className="p-2 bg-lime-400 rounded-md text-white [&>a]:hover-text-white">
+        <ExportCSV client:only />
+    </button>
+</div>
+
+
+<div class="my-4 relative w-full h-[300px] rounded-xl border-slate-300 border-[1px]">
+    <div class="absolute w-20 left-[calc(50%-40px)] top-[calc(50%-20px)] text-black text-4xl font-bold">.csv</div>
+</div>
+
+If you've ever worked on an analytical dashboard or with various types of data that can be described in a standardized way, 
+you know that exporting it from the system is one of the fundamental features. In this post, I will show you how you can easily export 
+such data in CSV format in React-based applications.
