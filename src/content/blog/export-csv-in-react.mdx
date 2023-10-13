@@ -5,11 +5,11 @@ pubDate: 'Oct 15 2023'
 heroImage: '/blog/csv/csv.svg'
 ---
 
-If you've ever worked on an analytical dashboard or with various types of data that can be described in a standardized way, 
-you know that exporting it from the system is one of the fundamental features. In this post, I will show you how you can easily export 
-such data in CSV format in React-based applications.
+<p class="text-justify">If you've ever worked on an analytical dashboard or just a system dealing with standardized data, probably you know already that export 
+from such a systems is one of the fundamental features. In this post I will show you how you can implement CSV export in React-based 
+applications without any effort.</p>
 
-<bold>Comma-separated values (CSV)</bold> is text file format which usually uses commas to separate values (It can sound ridiculous but I've seen many times semicolon as delimiter even that format name is self explanatory).
+<strong>Comma-separated values (CSV)</strong> is text file format which usually uses commas to separate values (it sounds ridiculous but I've seen many times semicolon as delimiter even that format name is self explanatory).
 
 import ExportCSV from '../../components/blog-samples/ExportCSV.jsx';
 
@@ -17,11 +17,6 @@ import ExportCSV from '../../components/blog-samples/ExportCSV.jsx';
     <button className="p-2 bg-lime-500 rounded-md text-white hover:scale-110 ease-in-out duration-300 hover:bg-lime-400">
         <ExportCSV client:only />
     </button>
-</div>
-
-
-<div class="my-4 relative w-full h-[300px] rounded-xl border-slate-300 border-[1px]">
-    <div class="absolute w-20 left-[calc(50%-40px)] top-[calc(50%-20px)] text-black text-4xl font-bold">.csv</div>
 </div>
 
 If you've ever worked on an analytical dashboard or with various types of data that can be described in a standardized way, 
