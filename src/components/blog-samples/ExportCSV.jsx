@@ -14,7 +14,7 @@ export default function CSVLink() {
   const csvLink = useExportableCSV(data, options)
 
   return (
-    <a className="hover:text-white" href={csvLink} download="data.csv">
+    <a className="hover:text-white" href={csvLink} download="test.csv">
       CSV download
     </a>
   )
