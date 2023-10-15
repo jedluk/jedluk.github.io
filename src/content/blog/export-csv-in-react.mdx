@@ -6,11 +6,13 @@ heroImage: '/blog/csv/csv.svg'
 ---
 
 <p class="text-justify">If you've ever worked on an analytical dashboard or just a system dealing with standardized data, probably you know already that export 
-from such a systems is one of the fundamental features. In this post I will show you how you can implement CSV export in React-based 
+from such a systems is one of the fundamental features. In this post I'm explaining how you can implement CSV export in React-based 
 applications without any effort.</p>
 
-<p class="text-justify"><strong>Comma-separated values (CSV)</strong> is text file format which usually uses commas to separate values (you can meet applications & tools which uses semicolon as delimiter). Data is stored in plain text where each row represents single record. The first row typically serves as the header (but headless file is also OK).
-Each record should contain same number of fields, which are separeted by delimiter. Example file in such format you can see below. </p>
+<p class="text-justify"><strong>Comma-separated values (CSV)</strong> is text file format which usually uses commas to separate values 
+(you can meet applications & tools which uses semicolon as delimiter). Data is stored in plain text where each row represents single record. 
+The first row typically serves as the header (headless file is also OK). Each record should contain same number of fields, which are separeted by delimiter. 
+Example file in such format you can see below. </p>
 
 ```csv
 name,age,employmentStatus
@@ -20,8 +22,8 @@ Kate,27,employed
 Bob,67,retired
 ```
 
-<p class="text-justify">Undeniable advantages of this format include simplicity, human readability, relatively small file size, as well as good portability to other applications (e.g. spreadsheets). 
-Conversion to and from other formats is relatively simple. Data equivalent in JSON format looks like:</p>
+<p class="text-justify">Undeniable advantages of this format include simplicity, human readability, relatively small file size, as well as good portability to 
+other applications (e.g. spreadsheets). Conversion to and from other formats is relatively simple. Data equivalent in JSON format looks like:</p>
 
 ```json
 [
@@ -32,8 +34,9 @@ Conversion to and from other formats is relatively simple. Data equivalent in JS
 ]
 ```
 
-<p class="text-justify">To get CSV out of JSON we can use following code snippet (considering newest <a class="text-[color:var(--accent)]" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in#description" target="_blank" rel="noopener noreferrer">ECMA spec</a>
-`Object.keys` will preserve order of creation - no integer like keys). Please also note that we don't use quotes for fields, which 
+<p class="text-justify">To get CSV out of JSON we can use following code snippet (considering newest 
+<a class="text-[color:var(--accent)]" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in#description" target="_blank" rel="noopener noreferrer">ECMA spec</a>
+`Object.keys` will preserve order of creation - there is no integer like keys). Please also note that we don't use quotes for fields, which 
 would be necessary in the case of fields containing a character that corresponds to the separator.</p>
 
 
@@ -58,18 +61,24 @@ data URL we obtain:</p>
 
  
 ```textplain
-data:application/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired
+data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired
 ```
 
-<p class="text-justify"> It consists of 3 parts: <i>data</i> prefix, <a class="text-[color:var(--accent)]" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank">MIME type</a> 
-and encoded data (in global window object you can find `encodeURIComponent` function which do a job for You). Link with dataURL is available <a class="text-blue-400 hover:text-blue-700" href="data:application/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired" download="test.csv">here</a>.
-You can compare both files in any editor - no difference at all! Last but not least - Blob, which in general can be portion of immutable text (including CSV) or binary data. Dealing with blob is rather simple. We have to call
-its constructor with our CSV data and after that create link to blob by calling `URL.createObjectURL`, which can be passed as `href` attribute.</p>
+<p class="text-justify"> It consists of 4 parts: <i>data</i> prefix, <a class="text-[color:var(--accent)]" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank">MIME type</a> 
+, charset and encoded data (in global window object you can find `encodeURIComponent` function which do a job for You). Link with data URL is available 
+<a class="text-blue-400 hover:text-blue-700" href="data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired" download="test.csv">here</a>.
+You can compare both files in any editor - no difference at all! Last but not least - blob, which in general can take a form of immutable text (including CSV) 
+or binary data. Dealing with blob is rather simple. We have to call its constructor with our CSV data and right after that create string (so called object URL) by using 
+`URL.createObjectURL`. Such a string can be passed directly as `href` attribute.</p>
 
-<p class="text-justify">Finally let's move our solution into React environment. A few years ago I've created React hook called <a class="text-[color:var(--accent)]" href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>
-It uses blob based approach for generating DOM string. All you have to do is to provide data (in JSON-like format or just 2D array). Optionally 
+```js
+const blob = new Blob([csv], { type: 'text/csv;charset=utf-8'})
+const href = URL.createObjectURL(blob)
+```
+
+<p class="text-justify">Finally let's move blob based solution into React environment. A few years ago I've created React hook called <a class="text-[color:var(--accent)]" href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>. All you have to do is to provide data (in JSON-like format or just 2D array). Optionally 
 you can specify options (delimiter, headers and BOM mask). Hook returns link which can be used directly in anchor tag. Example implementation you can find below 
-(in this example we fetch data from endpoint, and as soon data is fetched is't converted into Blob, and from such form into link which is returned from a hook). When unomunting component
+(in this example we fetch data from endpoint and we continue with procedure I menioned above. Object is returned from a hook). When unomunting component
 link in unbound from a document.</p>
 
 ```jsx
@@ -103,13 +112,13 @@ import ExportCSV from '../../components/blog-samples/ExportCSV.jsx';
 
 <div class="flex justify-center my-4">
     <button className="p-2 bg-lime-500 rounded-md text-white hover:scale-110 ease-in-out duration-300 hover:bg-lime-400">
-        <ExportCSV client:only />
+        <ExportCSV client:visible client:only="react" />
     </button>
 </div>
 
 
-<p class="text-justify">After clicking on a button browser will start downloading a file. Please note that filename is same as you defined in <i>download</i> attribute.
-You can now import file in any spreadsheet, or just view a content in VS Code, or whatever editor you use.</p>
+<p class="text-justify">After clicking on a button, you will download a blob containig CSV file. You can now import file in any spreadsheet, or just view a content in VS Code, or whatever editor you use.</p>
 
 
-That's all for today. I hope that you are CSV ninja now 🥷🗒️. As always thank You for reading, and I hope see you soon!
+<p class="text-justify">That's all for today. I hope that you are CSV ninja now 🥷🗒️. By knowing 3 different methods you can pick the one which suits you best in your circumstances.
+As always thank You for reading, and I hope see you soon!</p>
