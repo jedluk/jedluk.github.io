@@ -5,14 +5,13 @@ pubDate: 'Oct 16 2023'
 heroImage: '/blog/csv/csv.svg'
 ---
 
-<p class="text-justify">If you've ever worked on an analytical dashboard or just a system dealing with standardized data, probably you know already that export 
-from such a systems is one of the fundamental features. In this post I'm explaining how you can implement CSV export in React-based 
-applications without any effort.</p>
+<p class="text-justify">If you've ever worked on an analytical dashboard or any system dealing with standardized data, you probably already know that exporting 
+data from such systems is one of the fundamental features. In this post, I'll explain how you can implement CSV export in React-based applications with minimal effort.</p>
 
-<p class="text-justify"><strong>Comma-separated values (CSV)</strong> is text file format which usually uses commas to separate values 
-(you can meet applications & tools which uses semicolon as delimiter). Data is stored in plain text where each row represents single record. 
-The first row typically serves as the header (headless file is also OK). Each record should contain same number of fields, which are separeted by delimiter. 
-Example file in such format you can see below. </p>
+<p class="text-justify"><strong>Comma-separated values (CSV)</strong> is a text file format that usually uses commas to separate values (although some applications 
+and tools use different separators, such as a semicolon). Data is stored in plain text, where each row represents a single record. The first row typically serves as 
+the header (a headless file is also acceptable). Each record should contain the same number of fields, which are separated by a delimiter. An example file in this 
+format is shown below.</p>
 
 ```csv
 name,age,employmentStatus
@@ -47,17 +46,17 @@ const csv = [Object.keys(data[0])]
 ```
 <p class="text-justify">In HTML world we use anchor tag not only for opening a links, but also for downloading things. By defining <strong>download</strong> property 
 we ensure such behaviour. Optionally you can pass <i>filename</i> as its value (without value browser will try to guess name and extension).
-Another mandatory property is <strong>href</strong> which is nothing more like URL of specifc resource (not only HTTP-based). We have 3 options here:</p> 
+Another mandatory property is <strong>href</strong> which is nothing more than URL of specifc resource (not only HTTP-based). We have 3 options here:</p> 
 <ul class="list-disc mb-1">
     <li>use static file hosted on same origin</li>
     <li>create data URL on the fly and use <i>data</i> scheme</li>
     <li>create a blob and use <i>blob</i> scheme</li>
 </ul>
 
-<p class="text-justify">In case of static files you just need to provide its location on a server. For example I store <i>test.csv</i>&nbsp; in data folder. In such scenario file can be
-downloaded from  <a download="test.csv" class="text-blue-400 hover:text-blue-700" href="/data/test.csv">this link</a>. Next one from the list - Data URL -
-prefixed with `data:` scheme allow you to embeed small files inline in document. It can be a choice in case of CSV files. By transforming our test file into 
-data URL we obtain:</p>
+<p class="text-justify">In case of static files you just need to provide its location on a server. For example I store <i>test.csv</i>&nbsp; in data folder. In such 
+scenario file can be downloaded from  <a download="test.csv" class="text-blue-400 hover:text-blue-700" href="/data/test.csv">this link</a>. Next one from the 
+list - Data URL - prefixed with `data:` scheme allow you to embeed small files inline in document. It can be a choice in case of CSV files. By transforming our test 
+file into data URL we obtain:</p>
 
  
 ```textplain
@@ -76,10 +75,11 @@ const blob = new Blob([csv], { type: 'text/csv;charset=utf-8'})
 const href = URL.createObjectURL(blob)
 ```
 
-<p class="text-justify">Finally let's move blob based solution into React environment. A few years ago I've created React hook called <a class="text-[color:var(--accent)]" href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>. All you have to do is to provide data (in JSON-like format or just 2D array). Optionally 
-you can specify options (delimiter, headers and BOM mask). Hook returns link which can be used directly in anchor tag. Example implementation you can find below 
-(in this example we fetch data from endpoint and we continue with procedure I menioned above. Object is returned from a hook). When unomunting component
-link in unbound from a document.</p>
+<p class="text-justify">Finally let's move blob based solution into React environment. A few years ago I've created React hook called 
+<a class="text-[color:var(--accent)]" href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>, which encapsulates entire procedure. 
+All you have to do is to provide data (in JSON-like format or just 2D array). Optionally  you can specify options (delimiter, headers and [BOM](https://en.wikipedia.org/wiki/Byte_order_mark)). 
+Hook returns link which can be used directly in anchor tag. Example implementation you can find below  (in this example we fetch data from <i>jsonplaceholder</i> endpoint,
+so that link is created dynamically, just like in real world). When unomunting component link in unbound from a document.</p>
 
 ```jsx
 import React, { useEffect, useState } from 'react'
