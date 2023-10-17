@@ -8,7 +8,9 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "convert-images": "node scripts/convert-images.js",
+    "replace-images": "node scripts/replace-images.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.0",
