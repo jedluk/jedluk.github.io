@@ -1,9 +1,10 @@
-const readDir = require('./readBlogDir.cjs')
+const readDir = require('./readDir.cjs')
+const { BLOG_ASSETS_DIR } = require('./const.cjs')
 const { basename, dirname, extname, join } = require('path')
 const sharp = require('sharp')
 
 const extensions = ['png', 'jpg', 'jpeg']
-const images = readDir(extensions)
+const images = readDir(BLOG_ASSETS_DIR, extensions)
 
 console.log(`${images.length} images to be transformed.`)
 for (const image of images) {
