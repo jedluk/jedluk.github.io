@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "convert-webp": "node scripts/convertToWebp.js",
+    "replace-img-src": "node scripts/replaceImageSource.js",
     "clean-webp": "node scripts/clean.js webp"
   },
   "dependencies": {
