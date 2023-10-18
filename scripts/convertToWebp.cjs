@@ -5,6 +5,7 @@ const sharp = require('sharp')
 const extensions = ['png', 'jpg', 'jpeg']
 const images = readDir(extensions)
 
+console.log(`${images.length} images to be transformed.`)
 for (const image of images) {
   const newFileName = basename(image).replace(extname(image), '.webp')
   const output = join(dirname(image), newFileName)
@@ -15,7 +16,3 @@ for (const image of images) {
     }
   })
 }
-
-setTimeout(() => {
-  console.log(`${images.length} images transformed. Bye.`)
-}, 0)
