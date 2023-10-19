@@ -1,17 +1,43 @@
 ---
 import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+import moon from '../assets/moon.svg'
+import sun from '../assets/sun.svg'
 ---
 
 <header>
 	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
+		<h2>
+			<a href="/">{SITE_TITLE}</a>
+		</h2>
+		<div class="gap" />
+		<button data-id="theme-toggler" class="w-[50px] h-[50px] flex justify-center items-center mr-1 rounded-md hover:bg-slate-100">
+			<img data-theme="dark" src={moon.src} alt="moon" /> 
+			<img data-theme="light" class="hidden" src={sun.src} alt="sun" />
+		</button>
 		<div class="internal-links">
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
+		
 	</nav>
 </header>
+<script>
+	let theme = window.localStorage.getItem('theme') ?? 'light'
+
+	const themeButton = document.querySelector("[data-id='theme-toggler']");
+	const body = document.querySelector('body')
+
+
+	themeButton?.addEventListener('click', () => {
+		document.querySelectorAll('img[data-theme]').forEach(el => el.classList.toggle('hidden'))
+		if (body !== null) {
+			theme = theme === 'light' ? 'dark' : 'light'
+			body.dataset.theme = theme
+			localStorage.setItem('theme', theme)
+		}
+	})
+</script>
 <style>
 	header {
 		margin: 0;
@@ -23,7 +49,9 @@ import { SITE_TITLE } from '../consts';
 		margin: 0;
 		font-size: 1em;
 	}
-
+	.gap {
+		flex-grow: 1;
+	}
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
@@ -35,6 +63,7 @@ import { SITE_TITLE } from '../consts';
 	}
 	nav a {
 		padding: 1em 0.5em;
+		padding-bottom: 0.5em;
 		color: var(--black);
 		border-bottom: 4px solid transparent;
 		text-decoration: none;
