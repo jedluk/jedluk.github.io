@@ -20,6 +20,10 @@
 	--h3-base-font-size: 1.953em;
 	--h4-base-font-size: 1.563em;
 	--h5-base-font-size: 1.25em;
+
+	--bg-theme-dark: 27, 27, 29;
+	--bg-theme-dark-light: 36, 37, 38;
+	--color-theme-dark: 227, 227, 227;
 }
 
 @font-face {
@@ -43,13 +47,18 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
+	color: rgb(var(--gray-dark));
 	background: linear-gradient(var(--gray-gradient)) no-repeat;
 	background-size: 100% 600px;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
 	font-size: var(--base-font-size);
 	line-height: 1.7;
+}
+
+body[data-theme="dark"] {
+	color: rgb(var(--color-theme-dark));
+	background: rgb(var(--bg-theme-dark));
 }
 
 main {
@@ -68,6 +77,15 @@ h6 {
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
+}
+
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] h4,
+body[data-theme="dark"] h5,
+body[data-theme="dark"] h6 {
+	color: rgb(227, 227, 227);
 }
 
 h1 {

@@ -12,7 +12,7 @@ import sun from '../assets/sun.svg'
 		</h2>
 		<div class="gap" />
 		<button data-id="theme-toggler" class="w-[50px] h-[50px] flex justify-center items-center mr-1 rounded-md hover:bg-slate-100">
-			<img data-theme="dark" src={moon.src} alt="moon" /> 
+			<img data-theme="dark" class="hidden" src={moon.src} alt="moon" /> 
 			<img data-theme="light" class="hidden" src={sun.src} alt="sun" />
 		</button>
 		<div class="internal-links">
@@ -23,20 +23,20 @@ import sun from '../assets/sun.svg'
 	</nav>
 </header>
 <script>
-	let theme = window.localStorage.getItem('theme') ?? 'light'
-
-	const themeButton = document.querySelector("[data-id='theme-toggler']");
 	const body = document.querySelector('body')
+	const nextTheme = (theme: string) => theme === 'light' ? 'dark' : 'light'
+	let theme = body?.dataset.theme ?? 'light'
+	document.querySelector(`img[data-theme='${nextTheme(theme)}']`)?.classList.toggle('hidden')
 
-
-	themeButton?.addEventListener('click', () => {
+	function toggleTheme () {
 		document.querySelectorAll('img[data-theme]').forEach(el => el.classList.toggle('hidden'))
 		if (body !== null) {
-			theme = theme === 'light' ? 'dark' : 'light'
+			theme = nextTheme(theme)
 			body.dataset.theme = theme
 			localStorage.setItem('theme', theme)
 		}
-	})
+	}
+	document.querySelector("[data-id='theme-toggler']")?.addEventListener('click', toggleTheme)
 </script>
 <style>
 	header {
@@ -44,6 +44,12 @@ import sun from '../assets/sun.svg'
 		padding: 0 1em;
 		background: white;
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+	}
+	body[data-theme="dark"] header {
+		background: rgb(var(--bg-theme-dark-light));
+	}
+	body[data-theme="dark"] header nav img path {
+		fill: white;
 	}
 	h2 {
 		margin: 0;
