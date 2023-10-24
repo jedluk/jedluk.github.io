@@ -7,23 +7,36 @@
 :root {
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+	--font-color: #222939;
+	--font-color-accent: #0f1219;
+
+	--gray-raw-value: 96, 115, 159;
+	--gray-light-raw-value: 229, 233, 240;
+	--gray: rgb(var(--gray-raw-value));
+	--gray-light: rgb(var(--gray-light-raw-value));
+	--gray-dark: rgb(34, 41, 57);
+
+	--gray-gradient: rgba(var(--gray-light-raw-value), 50%), #fff;
+	--box-shadow: 0 2px 6px rgba(var(--gray-raw-value), 25%), 0 8px 24px rgba(var(--gray-raw-value), 33%),
+		0 16px 32px rgba(var(--gray-raw-value), 33%);
+
 	--base-font-size: 20px;
 	--h1-base-font-size: 3.052em;
 	--h2-base-font-size: 2.441em;
 	--h3-base-font-size: 1.953em;
 	--h4-base-font-size: 1.563em;
 	--h5-base-font-size: 1.25em;
+}
 
-	--bg-theme-dark: 27, 27, 29;
-	--bg-theme-dark-light: 36, 37, 38;
-	--color-theme-dark: 227, 227, 227;
+:root body[data-theme="dark"] {
+	--accent: #38bef8;
+	--accent-dark: #0285c7;
+	--font-color: #e3e3e3;
+	--font-color-accent: #e5e9f0;
+
+	--gray-light: #4b5563;
+	--bg-dark: #1b1b1d;
+	--bg-dark-light: #242526;
 }
 
 @font-face {
@@ -47,7 +60,7 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
-	color: rgb(var(--gray-dark));
+	color: var(--font-color);
 	background: linear-gradient(var(--gray-gradient)) no-repeat;
 	background-size: 100% 600px;
 	word-wrap: break-word;
@@ -57,8 +70,7 @@ body {
 }
 
 body[data-theme="dark"] {
-	color: rgb(var(--color-theme-dark));
-	background: rgb(var(--bg-theme-dark));
+	background: var(--bg-dark);
 }
 
 main {
@@ -75,17 +87,8 @@ h4,
 h5,
 h6 {
 	margin: 0 0 0.5rem 0;
-	color: rgb(var(--black));
+	color: var(--font-color-accent);
 	line-height: 1.2;
-}
-
-body[data-theme="dark"] h1,
-body[data-theme="dark"] h2,
-body[data-theme="dark"] h3,
-body[data-theme="dark"] h4,
-body[data-theme="dark"] h5,
-body[data-theme="dark"] h6 {
-	color: rgb(227, 227, 227);
 }
 
 h1 {
@@ -150,7 +153,7 @@ img {
 
 code {
 	padding: 2px 5px;
-	background-color: rgb(var(--gray-light));
+	background-color: var(--gray-light);
 	border-radius: 2px;
 }
 
@@ -172,7 +175,7 @@ blockquote {
 
 hr {
 	border: none;
-	border-top: 1px solid rgb(var(--gray-light));
+	border-top: 1px solid var(--gray-light);
 }
 
 @media (max-width: 720px) {
