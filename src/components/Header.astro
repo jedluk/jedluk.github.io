@@ -16,8 +16,8 @@ import sun from '../assets/sun.svg'
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
 		<button data-id="theme-toggler" class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100">
-			<img data-theme="dark" class="hidden invert" src={moon.src} alt="moon" /> 
-			<img data-theme="light" class="hidden " src={sun.src} alt="sun" />
+			<img data-theme="light" class="hidden invert" src={sun.src} alt="sun" />
+			<img data-theme="dark" class="hidden" src={moon.src} alt="moon" /> 
 		</button>
 	</nav>
 </header>
@@ -43,10 +43,10 @@ import sun from '../assets/sun.svg'
 	body[data-theme="dark"] header {
 		background: var(--bg-dark-light);
 	}
-	body[data-theme="light"] img[data-theme="light"] {
+	body[data-theme="light"] img[data-theme="dark"] {
 		display: block;
 	}
-	body[data-theme="dark"] img[data-theme="dark"] {
+	body[data-theme="dark"] img[data-theme="light"] {
 		display: block;
 	}
 	body[data-theme="dark"] header button:last-of-type:hover {
