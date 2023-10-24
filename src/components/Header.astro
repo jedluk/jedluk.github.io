@@ -10,33 +10,28 @@ import sun from '../assets/sun.svg'
 		<h2>
 			<a href="/">{SITE_TITLE}</a>
 		</h2>
-		<div class="gap" />
-		<button data-id="theme-toggler" class="w-[50px] h-[50px] flex justify-center items-center mr-1 rounded-md hover:bg-slate-100">
-			<img data-theme="dark" class="hidden" src={moon.src} alt="moon" /> 
-			<img data-theme="light" class="hidden" src={sun.src} alt="sun" />
-		</button>
+		<div class="grow" />
 		<div class="internal-links">
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
-		
+		<button data-id="theme-toggler" class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100">
+			<img data-theme="dark" class="hidden invert" src={moon.src} alt="moon" /> 
+			<img data-theme="light" class="hidden " src={sun.src} alt="sun" />
+		</button>
 	</nav>
 </header>
 <script>
 	const body = document.querySelector('body')
-	const nextTheme = (theme: string) => theme === 'light' ? 'dark' : 'light'
 	let theme = body?.dataset.theme ?? 'light'
-	document.querySelector(`img[data-theme='${nextTheme(theme)}']`)?.classList.toggle('hidden')
 
-	function toggleTheme () {
-		document.querySelectorAll('img[data-theme]').forEach(el => el.classList.toggle('hidden'))
+	document.querySelector("[data-id='theme-toggler']")?.addEventListener('click', function () {
 		if (body !== null) {
-			theme = nextTheme(theme)
+			theme = theme === 'light' ? 'dark' : 'light'
 			body.dataset.theme = theme
 			localStorage.setItem('theme', theme)
 		}
-	}
-	document.querySelector("[data-id='theme-toggler']")?.addEventListener('click', toggleTheme)
+	})
 </script>
 <style>
 	header {
@@ -48,15 +43,18 @@ import sun from '../assets/sun.svg'
 	body[data-theme="dark"] header {
 		background: rgb(var(--bg-theme-dark-light));
 	}
-	body[data-theme="dark"] header nav img path {
-		fill: white;
+	body[data-theme="light"] img[data-theme="light"] {
+		display: block;
+	}
+	body[data-theme="dark"] img[data-theme="dark"] {
+		display: block;
+	}
+	body[data-theme="dark"] header button:last-of-type:hover {
+		background-color: rgb(75 85 99);
 	}
 	h2 {
 		margin: 0;
 		font-size: 1em;
-	}
-	.gap {
-		flex-grow: 1;
 	}
 	h2 a,
 	h2 a.active {
@@ -83,12 +81,11 @@ import sun from '../assets/sun.svg'
 			white-space: no-wrap;
 		}
 		nav a {
-			padding: 0.5em 0.2rem
+			padding: 0.5em 0.2rem;
+			margin-right: 0.5rem;
 		}
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
+		button[data-id="theme-toggler"] {
+			padding-bottom: 4px;
 		}
 	}
 </style>
