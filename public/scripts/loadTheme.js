@@ -1,11 +1,10 @@
-type Theme = 'dark' | 'light'
 const LS_KEY = 'theme'
+let theme = 'light'
 
-const isValidTheme = (theme: string | null): theme is Theme =>
+const isValidTheme = (theme) =>
   theme !== null && ['light', 'dark'].includes(theme)
 
 const item = window.localStorage.getItem(LS_KEY)
-let theme: Theme = 'light'
 if (isValidTheme(item)) {
   theme = item
 } else {

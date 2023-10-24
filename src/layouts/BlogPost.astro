@@ -35,6 +35,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				padding: 0.2em;
 				color: rgb(var(--gray-dark));
 			}
+			body[data-theme="dark"] .prose {
+				color: var(--black);
+			}
 			.title {
 				margin-bottom: 1em;
 				padding: 1em 0;
