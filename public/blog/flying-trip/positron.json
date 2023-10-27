@@ -4,7 +4,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "pmtiles:///tiles/szczecin.pmtiles",
+      "url": "pmtiles:///blog/flying-trip/szczecin.pmtiles",
       "attribution": "© <a href='https://openstreetmap.org'>OpenStreetMap</a>",
       "minzoom": 0,
       "maxzoom": 14

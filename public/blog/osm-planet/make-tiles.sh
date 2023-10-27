@@ -30,7 +30,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$bbox" || -z "$output" || -z "$dump" ]]; then
-  echo "Error: bbox, name, dump options are required" >&2
+  echo "Error: bbox, output, dump options are required" >&2
   exit 1
 fi
 

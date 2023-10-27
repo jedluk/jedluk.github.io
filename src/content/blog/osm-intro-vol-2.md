@@ -229,6 +229,6 @@ Please notice that we've used <i>fill-extrusion</i> type for second layer. By re
 
 <img src="/blog/osm-planet/nyc_hero_vol2.png" alt="nyc final">
 
-I really like it how it looks. Now, I think you have no doubts that the data we created in the previous post indeed represents an NYC area 😅. Also I have good news for you; if you got lost somewhere while analyzing the layers, you can download the entire JSON file from [here](/scripts/mapStyle.json). 
+I really like it how it looks. Now, I think you have no doubts that the data we created in the previous post indeed represents an NYC area 😅. Also I have good news for you; if you got lost somewhere while analyzing the layers, you can download the entire JSON file from [here](/blog/osm-planet/mapStyle.json). 
 
 That's enough for today. In two-part series, I’ve included a wealth of information, we got to know OSM and maplibre (and a few other necessary tools).  I hope that the world of interactive vector maps is now wide open for you. Try to play around with OSM data - crop area around your city and create your own map (you can experiment with other layers). Maybe you'll spot missing data and consequently become OSM contributor ? See you soon!

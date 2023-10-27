@@ -32,7 +32,10 @@ export default function FlyingTrip() {
   }, [])
 
   useEffect(() => {
-    Promise.all([fetch('/tiles/tram8.json'), fetch('/tiles/szczecin.json')])
+    Promise.all([
+      fetch('/blog/flying-trip/tram8.json'),
+      fetch('/blog/flying-trip/szczecin.json'),
+    ])
       .then((responses) => Promise.all(responses.map((res) => res.json())))
       .then(([tramData, boundaries]) => {
         setTramData(tramData)
@@ -93,7 +96,7 @@ export default function FlyingTrip() {
       mapLib={maplibre}
       initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       minZoom={9}
-      mapStyle="/tiles/positron.json"
+      mapStyle="/blog/flying-trip/positron.json"
     >
       <NavigationControl position="top-right" />
       {tramData && (
