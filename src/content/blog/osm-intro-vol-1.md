@@ -117,7 +117,7 @@ Now we are ready. Let's kick off the server by typing `tileserver-gl`. No additi
 
 Voilà! This is exactly what you should see 🚀🚀🚀. Play a little bit with this map and enjoy your hard work. Huh 😅, this was tough tutorial. Now going back to initial hypothesis. The truth is bittersweet. Of course dump does not contain everything and everywhere. OSM is driven by community. In some countries community is more active than another. This is why details and accuracy might significantly differs, even across the cities. But this 71 GB dump is really good approximation of our planet and cover majority of map topics you can imagine. 
 
-One more thing. If you're bored by copy-pasting all those commands, I've created a shell script which do all the job for You. Script is available [here](/scripts/make-tiles.sh) (it takes dump and bbox as an input and creates mbtiles instead). Example invocation: 
+One more thing. If you're bored by copy-pasting all those commands, I've created a shell script which do all the job for You. Script is available [here](/blog/osm-planet/make-tiles.sh) (it takes dump and bbox as an input and creates mbtiles instead). Example invocation: 
 ```sh
 sudo chmod +x make_tiles.sh
 ./make-tiles.sh --bbox -74.410722,40.948972,-73.603639,40.483861 --dump ~/Downloads/planet-230918.osm.pbf --output nyc
