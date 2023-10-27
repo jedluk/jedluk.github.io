@@ -34,7 +34,7 @@ other applications (e.g. spreadsheets). Conversion to and from other formats is 
 ```
 
 <p class="text-justify">To get CSV out of JSON we can use following code snippet (considering newest 
-<a class="text-[color:var(--accent)]" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in#description" target="_blank" rel="noopener noreferrer">ECMA spec</a>
+<a class="text-accent" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in#description" target="_blank" rel="noopener noreferrer">ECMA spec</a>
 `Object.keys` will preserve order of creation - there is no integer like keys). Please also note that we don't use quotes for fields, which 
 would be necessary in the case of fields containing a character that corresponds to the separator.</p>
 
@@ -63,7 +63,7 @@ file into data URL we obtain:</p>
 data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired
 ```
 
-<p class="text-justify"> It consists of 4 parts: <i>data</i> prefix, <a class="text-[color:var(--accent)]" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank">MIME type</a> 
+<p class="text-justify"> It consists of 4 parts: <i>data</i> prefix, <a class="text-accent" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank">MIME type</a> 
 , charset and encoded data (in global window object you can find `encodeURIComponent` function which do a job for You). Link with data URL is available 
 <a class="text-blue-400 hover:text-blue-700" href="data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired" download="test.csv">here</a>.
 You can compare both files in any editor - no difference at all! Last but not least - blob, which in general can take a form of immutable text (including CSV) 
@@ -76,7 +76,7 @@ const href = URL.createObjectURL(blob)
 ```
 
 <p class="text-justify">Finally let's move blob based solution into React environment. A few years ago I've created React hook called 
-<a class="text-[color:var(--accent)]" href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>, which encapsulates entire procedure. 
+<a class="text-accent" href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>, which encapsulates entire procedure. 
 All you have to do is to provide data (in JSON-like format or just 2D array). Optionally  you can specify options (delimiter, headers and [BOM](https://en.wikipedia.org/wiki/Byte_order_mark)). 
 Hook returns link which can be used directly in anchor tag. Example implementation you can find below  (in this example we fetch data from <i>jsonplaceholder</i> endpoint,
 so that link is created dynamically, just like in real world). When unomunting component link in unbound from a document.</p>
