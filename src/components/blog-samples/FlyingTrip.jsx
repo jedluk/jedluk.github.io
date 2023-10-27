@@ -10,6 +10,7 @@ const ANIMATION_MOVE_MS = 350
 
 export default function FlyingTrip() {
   const [tramData, setTramData] = useState(null)
+  const [boundaries, setBoundaries] = useState(null)
   const [isRunning, setRunning] = useState(false)
   const mapRef = useRef(null)
   const lastIdx = useRef(0)
@@ -31,10 +32,13 @@ export default function FlyingTrip() {
   }, [])
 
   useEffect(() => {
-    fetch('/tiles/tram8.json')
-      .then((res) => res.json())
-      .then((data) => setTramData(data))
-      .catch((err) => console.err(err))
+    Promise.all([fetch('/tiles/tram8.json'), fetch('/tiles/szczecin.json')])
+      .then((responses) => Promise.all(responses.map((res) => res.json())))
+      .then(([tramData, boundaries]) => {
+        setTramData(tramData)
+        setBoundaries(boundaries)
+      })
+      .catch((err) => console.error(err))
   }, [])
 
   useEffect(() => {
@@ -87,7 +91,7 @@ export default function FlyingTrip() {
     <Map
       ref={mapRef}
       mapLib={maplibre}
-      initialViewState={{ longitude: 14.6, latitude: 53.42, zoom: 11 }}
+      initialViewState={{ longitude: 14.6, latitude: 53.42, zoom: 9.5 }}
       minZoom={9}
       mapStyle="/tiles/positron.json"
     >
@@ -107,6 +111,19 @@ export default function FlyingTrip() {
               ],
               'line-opacity': 0.7,
               'line-width': ['case', ['==', ['get', 'route_type'], 2], 5, 2],
+            }}
+          />
+        </Source>
+      )}
+      {boundaries && (
+        <Source id="boundaries" type="geojson" data={boundaries}>
+          <Layer
+            id="boundaries"
+            type="line"
+            paint={{
+              'line-color': 'rgb(140, 41, 49)',
+              'line-dasharray': [6, 2],
+              'line-width': 2,
             }}
           />
         </Source>
