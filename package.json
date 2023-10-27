@@ -19,15 +19,20 @@
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
+    "@turf/bearing": "^6.5.0",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "astro": "^3.1.0",
+    "maplibre-gl": "3.5.1",
+    "pmtiles": "^2.11.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-map-gl": "7.1.6",
     "tailwindcss": "^3.0.24",
     "use-exportable-csv": "^1.0.1"
   },
   "devDependencies": {
+    "mapbox-gl": "^2.15.0",
     "sharp": "^0.32.6"
   }
 }
