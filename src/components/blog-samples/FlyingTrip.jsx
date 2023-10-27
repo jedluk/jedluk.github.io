@@ -91,7 +91,7 @@ export default function FlyingTrip() {
     <Map
       ref={mapRef}
       mapLib={maplibre}
-      initialViewState={{ longitude: 14.6, latitude: 53.42, zoom: 9.5 }}
+      initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       minZoom={9}
       mapStyle="/tiles/positron.json"
     >
