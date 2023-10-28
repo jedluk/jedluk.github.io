@@ -3,6 +3,10 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 :root {
 	--accent: #2337ff;
@@ -53,6 +57,21 @@
 	font-weight: 700;
 	font-style: normal;
 	font-display: swap;
+}
+
+@layer base {
+	.prose a {
+		@apply text-accent italic;
+	}
+
+	.prose p {
+		@apply text-justify;
+	}
+
+	.prose ul,
+	.prose ol {
+		@apply list-disc my-[1em];
+	}
 }
 
 body {
