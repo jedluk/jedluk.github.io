@@ -4,16 +4,16 @@ description: 'Advanced camera animation in maplibre gl'
 pubDate: 'Oct 28 2023'
 heroImage: '/blog/flying-trip/trip.gif'
 ---
-In current episode I'm going to continue to talk about maplibre and its features, also some new terms will be introduced. 
-One more thing - you'll know what tram you should take to get to my neighborhood if you ever visit city where I live 🤣.
-As always, I am a supporter of practice over theory, so you can expect interesting examples.
+In the current episode, I will continue discussing maplibre and its features, as well as introducing some new terms. Additionally, 
+you'll learn which tram you should take to get to my neighborhood if you ever visit the city where I live 🤣. As always, I am a 
+proponent of practice over theory, so you can expect some interesting examples.
 
 If you have read my series titled [Build you own planet with OSM](/blog/osm-intro-vol-1/) you should now already that vector tiles are 
 core element for building modern web maps. But of course, there are several other ways to add data to the map. I'd like to discuss one 
-of them with you - GeoJSON. GeoJSON (as you suspect, it is based on JSON format) allows for a straightforward representation of geographic 
+of them with you - GeoJSON. GeoJSON (as you might suspect, it is based on the JSON format) allows for a straightforward representation of geographic 
 features along with their non-spatial attributes. Its undeniable advantage is simplicity, readability, and ease of transfer between different 
 environments. Following geometries can be described via GeoJSON: points, line strings, polygons and multi-part 
-collections of these types. Example file including abovementiones geometries you can find below:
+collections of these types. An example file including the above-mentioned geometries can be found below:
 
 ```json
 {
@@ -81,9 +81,9 @@ curl -X POST https://www.zditm.szczecin.pl/pl/passenger/maps/trajectories/8 -o t
 ```
 Now we can open `tram8.json` file in any code editor. They've used `LineString` to describe tram route, which seems to be a good choice. 
 Additionally I can see 2 non-spatial attributes, which are: <strong>route_variant_number</strong> and <strong>route_variant_type</strong>. 
-For now its purpose is unknown for me. Also I want to know city boundaries. For this purpose I'm using [nominatim](https://nominatim.org/release-docs/develop/api/Search/) 
-- open source geocoder. We can use free form query (it's also possible to use reverse geocoding), as my city - <a href="https://www.google.pl/maps/place/Szczecin" target="_blank" rel="noreferrer noopener">Szczecin</a> 
-- seventh largest city in Poland, so there will be no problems to find it. Based on documentation I'm forming pertinent query string - I 
+For now its purpose is unknown for me. Also I want to know city boundaries. For this purpose I'm using [nominatim](https://nominatim.org/release-docs/develop/api/Search/) -
+open source geocoder. We can use free form query (it's also possible to use reverse geocoding with random point inside), as - <a href="https://www.google.pl/maps/place/Szczecin" target="_blank" rel="noreferrer noopener">Szczecin (my hometown)</a> -
+is seventh largest city in Poland, so there will be no problems to find it. Based on documentation I'm forming pertinent query string - I 
 want to get response as GeoJSON.
 
 ```sh
@@ -123,8 +123,8 @@ will be hosted via github pages. Please notice, that comparing to `mbtiles` we d
 }
 ```
 Entire map style is accessible [here](/blog/flying-trip/positron.json). Now we have everything to start work on frontend side 
-of our mini project. Instead of raw HTML + JS script I would like to introduce [react-map-gl](https://www.npmjs.com/package/react-map-gl) 
-- collections of React components which wraps mapbox-gl compatibile libraries. We'll also need `pmtiles` package and `maplibre-gl`. 
+of our mini project. Instead of raw HTML + JS script I would like to introduce [react-map-gl](https://www.npmjs.com/package/react-map-gl) -
+collections of React components which wraps mapbox-gl compatibile libraries. We'll also need `pmtiles` package and `maplibre-gl`. 
 Example app boilerplate for such configuration looks like that:
 ```js
 import 'maplibre-gl/dist/maplibre-gl.css'
@@ -151,7 +151,7 @@ export default function MapComponent() {
 }
 ```
 The mandatory step to support `pmtiles` is to register its protocol, which is done inside useEffect hook. Next we initialize a map
-with `maplibre` as <i>mapLib</i> props (we can also use `mapbox-gl`, but it requires to create an account on their page and using their 
+with `maplibre` as <i>mapLib</i> props (we can also use `mapbox-gl`, but it requires to create an account on their page and generate a 
 token), and mapStyle which I defined earlier. Also we are setting initial map conditions (latitude, longitude and zoom). In next step we 
 will add 2 layers - one for tram route, and another for city boundaries. Both layers uses GeoJSON as a source (both files I downloaded 
 earlier and they are hosted as static files via github pages). Inside React component I'm simply using `fetch` to get them. Each layer 
