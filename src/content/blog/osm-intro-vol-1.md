@@ -4,18 +4,6 @@ description: "Comprehensive introduction to Open Street Map and vector tiles"
 pubDate: 'Oct 8, 2023'
 heroImage: '/blog/osm-planet/nyc_hero_vol1.png'
 ---
-<style>
-    a {
-        color: var(--accent);
-    }
-    p {
-        text-align: justify;
-    }
-    ul {
-        margin-block: 1em;
-        list-style-type: circle;
-    }
- </style>   
 Hypothesis: <q>Entire planet can be digitalized into 71 GB.</q>
 
 Sounds ridiculous, don't you think ? It's less than entire series of <i>Game of Thrones</i> you might say. In the following post, we'll try to assess how true this statement is.

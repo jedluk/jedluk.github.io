@@ -14,11 +14,7 @@ export default function CSVLink() {
   const csvLink = useExportableCSV(data, options)
 
   return (
-    <a
-      className="text:white hover:text-white"
-      href={csvLink}
-      download="test.csv"
-    >
+    <a href={csvLink} style={{ color: 'white' }} download="test.csv">
       CSV download
     </a>
   )
