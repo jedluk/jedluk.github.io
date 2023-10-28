@@ -19,7 +19,7 @@ export default function FlyingTrip() {
     () =>
       tramData !== null
         ? tramData.features
-            .filter((f) => f.properties.route_type > 0)
+            .filter((f) => f.properties.route_variant_type === 'default')
             .map((f) => f.geometry.coordinates)
             .flat()
         : [],
@@ -108,12 +108,17 @@ export default function FlyingTrip() {
             paint={{
               'line-color': [
                 'case',
-                ['==', ['get', 'route_type'], 2],
+                ['==', ['get', 'route_variant_type'], 'default'],
                 'rgb(98, 0, 238)',
                 'rgb(153, 153, 153)',
               ],
               'line-opacity': 0.7,
-              'line-width': ['case', ['==', ['get', 'route_type'], 2], 5, 2],
+              'line-width': [
+                'case',
+                ['==', ['get', 'route_variant_type'], 'default'],
+                5,
+                2,
+              ],
             }}
           />
         </Source>
