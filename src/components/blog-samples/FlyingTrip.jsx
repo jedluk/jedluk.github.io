@@ -60,6 +60,12 @@ export default function FlyingTrip() {
     const nextMove = () => {
       const currentIdx = lastIdx.current
 
+      if (currentIdx + 1 >= routeCoordinates.length) {
+        lastIdx.current = 0
+        setRunning(false)
+        return
+      }
+
       const currentPoint = routeCoordinates[currentIdx]
       const nextPoint = routeCoordinates[currentIdx + 1]
 
@@ -73,13 +79,8 @@ export default function FlyingTrip() {
         zoom: 16,
       })
 
-      if (lastIdx.current === routeCoordinates.length) {
-        lastIdx.current = 0
-        setRunning(false)
-      } else {
-        lastIdx.current = currentIdx + 1
-        timeout = setTimeout(() => nextMove(), ANIMATION_MOVE_MS)
-      }
+      lastIdx.current = currentIdx + 1
+      timeout = setTimeout(() => nextMove(), ANIMATION_MOVE_MS)
     }
 
     nextMove()
