@@ -9,21 +9,21 @@ import * as pmtiles from 'pmtiles'
 const ANIMATION_MOVE_MS = 350
 
 export default function FlyingTrip() {
-  const [tramData, setTramData] = useState(null)
-  const [boundaries, setBoundaries] = useState(null)
+  const [tramRoute, setTramRoute] = useState()
+  const [boundaries, setBoundaries] = useState()
   const [isRunning, setRunning] = useState(false)
   const mapRef = useRef(null)
   const lastIdx = useRef(0)
 
-  const route = useMemo(
+  const routeCoordinates = useMemo(
     () =>
-      tramData !== null
-        ? tramData.features
+      tramRoute
+        ? tramRoute.features
             .filter((f) => f.properties.route_variant_type === 'default')
             .map((f) => f.geometry.coordinates)
             .flat()
         : [],
-    [tramData]
+    [tramRoute]
   )
 
   useEffect(() => {
@@ -37,20 +37,20 @@ export default function FlyingTrip() {
       fetch('/blog/flying-trip/szczecin.json'),
     ])
       .then((responses) => Promise.all(responses.map((res) => res.json())))
-      .then(([tramData, boundaries]) => {
-        setTramData(tramData)
+      .then(([tramRoute, boundaries]) => {
+        setTramRoute(tramRoute)
         setBoundaries(boundaries)
       })
-      .catch((err) => console.error(err))
+      .catch(console.error)
   }, [])
 
   useEffect(() => {
-    if (route.length === 0 || !isRunning) {
+    if (routeCoordinates.length === 0 || !isRunning) {
       return
     }
 
     mapRef?.current.jumpTo({
-      center: route[lastIdx.current],
+      center: routeCoordinates[lastIdx.current],
       pitch: 70,
       zoom: 16,
     })
@@ -60,8 +60,8 @@ export default function FlyingTrip() {
     const nextMove = () => {
       const currentIdx = lastIdx.current
 
-      const currentPoint = route[currentIdx]
-      const nextPoint = route[currentIdx + 1]
+      const currentPoint = routeCoordinates[currentIdx]
+      const nextPoint = routeCoordinates[currentIdx + 1]
 
       mapRef?.current.flyTo({
         animate: true,
@@ -73,7 +73,7 @@ export default function FlyingTrip() {
         zoom: 16,
       })
 
-      if (lastIdx.current === route.length) {
+      if (lastIdx.current === routeCoordinates.length) {
         lastIdx.current = 0
         setRunning(false)
       } else {
@@ -88,7 +88,7 @@ export default function FlyingTrip() {
         clearTimeout(timeout)
       }
     }
-  }, [route, isRunning])
+  }, [routeCoordinates, isRunning])
 
   return (
     <Map
@@ -99,43 +99,38 @@ export default function FlyingTrip() {
       mapStyle="/blog/flying-trip/positron.json"
     >
       <NavigationControl position="top-right" />
-      {tramData && (
-        <Source id="route" type="geojson" data={tramData}>
-          <Layer
-            id="route"
-            source="route"
-            type="line"
-            paint={{
-              'line-color': [
-                'case',
-                ['==', ['get', 'route_variant_type'], 'default'],
-                'rgb(98, 0, 238)',
-                'rgb(153, 153, 153)',
-              ],
-              'line-opacity': 0.7,
-              'line-width': [
-                'case',
-                ['==', ['get', 'route_variant_type'], 'default'],
-                5,
-                2,
-              ],
-            }}
-          />
-        </Source>
-      )}
-      {boundaries && (
-        <Source id="boundaries" type="geojson" data={boundaries}>
-          <Layer
-            id="boundaries"
-            type="line"
-            paint={{
-              'line-color': 'rgb(140, 41, 49)',
-              'line-dasharray': [6, 2],
-              'line-width': 2,
-            }}
-          />
-        </Source>
-      )}
+      <Source id="route" type="geojson" data={tramRoute}>
+        <Layer
+          id="route"
+          type="line"
+          paint={{
+            'line-color': [
+              'case',
+              ['==', ['get', 'route_variant_type'], 'default'],
+              'rgb(98, 0, 238)',
+              'rgb(153, 153, 153)',
+            ],
+            'line-opacity': 0.7,
+            'line-width': [
+              'case',
+              ['==', ['get', 'route_variant_type'], 'default'],
+              5,
+              2,
+            ],
+          }}
+        />
+      </Source>
+      <Source id="boundaries" type="geojson" data={boundaries}>
+        <Layer
+          id="boundaries"
+          type="line"
+          paint={{
+            'line-color': 'rgb(140, 41, 49)',
+            'line-dasharray': [6, 2],
+            'line-width': 2,
+          }}
+        />
+      </Source>
       <button
         className="absolute left-1 bottom-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
         onClick={() => setRunning((prev) => !prev)}
