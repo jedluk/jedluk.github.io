@@ -4,15 +4,6 @@ description: "Comprehensive introduction to Open Street Map and Maplibre"
 pubDate: 'Oct 12, 2023'
 heroImage: '/blog/osm-planet/nyc_hero_vol2.png'
 ---
-<style>
-    a {
-        color: var(--accent);
-    }
-    p {
-        text-align: justify;
-    }
- </style>
-
 In this post, you will see that all the effort dedicated to learning the basic tools and concepts of OSM has brought you incredible possibilities. Attention: if you haven't done so already, please read [part 1](/blog//osm-intro-vol-1) - you'll need <i>mbtiles</i> generated at that episode to conitnue now.
 
 Let's go back to the year 2010. The world was still mired in recession after the financial crisis caused by the real estate bubble. In general bad times (just like today). Thanks to [wayback machine](https://web.archive.org/), we can go back in time and see contemporary state of web maps. Practically without any competition, Google Maps was setting [trends](https://web.archive.org/web/20100415043805/https://www.google.com/maps).

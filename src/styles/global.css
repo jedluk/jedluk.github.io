@@ -67,6 +67,11 @@
 	.prose p {
 		@apply text-justify;
 	}
+
+	.prose ul,
+	.prose ol {
+		@apply list-disc my-[1em];
+	}
 }
 
 body {

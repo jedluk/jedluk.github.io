@@ -4,28 +4,13 @@ description: "Not too long of an introduction."
 pubDate: 'Sep 22 2023'
 heroImage: '/blog/hello/pexels-vie-studio-4439410.jpg'
 ---
-<style>
-    p {
-        text-align: justify;
-    }
-    a {
-        color: var(--accent);
-    }
-    ul, ol {
-        margin-bottom: 1em;
-    }
-    ul {
-         list-style-type: circle;
-    }
-</style>
-
 This is my very first post on this blog. Typically, when strangers meet, the first thing they do is greet each other. So let me do the formalities and introduce 
 myself. Hi there 👋 , I'm Jędrzej 😊.
 
 I know, I know, I know. You are not sure if I put some random characters together, or just making jokes of You. But I wasn't the one who gave me this name 😅. 
 If you're still wondering how to pronounce my name, I'll give you a hint. Think about these two characters:
 
-<ol type="1">
+<ol type="1" class="!list-none">
   <li><a href="https://en.wikipedia.org/wiki/List_of_characters_in_The_Witcher_series#Yennefer_of_Vengerberg" target="_blank">Yennefer of Vengerberg</a></li>
   <li><a href="https://en.wikipedia.org/wiki/Jay-Z" target="_blank">Jay-Z</a></li>
 </ol>  
@@ -34,7 +19,7 @@ Now cut first 3 letters from both names and join them togther (order is importan
 simplifies my name in English. Btw. in Poland name <q>Jędrzej</q> is incorrectly used as a substitute for the name Andrzej (american Andrew). This name can tell you 
 a bit more, as it is carried by several famous individuals, and has equivalents in different languages. One of those is legendary heavyweight polish boxer, Andrzej Gołota. If you don't know who is he just watch videos below (lovely 90's)!
 
-<ol>
+<ol class="!list-none">
     <li> Golota vs Bowe, <a href="https://www.youtube.com/watch?v=Aa-H4eJ-doU" target="blank">fight 1</a></li>
     <li> Golota vs Bowe, <a href="https://www.youtube.com/watch?v=1GIjN3Cq4jQ" target="blank">fight 2</a></li>
 </ol>

@@ -5,12 +5,6 @@ pubDate: 'Sep 26 2023'
 heroImage: '/blog/opencv/bambo_bin.jpg'
 ---
 <style>
-    p {
-        text-align: justify;
-    }
-    a {
-        color: var(--accent);
-    }
     .pictures {
         display: flex;
         flex-direction: column;
