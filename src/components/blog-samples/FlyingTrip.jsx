@@ -108,10 +108,9 @@ export default function FlyingTrip() {
             'line-color': [
               'case',
               ['==', ['get', 'route_variant_type'], 'default'],
-              'rgb(98, 0, 238)',
+              'rgb(131, 25, 224)',
               'rgb(153, 153, 153)',
             ],
-            'line-opacity': 0.7,
             'line-width': [
               'case',
               ['==', ['get', 'route_variant_type'], 'default'],
