@@ -2,7 +2,7 @@
 title: 'Like a bird'
 description: 'Trackng GeoJSON route in maplibre-gl (bird view)'
 pubDate: 'Oct 28 2023'
-heroImage: '/blog/flying-trip/trip.png'
+heroImage: '/blog/images/trip.png'
 ---
 In the current episode, I will continue discussing maplibre and its features, as well as introducing some new terms. Additionally, 
 you'll learn which tram you should take to get to my neighborhood if you ever visit the city where I live 🤣. As always, I am a 
@@ -92,7 +92,7 @@ curl -X GET https://nominatim.openstreetmap.org/search?q=Szczecin&format=geojson
 
 I'm getting result which I expected - city boundaries, described as <i>Polygon</i>. I'm keeping both files for later use. Now let's 
 prepare some vector godies for our map. A little look on google maps and I'm proposing following cropping area (left, top, right, bottom): 
-`14.4,53.5,14.8,53.3`. For creating tiles I'm using [bash script](/blog/osm-planet/make-tiles.sh) which I've prepared earlier. Let's run 
+`14.4,53.5,14.8,53.3`. For creating tiles I'm using [bash script](/blog/assets/make-tiles.sh) which I've prepared earlier. Let's run 
 the script with following arguments:
 ```sh
 ./make-tiles.sh --bbox 14.4,53.5,14.8,53.3 --output szczecin --dump ./OSM/planet-230918.osm.pbf
@@ -116,13 +116,13 @@ will be hosted via github pages. Please notice, that comparing to `mbtiles` we d
 ```json
 "openmaptiles": {
   "type": "vector",
-  "url": "pmtiles:///blog/flying-trip/szczecin.pmtiles",
+  "url": "pmtiles:///blog/assets/szczecin.pmtiles",
   "attribution": "© <a href='https://openstreetmap.org'>OpenStreetMap</a>",
   "minzoom": 0,
   "maxzoom": 14
 }
 ```
-Entire map style is accessible [here](/blog/flying-trip/positron.json). Now we have everything to start work on frontend side 
+Entire map style is accessible [here](/blog/assets/positron.json). Now we have everything to start work on frontend side 
 of our mini project. Instead of raw HTML + JS script I would like to introduce [react-map-gl](https://www.npmjs.com/package/react-map-gl) -
 collections of React components which wraps mapbox-gl compatibile libraries. We'll also need `pmtiles` package and `maplibre-gl`. 
 Example app boilerplate for such configuration looks like that:
@@ -145,7 +145,7 @@ export default function MapComponent() {
       mapLib={maplibre}
       initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       minZoom={9}
-      mapStyle="/blog/flying-trip/positron.json"
+      mapStyle="/blog/positron.json"
     />
   )
 }
@@ -163,8 +163,8 @@ const [boundaries, setBoundaries] = useState()
 
 useEffect(() => {
   Promise.all([
-    fetch('/blog/flying-trip/tram8.json'),
-    fetch('/blog/flying-trip/szczecin.json'),
+    fetch('/blog/assets/tram8.json'),
+    fetch('/blog/assets/szczecin.json'),
   ])
     .then((responses) => Promise.all(responses.map((res) => res.json())))
     .then(([tramRoute, boundaries]) => {
@@ -181,7 +181,7 @@ return (
     mapLib={maplibre}
     initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
     minZoom={9}
-    mapStyle="/blog/flying-trip/positron.json"
+    mapStyle="/blog/assets/positron.json"
   >
     <Source id="route" type="geojson" data={tramData}>
       <Layer
@@ -219,7 +219,7 @@ return (
   </Map>
 )
 ```
-It looks somewhat familiar, doesn't it? Layer component uses exactly same props as layers in [map style](/blog/flying-trip/positron.json). 
+It looks somewhat familiar, doesn't it? Layer component uses exactly same props as layers in [map style](/blog/assets/positron.json). 
 `id` and `type` are mandatory props, `paint` varies based on selected type. We don't need to define source, as default one is their parent 
 (Source component). Source props are also straightforward: `id`, `type` (<i>geojson</i> in our case) and `data` (we use local component state). 
 

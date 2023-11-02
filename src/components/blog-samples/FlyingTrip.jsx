@@ -33,8 +33,8 @@ export default function FlyingTrip() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/blog/flying-trip/tram8.json'),
-      fetch('/blog/flying-trip/szczecin.json'),
+      fetch('/blog/assets/tram8.json'),
+      fetch('/blog/assets/szczecin.json'),
     ])
       .then((responses) => Promise.all(responses.map((res) => res.json())))
       .then(([tramRoute, boundaries]) => {
@@ -97,7 +97,7 @@ export default function FlyingTrip() {
       mapLib={maplibre}
       initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       minZoom={9}
-      mapStyle="/blog/flying-trip/positron.json"
+      mapStyle="/blog/assets/positron.json"
     >
       <NavigationControl position="top-right" />
       <Source id="route" type="geojson" data={tramRoute}>

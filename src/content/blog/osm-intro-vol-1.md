@@ -2,7 +2,7 @@
 title: 'Build your own Planet with OSM vol. 1/2'
 description: "Comprehensive introduction to Open Street Map and vector tiles"
 pubDate: 'Oct 8, 2023'
-heroImage: '/blog/osm-planet/nyc_hero_vol1.png'
+heroImage: '/blog/images/nyc_hero_vol1.png'
 ---
 Hypothesis: <q>Entire planet can be digitalized into 71 GB.</q>
 
@@ -10,7 +10,7 @@ Sounds ridiculous, don't you think ? It's less than entire series of <i>Game of 
 
 Have you ever heard about Open Street Map project ? If no, let me explain in couple words what it is. In nutshell OSM maintains geographic database which is created by community of volunteers. Probably it's one of the best examples of open source collaboration. As for today it has more than 11 milions of [registered users](https://planet.openstreetmap.org/statistics/data_stats.html) ! Home page of this project is available [here](https://www.openstreetmap.org/). If you've ever seen a map with a similar appearance, it means you have unknowingly become a OSM data consumer.
 
-<img alt="osm" src="/blog/osm-planet/london_osm.png" />
+<img alt="osm" src="/blog/images/london_osm.png" />
 
 OSM data is represented by elements called primitives, to which we include:
 
