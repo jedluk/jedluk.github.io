@@ -2,13 +2,13 @@
 title: 'Build your own Planet with OSM vol. 2/2'
 description: "Comprehensive introduction to Open Street Map and Maplibre"
 pubDate: 'Oct 12, 2023'
-heroImage: '/blog/osm-planet/nyc_hero_vol2.png'
+heroImage: '/blog/images/nyc_hero_vol2.png'
 ---
 In this post, you will see that all the effort dedicated to learning the basic tools and concepts of OSM has brought you incredible possibilities. Attention: if you haven't done so already, please read [part 1](/blog//osm-intro-vol-1) - you'll need <i>mbtiles</i> generated at that episode to conitnue now.
 
 Let's go back to the year 2010. The world was still mired in recession after the financial crisis caused by the real estate bubble. In general bad times (just like today). Thanks to [wayback machine](https://web.archive.org/), we can go back in time and see contemporary state of web maps. Practically without any competition, Google Maps was setting [trends](https://web.archive.org/web/20100415043805/https://www.google.com/maps).
 
-<img alt="NYC 2010" src="/blog/osm-planet/nyc_2010.png">
+<img alt="NYC 2010" src="/blog/images/nyc_2010.png">
 
  During this time [Mapbox](https://www.mapbox.com/) company was established. They found a niche of custom maps. Across many tools to work with geographic data (including OSM), their flagship product [mapbox-gl-js](https://github.com/mapbox/mapbox-gl-js) for creating interactive maps unprecedentedly changed the meaning of the phrase 'modern web maps'. When in 2020 Mapbox decided to switch to a propertiaty software license (all versions &ge; 2), open-source community took matters into their own hands and created a fork called [maplibre-gl](https://github.com/maplibre/maplibre-gl-js/). Nowadays with almost 5,000 stars MapLibre is one of the most popular choices for greenfield map based projects (as an early adopter, I started using it in at my current company at the beginning of 2022, and I'm extremely happy to see how it grows).
 
@@ -54,7 +54,7 @@ serve
 ```
 You can now open [http://localhost:3000](http://localhost:3000). Our eyes should see a world map divided into countries.
 
-<img src="/blog/osm-planet/maplibre.png" alt="maplibre">
+<img src="/blog/images/maplibre.png" alt="maplibre">
 
 Coolio 🚀🚀🚀 Now it's a time to combine our OSM-based data with maplibre. As you remember we ended fist part by creating `mbtiles` which contains area around New York City. Go to the location when you keep that file and simply kick off tileserver-gl by running
 ```shell 
@@ -116,7 +116,7 @@ We've added mandatory properties, which are <strong>version, sources</strong> an
 ```
 Most important layer properties are <strong>id</strong> and <strong>type</strong>. Id should be unique across all the layers. Maplibre allows you to specify one of the type: <i>background, fill, line, symbol, raster, circle, fill-extrusion, heatmap, hillshade</i>. Except for layers of the background type, each layer needs to refer to a source. In our case source is called `openmaptiles` - this is how we defined it in `mapStyle.json` (our only property insisde "sources"). Additionally for tile sources (and this is our case) we have to define `source-layer` - name of the layer from the source. Because during tiles creation we used official OSM schema we can pick one of [those](https://github.com/openmaptiles/openmaptiles/tree/master/layers). <i>Filter</i> property allows us to choose only those features which meets defined criteria. Filter is defined by [expression](https://maplibre.org/maplibre-style-spec/expressions/). You can think about expression as custom formula for computing a value of property using predefined operators (which are defined in artcle I've just linked). I strongly recommend to play around different [MapLibre examples](https://maplibre.org/maplibre-gl-js/docs/examples/) and see how it is used, cause it's very important to understand how it works. By the way - it also has roots in [Mapbox](https://docs.mapbox.com/style-spec/reference/expressions/) - you can clearly see that they have done a significant amount of pioneering work - from this place thank You for this 🙏🙏🙏. For grass layer we defined <i>minzoom</i> - it tells maplibre at which zoom layer should be visible. Last but not least <i>paint</i> property - hints for WebGL to apply appropriate styles while rendering. Each type allow to use ONLY predefined [properties](https://maplibre.org/maplibre-style-spec/layers/#paint-property). We can open browser now. Yeah, we can clearly recognoze NYC area now! Finally things are starting to go our way. 
 
-<img src="/blog/osm-planet/nyc_map_1.png" alt="nyc map - water">
+<img src="/blog/images/nyc_map_1.png" alt="nyc map - water">
 
 In this place I want to mention about [map generalization](https://en.wikipedia.org/wiki/Cartographic_generalization) - core part in cartographic design. In nutshell it's about keeping appropriate data balance when switching map zoom levels. For example, you wouldn't display all the roads when a map currently shows entire continent. Map has to be readable, no matter of current zoom. Also sending too much data over the web can cause performance issues. Data reduction, simplifying shapes, and enabling layers at various zoom levels are some of the approaches to generalization. Adhering to those principles we'll add three more layers - transportation based. We'll split them into two groups: <strong>highway major</strong> and <strong>highway minor</strong>. By using filter property we pick only those which belongs to certain class.
 
@@ -218,8 +218,8 @@ We will do generalization here as well - buildings will begin to appear at zoom 
 ```
 Please notice that we've used <i>fill-extrusion</i> type for second layer. By reading <i>render_height</i> property we are able to turn flat footprint into into 3D building. Finally we can see our masterpiece live. 3...2...1... 🚀🚀🚀 
 
-<img src="/blog/osm-planet/nyc_hero_vol2.png" alt="nyc final">
+<img src="/blog/images/nyc_hero_vol2.png" alt="nyc final">
 
-I really like it how it looks. Now, I think you have no doubts that the data we created in the previous post indeed represents an NYC area 😅. Also I have good news for you; if you got lost somewhere while analyzing the layers, you can download the entire JSON file from [here](/blog/osm-planet/mapStyle.json). 
+I really like it how it looks. Now, I think you have no doubts that the data we created in the previous post indeed represents an NYC area 😅. Also I have good news for you; if you got lost somewhere while analyzing the layers, you can download the entire JSON file from [here](/blog/images/mapStyle.json). 
 
 That's enough for today. In two-part series, I’ve included a wealth of information, we got to know OSM and maplibre (and a few other necessary tools).  I hope that the world of interactive vector maps is now wide open for you. Try to play around with OSM data - crop area around your city and create your own map (you can experiment with other layers). Maybe you'll spot missing data and consequently become OSM contributor ? See you soon!

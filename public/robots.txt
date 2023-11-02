@@ -1,3 +1,15 @@
 User-agent: *
+Disallow: /blog/images/
+Disallow: /blog/assets/
+Disallow: /data/
+Dissallow: /tech/
+Dissallow: /font/
+
+Disallow: /*.pdf
+Disallow: /*.doc
+Disallow: /*.xls
+Disallow: /*.ppt
+Disallow: /*.zip
+Disallow: /*.js
 
 Allow: /
