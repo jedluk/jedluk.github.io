@@ -1,0 +1,9 @@
+---
+title: 'Thigs I learned in 2023'
+description: "Summary of 2023."
+pubDate: 'Dec 31 2023'
+heroImage: '/blog/images/20234.svg'
+---
+Donec risus diam, efficitur quis laoreet eget, consectetur nec nisi. Cras hendrerit sed libero in pharetra. Suspendisse vulputate dolor eu convallis volutpat. Integer dictum ex non rhoncus elementum. Cras ac varius tellus. Praesent mollis lacus justo, id posuere nisl tristique quis. Etiam non diam tincidunt, vehicula orci at, consectetur est. Etiam elementum ligula et est molestie, nec hendrerit eros venenatis. Ut egestas lorem ut lectus vestibulum vehicula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras posuere congue interdum. Nam ornare, mauris eu tincidunt consequat, nisi ex eleifend nulla, ullamcorper viverra eros sapien ut dui. Aenean ornare neque id tellus eleifend scelerisque. Sed molestie tincidunt arcu ac malesuada.
+
+Donec risus diam, efficitur quis laoreet eget, consectetur nec nisi. Cras hendrerit sed libero in pharetra. Suspendisse vulputate dolor eu convallis volutpat. Integer dictum ex non rhoncus elementum. Cras ac varius tellus. Praesent mollis lacus justo, id posuere nisl tristique quis. Etiam non diam tincidunt, vehicula orci at, consectetur est. Etiam elementum ligula et est molestie, nec hendrerit eros venenatis. Ut egestas lorem ut lectus vestibulum vehicula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras posuere congue interdum. Nam ornare, mauris eu tincidunt consequat, nisi ex eleifend nulla, ullamcorper viverra eros sapien ut dui. Aenean ornare neque id tellus eleifend scelerisque. Sed molestie tincidunt arcu ac malesuada.
