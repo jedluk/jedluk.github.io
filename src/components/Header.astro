@@ -5,7 +5,7 @@ import moon from '../assets/moon.svg'
 import sun from '../assets/sun.svg'
 ---
 
-<header>
+<header class="dark:bg-[var(--bg-dark-light)]">
 	<nav>
 		<h2>
 			<a href="/">{SITE_TITLE}</a>
@@ -15,22 +15,23 @@ import sun from '../assets/sun.svg'
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</div>
-		<button data-id="theme-toggler" class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100">
-			<img data-theme="light" class="hidden invert" src={sun.src} alt="sun" />
-			<img data-theme="dark" class="hidden" src={moon.src} alt="moon" /> 
+		<button data-id="theme-toggler" class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100 dark:hover:bg-[var(--bg-dark)]">
+			<img class="hidden dark:block invert" src={sun.src} alt="sun" />
+			<img class="block dark:hidden" src={moon.src} alt="moon" /> 
 		</button>
 	</nav>
 </header>
 <script>
-	const body = document.querySelector('body')
-	let theme = body?.dataset.theme ?? 'light'
+	const body = document.querySelector('body') as HTMLElement
 
 	document.querySelector("[data-id='theme-toggler']")?.addEventListener('click', function () {
-		if (body !== null) {
-			theme = theme === 'light' ? 'dark' : 'light'
-			body.dataset.theme = theme
-			localStorage.setItem('theme', theme)
+		const nextTheme = body.classList.contains('dark') ? 'light' : 'dark'
+		if (nextTheme === 'light') {
+			body.classList.remove('dark')
+		} else {
+			body.classList.add('dark')
 		}
+		localStorage.setItem('theme', nextTheme)
 	})
 </script>
 <style>
@@ -39,18 +40,6 @@ import sun from '../assets/sun.svg'
 		padding: 0 1em;
 		background: white;
 		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	body[data-theme="dark"] header {
-		background: var(--bg-dark-light);
-	}
-	body[data-theme="light"] img[data-theme="dark"] {
-		display: block;
-	}
-	body[data-theme="dark"] img[data-theme="light"] {
-		display: block;
-	}
-	body[data-theme="dark"] header button:last-of-type:hover {
-		background-color: var(--bg-dark);
 	}
 	h2 {
 		margin: 0;

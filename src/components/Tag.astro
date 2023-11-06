@@ -10,7 +10,17 @@ const { name, count, selected } = Astro.props;
 
 <span  
     data-selected={String(selected)} 
-    class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full bg-gray-400 hover:bg-purple-700 selected:bg-purple-900 selected:hover:bg-purple-700"
+    class={[
+        'text-xs',
+        'font-medium',
+        'mr-2',
+        'px-2.5',
+        'py-0.5',
+        'rounded-full',
+        'bg-gray-400 dark:bg-gray-600',
+        'hover:bg-purple-700 dark:hover:bg-purple-700',
+        'selected:bg-purple-900 dark:selected:bg-purple-900 selected:hover:bg-purple-700 dark:selected:hover:bg-purple-700'
+    ].join(" ")}
 >
     <a href={`/tags/${name.toLowerCase()}`} class="text-white hover:text-white">
         {name.toUpperCase()} {count && ` (${count})`}
