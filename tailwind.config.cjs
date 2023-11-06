@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        brand: 'rgb(179, 136, 255)',
         accent: 'var(--accent)',
       },
       animation: {
@@ -26,18 +27,18 @@ module.exports = {
   plugins: [
     plugin(({ addVariant, matchUtilities }) => {
       addVariant('selected', '&[data-selected="true"]'),
-      matchUtilities({
-        'animation-delay': (value) => {
-          return {
-            'animation-delay': value,
-          }
-        },
-        'animation-duration': (value) => {
-          return {
-            'animation-duration': value,
-          }
-        },
-      })
+        matchUtilities({
+          'animation-delay': (value) => {
+            return {
+              'animation-delay': value,
+            }
+          },
+          'animation-duration': (value) => {
+            return {
+              'animation-duration': value,
+            }
+          },
+        })
     }),
   ],
 }
