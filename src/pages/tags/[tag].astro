@@ -13,7 +13,7 @@ export async function getStaticPaths() {
   const posts = await getCollection('blog')
   const tags = getTagsByCount(posts)
 
-  return Array.from(tags.keys())
+  return tags.map(([name]) => name)
   	.map((tag) => ({
 		params: { tag },
 		props: {
@@ -34,12 +34,10 @@ const { tag } = Astro.params
 	<body>
 		<Header />
 		<main class="w-[960px]">
-			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-8 [&>span]:mb-1">
-				{Array
-				.from(allTags.entries())
-				.sort(([,count1],[,count2]) => count2 > count1 ? 1 : -1)
-				.map(([name, count]) => <Tag name={name} count={count} selected={tag === name} />)}
+			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1">
+				{allTags.map(([name, count]) => <Tag name={name} count={count} selected={tag === name} />)}
 			</div>
+			<hr class="mb-8"/>
 			<section>
 				<Posts data={posts} />
 			</section>

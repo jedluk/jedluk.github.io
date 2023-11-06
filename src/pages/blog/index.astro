@@ -22,12 +22,10 @@ const allTags = getTagsByCount(posts)
 	<body>
 		<Header />
 		<main class="w-[960px]">
-			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-8 [&>span]:mb-1">
-				{Array
-				.from(allTags.entries())
-				.sort(([,count1],[,count2]) => count2 > count1 ? 1 : -1)
-				.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
+			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1">
+				{allTags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
 			</div>
+			<hr class="mb-8"/>
 			<section>
 				<Posts data={posts} />
 			</section>
