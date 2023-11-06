@@ -1,27 +1,49 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BlogPost.astro'
+import BaseHead from '../../components/BaseHead.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Posts from '../../components/Posts.astro';
+import { getTagsByCount } from '../../lib/tags';
+import Tag from '../../components/Tag.astro';
+import {extractTags} from '../../lib/tags'
 
 export async function getStaticPaths() {
-  const getTags = ({ data }) => data.tags.map(tag => tag.toLowerCase())
-
   const posts = await getCollection('blog')
-  const uniqueTags = Array.from(new Set(posts.map(getTags).flat()))
+  const tags = getTagsByCount(posts)
 
-  return uniqueTags.map((tag) => {
-    const filteredPosts = posts.filter((post) => getTags(post).includes(tag));
-    return {
-      params: { tag },
-      props: { posts: filteredPosts },
-    };
-  });
+  return Array.from(tags.keys())
+  	.map((tag) => ({
+		params: { tag },
+		props: {
+			allTags: tags,
+			posts: posts.filter((post) => extractTags(post).includes(tag)) 
+		},
+	}))
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { allTags, posts } = Astro.props;
+const { tag } = Astro.params
 ---
-<BaseLayout pageTitle={tag}>
-    <ul>
-        {posts.map((post) => <li><a href={post.url}>{post.data.title}</a></li>)}
-      </ul>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="w-[960px]">
+			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-8 [&>span]:mb-1">
+				{Array
+				.from(allTags.entries())
+				.sort(([,count1],[,count2]) => count2 > count1 ? 1 : -1)
+				.map(([name, count]) => <Tag name={name} count={count} selected={tag === name} />)}
+			</div>
+			<section>
+				<Posts data={posts} />
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
