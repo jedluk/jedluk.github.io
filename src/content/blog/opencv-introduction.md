@@ -3,6 +3,7 @@ title: 'Introduction to OpenCV'
 description: "Applying basics image processing operations in OpenCV with Python"
 pubDate: 'Sep 26 2023'
 heroImage: '/blog/images/bambo_bin.jpg'
+tags: ["python", "openCV"]
 ---
 <style>
     .pictures {
