@@ -34,7 +34,7 @@ const { tag } = Astro.params
 	<body>
 		<Header />
 		<main class="w-[960px]">
-			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1">
+			<div class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1">
 				{allTags.map(([name, count]) => <Tag name={name} count={count} selected={tag === name} />)}
 			</div>
 			<hr class="mb-8"/>

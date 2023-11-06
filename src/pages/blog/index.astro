@@ -22,7 +22,7 @@ const allTags = getTagsByCount(posts)
 	<body>
 		<Header />
 		<main class="w-[960px]">
-			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1">
+			<div class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1">
 				{allTags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
 			</div>
 			<hr class="mb-8"/>
