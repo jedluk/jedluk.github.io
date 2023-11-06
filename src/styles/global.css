@@ -32,7 +32,7 @@
 	--h5-base-font-size: 1.25em;
 }
 
-:root body[data-theme="dark"] {
+:root body.dark {
 	--accent: #38bef8;
 	--accent-dark: #0285c7;
 	--font-color: #e3e3e3;
@@ -88,7 +88,7 @@ body {
 	line-height: 1.7;
 }
 
-body[data-theme="dark"] {
+body.dark {
 	background: var(--bg-dark);
 }
 
