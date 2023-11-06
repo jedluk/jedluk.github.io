@@ -23,7 +23,8 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(({ matchUtilities }) => {
+    plugin(({ addVariant, matchUtilities }) => {
+      addVariant('selected', '&[data-selected="true"]'),
       matchUtilities({
         'animation-delay': (value) => {
           return {
