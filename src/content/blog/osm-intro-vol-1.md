@@ -3,6 +3,7 @@ title: 'Build your own Planet with OSM vol. 1/2'
 description: "Comprehensive introduction to Open Street Map and vector tiles"
 pubDate: 'Oct 8, 2023'
 heroImage: '/blog/images/nyc_hero_vol1.png'
+tags: ["OSM"]
 ---
 Hypothesis: <q>Entire planet can be digitalized into 71 GB.</q>
 

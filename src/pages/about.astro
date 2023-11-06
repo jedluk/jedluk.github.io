@@ -7,8 +7,9 @@ import Layout from '../layouts/BlogPost.astro';
 	description="Lorem ipsum dolor sit amet"
 	pubDate={new Date()}
 >
-	<p>
-		If I were to describe who I am in one word, it would be an <strong>engineer</strong>. I graduated from the <a href="https://we.zut.edu.pl" target="_blank" rel="noreferrer noopener">electrical engineering department</a> in 2018 (field of study: control engineering & robotics - BSc, information and communications technology  - MSc) . During my studies, I developed an 
+	<p class="text-justify">
+		If I were to describe who I am in one word, it would be an <strong>engineer</strong>. I graduated from the <a href="https://we.zut.edu.pl" target="_blank" rel="noreferrer noopener">electrical engineering department</a> 
+		in 2018 (field of study: control engineering & robotics - BSc, information and communications technology  - MSc) . During my studies, I developed an 
 		interest in computer vision, which resulted in writing my thesis papers:
 		<ul class="list-disc">
 			<li>Engineering thesis: <i>Application of two-dimensional Gabor filters for vision based pattern recognition and classification</i></li>
@@ -19,7 +20,7 @@ import Layout from '../layouts/BlogPost.astro';
 			you can find abstract & overview <a href="https://github.com/jedluk/Master-thesis" target="_blank" rel="noreferrer noopener">here</a>
 		</div>
 	</p>
-	<p>
+	<p class="text-justify">
 		During my fifth year of studies, I started my first job in IT. I chose to work for <a href="https://avid.com/" target="_blank" rel="noreferrer noopener">Avid Technology</a>, 
 		a company that was expanding its office in Szczecin at that time. My time at this company is a mixed experience for me. On one hand, I encountered a lot of old and poorly 
 		written code. On the other hand, it was there that I learned React and Node, my favorites technologies that I still use today. Suffering from legacy code and desire to know
@@ -33,12 +34,4 @@ import Layout from '../layouts/BlogPost.astro';
 		- Israel based climate-tech startup with a subsidiary in Poland. I work here as Frontend lead & Fullstack Developer.
 	</p>
 	<p>You can find my resume <a href="/my_resume.pdf" target="_blank">here.</a></p>
-	<style>
-		a {
-			text-decoration: underline;
-		}
-		p {
-			text-align: justify;
-		}
-	</style>
 </Layout>

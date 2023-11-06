@@ -3,6 +3,7 @@ title: 'Hello World!'
 description: "Not too long of an introduction."
 pubDate: 'Sep 22 2023'
 heroImage: '/blog/images/pexels-vie-studio-4439410.jpg'
+tags: []
 ---
 This is my very first post on this blog. Typically, when strangers meet, the first thing they do is greet each other. So let me do the formalities and introduce 
 myself. Hi there 👋 , I'm Jędrzej 😊.
