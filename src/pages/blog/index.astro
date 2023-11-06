@@ -106,7 +106,10 @@ const tags = posts
 		
 		<main >
 			<div class="flex justify-center items-start odd:items-end min-w-fit mx-4 mb-8 [&>span]:mb-1">
-				{Array.from(tags.entries()).map(([tag, count]) => <Tag name={tag} count={count}/>)}
+				{Array
+				.from(tags.entries())
+				.sort(([,count1],[,count2]) => count2 > count1 ? 1 : -1)
+				.map(([tag, count]) => <Tag name={tag} count={count}/>)}
 			</div>
 				<section>
 					<ul>
