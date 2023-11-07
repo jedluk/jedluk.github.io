@@ -1,11 +1,12 @@
 ---
 import HeaderLink from './HeaderLink.astro'
-import moon from '../assets/moon.svg'
-import sun from '../assets/sun.svg'
+import ThemeIcon from './ThemeIcon.astro'
 ---
 
-<header class="dark:bg-[var(--bg-dark-light)]">
-  <nav>
+<header
+  class="bg-white dark:bg-[var(--bg-dark-light)] m-0 py-0 px-[1em] shadow-md"
+>
+  <nav class="flex items-center justify-between">
     <a href="/">
       <img
         class="w-8 h-8 md:w-10 md:h-10 rounded-md hover:-translate-y-1 shadow-md shadow-violet-400/50 ease-linear duration-200"
@@ -18,50 +19,11 @@ import sun from '../assets/sun.svg'
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/about">About</HeaderLink>
     </div>
-    <button
-      data-id="theme-toggler"
-      class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100 dark:hover:bg-[var(--bg-dark)]"
-    >
-      <img class="hidden dark:block invert" src={sun.src} alt="sun" />
-      <img class="dark:hidden" src={moon.src} alt="moon" />
-    </button>
+    <ThemeIcon />
   </nav>
 </header>
-<script>
-  const body = document.querySelector('body') as HTMLElement
 
-  document
-    .querySelector("[data-id='theme-toggler']")
-    ?.addEventListener('click', function () {
-      const nextTheme = body.classList.contains('dark') ? 'light' : 'dark'
-      if (nextTheme === 'light') {
-        body.classList.remove('dark')
-      } else {
-        body.classList.add('dark')
-      }
-      localStorage.setItem('theme', nextTheme)
-    })
-</script>
 <style>
-  header {
-    margin: 0;
-    padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
-  h2 {
-    margin: 0;
-    font-size: 1em;
-  }
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
   nav a {
     padding-inline: 0.5em;
     padding-top: 1em;
