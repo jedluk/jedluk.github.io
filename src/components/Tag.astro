@@ -1,29 +1,30 @@
 ---
 interface Props {
-	name: string;
-    selected: boolean
-    count?: number
+  name: string
+  selected: boolean
+  count?: number
 }
 
-const { name, count, selected } = Astro.props;
+const { name, count, selected } = Astro.props
 ---
 
-<span  
-    data-selected={String(selected)} 
-    class={[
-        'text-xs',
-        'font-medium',
-        'mr-2',
-        'px-2.5',
-        'py-0.5',
-        'rounded-full',
-        'bg-gray-400 dark:bg-gray-600',
-        'hover:bg-brand dark:hover:bg-brand hover:-translate-y-1 ease-in-out duration-300',
-        'selected:bg-brand dark:selected:bg-brand', 
-        'selected:shadow-sm selcted:shadow-violet-400/50'
-    ].join(" ")}
+<span
+  data-selected={String(selected)}
+  class={[
+    'text-xs',
+    'font-medium',
+    'mr-2',
+    'px-2.5',
+    'py-0.5',
+    'rounded-full',
+    'bg-gray-400 dark:bg-gray-600',
+    'hover:bg-brand dark:hover:bg-brand hover:-translate-y-1 ease-in-out duration-300',
+    'selected:bg-brand dark:selected:bg-brand',
+    'selected:shadow-sm selcted:shadow-violet-400/50'
+  ].join(' ')}
 >
-    <a href={`/tags/${name.toLowerCase()}`} class="text-white hover:text-white">
-        {name.toUpperCase()} {count && ` (${count})`}
-    </a>
+  <a href={`/tags/${name.toLowerCase()}`} class="text-white hover:text-white">
+    {name.toUpperCase()}
+    {count && ` (${count})`}
+  </a>
 </span>
