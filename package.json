@@ -8,6 +8,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "format": "prettier --write .",
     "astro": "astro",
     "convert-webp": "node scripts/convertToWebp.cjs",
     "replace-img-src": "node scripts/replaceImageSource.cjs",
@@ -33,6 +34,8 @@
   },
   "devDependencies": {
     "mapbox-gl": "^2.15.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.1",
     "sharp": "^0.32.6"
   }
 }
