@@ -49,12 +49,14 @@ const { page, tags } = Astro.props as {
       <section>
         <Posts data={page.data} />
       </section>
-      <Pagination
-        prev={page.url.prev}
-        next={page.url.next}
-        current={page.currentPage}
-        last={page.lastPage}
-      />
+      <div class="flex justify-center mt-10">
+        <Pagination
+          prev={page.url.prev}
+          next={page.url.next}
+          current={page.currentPage}
+          last={page.lastPage}
+        />
+      </div>
     </main>
     <Footer />
   </body>
