@@ -6,7 +6,7 @@ import ThemeIcon from './ThemeIcon.astro'
 <header
   class="bg-white dark:bg-[var(--bg-dark-light)] m-0 py-0 px-[1em] shadow-md"
 >
-  <nav class="flex items-center justify-between">
+  <nav class="flex items-center justify-between whitespace-nowrap">
     <a href="/">
       <img
         class="w-8 h-8 md:w-10 md:h-10 rounded-md hover:-translate-y-1 shadow-md shadow-violet-400/50 ease-linear duration-200"
@@ -37,15 +37,9 @@ import ThemeIcon from './ThemeIcon.astro'
     border-bottom-color: var(--accent);
   }
   @media (max-width: 576px) {
-    nav {
-      white-space: no-wrap;
-    }
     nav a {
       padding: 0.5em 0.2rem;
       margin-right: 0.5rem;
-    }
-    button[data-id='theme-toggler'] {
-      margin-bottom: 4px;
     }
   }
 </style>
