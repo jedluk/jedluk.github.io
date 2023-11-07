@@ -1,6 +1,6 @@
 import type { CollectionEntry } from "astro:content"
 
-type TagInfo = [string, number]
+export type TagInfo = [string, number]
 
 export function extractTags(post: CollectionEntry<'blog'>): string[] {
     return post.data.tags.map(tag => tag.toLowerCase())
