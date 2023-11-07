@@ -1,11 +1,13 @@
 import type { CollectionEntry } from "astro:content"
 
+type TagInfo = [string, number]
+
 export function extractTags(post: CollectionEntry<'blog'>): string[] {
     return post.data.tags.map(tag => tag.toLowerCase())
 }
 
 // sort unique tags by count first and then by name
-export function getTagsByCount(posts: CollectionEntry<'blog'>[]): [string, number][] {
+export function getTagsByCount(posts: CollectionEntry<'blog'>[]): TagInfo[] {
     const tagsCountMap = posts
         .map(extractTags)
         .flat()
