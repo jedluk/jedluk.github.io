@@ -1,9 +1,9 @@
 ---
-title: "Like a bird"
-description: "Trackng GeoJSON route in maplibre-gl (bird view)"
-pubDate: "Oct 28 2023"
-heroImage: "/blog/images/trip.png"
-tags: ["maplibre", "JS", "React", "OSM"]
+title: 'Like a bird'
+description: 'Trackng GeoJSON route in maplibre-gl (bird view)'
+pubDate: 'Oct 28 2023'
+heroImage: '/blog/images/trip.png'
+tags: ['maplibre', 'JS', 'React', 'OSM']
 ---
 
 In the current episode, I will continue discussing maplibre and its features, as well as introducing some new terms. Additionally,
@@ -139,18 +139,18 @@ collections of React components which wraps mapbox-gl compatibile libraries. We'
 Example app boilerplate for such configuration looks like that:
 
 ```js
-import "maplibre-gl/dist/maplibre-gl.css";
+import 'maplibre-gl/dist/maplibre-gl.css'
 
-import React, { useEffect } from "react";
-import maplibre from "maplibre-gl";
-import Map from "react-map-gl";
-import * as pmtiles from "pmtiles";
+import React, { useEffect } from 'react'
+import maplibre from 'maplibre-gl'
+import Map from 'react-map-gl'
+import * as pmtiles from 'pmtiles'
 
 export default function MapComponent() {
   useEffect(() => {
-    const protocol = new pmtiles.Protocol();
-    maplibre.addProtocol("pmtiles", protocol.tile);
-  }, []);
+    const protocol = new pmtiles.Protocol()
+    maplibre.addProtocol('pmtiles', protocol.tile)
+  }, [])
 
   return (
     <Map
@@ -159,7 +159,7 @@ export default function MapComponent() {
       minZoom={9}
       mapStyle="/blog/positron.json"
     />
-  );
+  )
 }
 ```
 
@@ -252,7 +252,7 @@ Source code of enitre app, encapsulated into single React component, you can che
 [here](https://raw.githubusercontent.com/jedluk/jedluk.github.io/main/src/components/blog-samples/FlyingTrip.jsx). However, you will find the
 complete interactive application below. Hit play button and enjoy your bird trip (also admire my city) 🚀🚀🚀
 
-import Map from "../../components/blog-samples/FlyingTrip.jsx";
+import Map from '../../components/blog-samples/FlyingTrip.jsx'
 
 <div class="w-100 h-[400px]">
   <Map client:only="react" />

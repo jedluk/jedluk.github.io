@@ -1,9 +1,9 @@
 ---
-title: "Build your own Planet with OSM vol. 2/2"
-description: "Comprehensive introduction to Open Street Map and Maplibre"
-pubDate: "Oct 12, 2023"
-heroImage: "/blog/images/nyc_hero_vol2.png"
-tags: ["OSM", "JS", "maplibre"]
+title: 'Build your own Planet with OSM vol. 2/2'
+description: 'Comprehensive introduction to Open Street Map and Maplibre'
+pubDate: 'Oct 12, 2023'
+heroImage: '/blog/images/nyc_hero_vol2.png'
+tags: ['OSM', 'JS', 'maplibre']
 ---
 
 In this post, you will see that all the effort dedicated to learning the basic tools and concepts of OSM has brought you incredible possibilities. Attention: if you haven't done so already, please read [part 1](/blog//osm-intro-vol-1) - you'll need <i>mbtiles</i> generated at that episode to conitnue now.
@@ -48,9 +48,9 @@ Getting started with maplibre is extremely easy. All you need is HTML file with 
     <div id="map"></div>
     <script>
       const map = new maplibregl.Map({
-        container: "map",
-        style: "https://demotiles.maplibre.org/style.json",
-      });
+        container: 'map',
+        style: 'https://demotiles.maplibre.org/style.json'
+      })
     </script>
   </body>
 </html>

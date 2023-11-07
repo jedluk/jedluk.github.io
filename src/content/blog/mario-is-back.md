@@ -1,9 +1,9 @@
 ---
-title: "Mario is back!"
-description: "Comprehensive guide to turn your raspberry Pi into Super Nitendo Entertainment System with Super Mario included."
-pubDate: "Nov 3 2023"
-heroImage: "/blog/images/supermario.jpg"
-tags: ["raspberry pi"]
+title: 'Mario is back!'
+description: 'Comprehensive guide to turn your raspberry Pi into Super Nitendo Entertainment System with Super Mario included.'
+pubDate: 'Nov 3 2023'
+heroImage: '/blog/images/supermario.jpg'
+tags: ['raspberry pi']
 ---
 
 If you were born in the 90s or earlier, you know that Mario is a timeless classic. In this episode I'll show you

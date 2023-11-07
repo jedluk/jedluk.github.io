@@ -1,8 +1,8 @@
 ---
-title: "Hello World!"
-description: "Not too long of an introduction."
-pubDate: "Sep 22 2023"
-heroImage: "/blog/images/pexels-vie-studio-4439410.jpg"
+title: 'Hello World!'
+description: 'Not too long of an introduction.'
+pubDate: 'Sep 22 2023'
+heroImage: '/blog/images/pexels-vie-studio-4439410.jpg'
 tags: []
 ---
 
