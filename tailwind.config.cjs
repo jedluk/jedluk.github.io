@@ -7,10 +7,10 @@ module.exports = {
     extend: {
       colors: {
         brand: 'rgb(179, 136, 255)',
-        accent: 'var(--accent)',
+        accent: 'var(--accent)'
       },
       animation: {
-        tech: 'flow 25s linear infinite',
+        tech: 'flow 25s linear infinite'
       },
       keyframes: {
         flow: {
@@ -18,11 +18,11 @@ module.exports = {
           '50%': { filter: 'grayscale', opacity: 0.4 },
           '100%': {
             transform: 'translateY(-1000px) rotate(720deg) scale(0.5)',
-            opacity: 0,
-          },
-        },
-      },
-    },
+            opacity: 0
+          }
+        }
+      }
+    }
   },
   plugins: [
     plugin(({ addVariant, matchUtilities }) => {
@@ -30,15 +30,15 @@ module.exports = {
         matchUtilities({
           'animation-delay': (value) => {
             return {
-              'animation-delay': value,
+              'animation-delay': value
             }
           },
           'animation-duration': (value) => {
             return {
-              'animation-duration': value,
+              'animation-duration': value
             }
-          },
+          }
         })
-    }),
-  ],
+    })
+  ]
 }

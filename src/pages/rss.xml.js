@@ -9,7 +9,7 @@ export async function GET(context) {
     description: SITE_DESCRIPTION,
     site: context.site,
     xmlns: {
-      media: 'http://search.yahoo.com/mrss/',
+      media: 'http://search.yahoo.com/mrss/'
     },
     items: posts.map((post) => ({
       ...post.data,
@@ -21,7 +21,7 @@ export async function GET(context) {
         height="440"
         medium="image"
         url="${post.data.heroImage}" />
-      `,
-    })),
+      `
+    }))
   })
 }

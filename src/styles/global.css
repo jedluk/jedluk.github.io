@@ -7,96 +7,96 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--font-color: #222939;
-	--font-color-accent: #0f1219;
+  --accent: #2337ff;
+  --accent-dark: #000d8a;
+  --font-color: #222939;
+  --font-color-accent: #0f1219;
 
-	--gray-raw-value: 96, 115, 159;
-	--gray-light-raw-value: 229, 233, 240;
-	--gray: rgb(var(--gray-raw-value));
-	--gray-light: rgb(var(--gray-light-raw-value));
-	--gray-dark: rgb(34, 41, 57);
+  --gray-raw-value: 96, 115, 159;
+  --gray-light-raw-value: 229, 233, 240;
+  --gray: rgb(var(--gray-raw-value));
+  --gray-light: rgb(var(--gray-light-raw-value));
+  --gray-dark: rgb(34, 41, 57);
 
-	--gray-gradient: rgba(var(--gray-light-raw-value), 50%), #fff;
-	--box-shadow: 0 2px 6px rgba(var(--gray-raw-value), 25%), 0 8px 24px rgba(var(--gray-raw-value), 33%),
-		0 16px 32px rgba(var(--gray-raw-value), 33%);
+  --gray-gradient: rgba(var(--gray-light-raw-value), 50%), #fff;
+  --box-shadow: 0 2px 6px rgba(var(--gray-raw-value), 25%),
+    0 8px 24px rgba(var(--gray-raw-value), 33%),
+    0 16px 32px rgba(var(--gray-raw-value), 33%);
 
-	--base-font-size: 20px;
-	--h1-base-font-size: 3.052em;
-	--h2-base-font-size: 2.441em;
-	--h3-base-font-size: 1.953em;
-	--h4-base-font-size: 1.563em;
-	--h5-base-font-size: 1.25em;
+  --base-font-size: 20px;
+  --h1-base-font-size: 3.052em;
+  --h2-base-font-size: 2.441em;
+  --h3-base-font-size: 1.953em;
+  --h4-base-font-size: 1.563em;
+  --h5-base-font-size: 1.25em;
 }
 
 :root body.dark {
-	--accent: #38bef8;
-	--accent-dark: #0285c7;
-	--font-color: #e3e3e3;
-	--font-color-accent: #e5e9f0;
+  --accent: #38bef8;
+  --accent-dark: #0285c7;
+  --font-color: #e3e3e3;
+  --font-color-accent: #e5e9f0;
 
-	--gray-light: #4b5563;
-	--bg-dark: #1b1b1d;
-	--bg-dark-light: #242526;
+  --gray-light: #4b5563;
+  --bg-dark: #1b1b1d;
+  --bg-dark-light: #242526;
 }
 
 @font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 @layer base {
-	.prose a {
-		@apply text-accent italic;
-	}
+  .prose a {
+    @apply text-accent italic;
+  }
 
-	.prose p {
-		@apply text-justify;
-	}
+  .prose p {
+    @apply text-justify;
+  }
 
-	.prose ul,
-	.prose ol {
-		@apply list-disc my-[1em];
-	}
+  .prose ul,
+  .prose ol {
+    @apply list-disc my-[1em];
+  }
 }
 
 body {
-	font-family: 'Atkinson', sans-serif;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	color: var(--font-color);
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	font-size: var(--base-font-size);
-	line-height: 1.7;
+  font-family: 'Atkinson', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  color: var(--font-color);
+  background: linear-gradient(var(--gray-gradient)) no-repeat;
+  background-size: 100% 600px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-size: var(--base-font-size);
+  line-height: 1.7;
 }
 
 body.dark {
-	background: var(--bg-dark);
+  background: var(--bg-dark);
 }
 
 main {
-	width: 720px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+  width: 720px;
+  max-width: calc(100% - 2em);
+  margin: auto;
+  padding: 3em 1em;
 }
 
 h1,
@@ -105,142 +105,142 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 0 0 0.5rem 0;
-	color: var(--font-color-accent);
-	line-height: 1.2;
+  margin: 0 0 0.5rem 0;
+  color: var(--font-color-accent);
+  line-height: 1.2;
 }
 
 h1 {
-	font-size: var(--h1-base-font-size);
+  font-size: var(--h1-base-font-size);
 }
 
 h2 {
-	font-size: var(--h2-base-font-size);
+  font-size: var(--h2-base-font-size);
 }
 
 h3 {
-	font-size: var(--h3-base-font-size);
+  font-size: var(--h3-base-font-size);
 }
 
 h4 {
-	font-size: var(--h4-base-font-size);
+  font-size: var(--h4-base-font-size);
 }
 
 h5 {
-	font-size: var(--h5-base-font-size);
+  font-size: var(--h5-base-font-size);
 }
 
 strong,
 b {
-	font-weight: 700;
+  font-weight: 700;
 }
 
 a {
-	color: var(--accent);
+  color: var(--accent);
 }
 
 a:hover {
-	color: var(--accent);
+  color: var(--accent);
 }
 
 p {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .prose p {
-	margin-bottom: 2em;
+  margin-bottom: 2em;
 }
 
 textarea {
-	width: 100%;
-	font-size: 16px;
+  width: 100%;
+  font-size: 16px;
 }
 
 input {
-	font-size: 16px;
+  font-size: 16px;
 }
 
 table {
-	width: 100%;
+  width: 100%;
 }
 
 img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
 
 code {
-	padding: 2px 5px;
-	background-color: var(--gray-light);
-	border-radius: 2px;
+  padding: 2px 5px;
+  background-color: var(--gray-light);
+  border-radius: 2px;
 }
 
 pre {
-	padding: 1.5em;
-	border-radius: 8px;
+  padding: 1.5em;
+  border-radius: 8px;
 }
 
-pre>code {
-	all: unset;
+pre > code {
+  all: unset;
 }
 
 blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0px;
-	font-size: 1.333em;
+  border-left: 4px solid var(--accent);
+  padding: 0 0 0 20px;
+  margin: 0px;
+  font-size: 1.333em;
 }
 
 hr {
-	border: none;
-	border-top: 1px solid var(--gray-light);
+  border: none;
+  border-top: 1px solid var(--gray-light);
 }
 
 @media (max-width: 720px) {
-	h1 {
-		font-size: calc(var(--h1-base-font-size) / 2);
-	}
+  h1 {
+    font-size: calc(var(--h1-base-font-size) / 2);
+  }
 
-	h2 {
-		font-size: calc(var(--h2-base-font-size) / 2);
-	}
+  h2 {
+    font-size: calc(var(--h2-base-font-size) / 2);
+  }
 
-	h3 {
-		font-size: calc(var(--h3-base-font-size) / 2);
-	}
+  h3 {
+    font-size: calc(var(--h3-base-font-size) / 2);
+  }
 
-	h4 {
-		font-size: calc(var(--h4-base-font-size) / 2);
-	}
+  h4 {
+    font-size: calc(var(--h4-base-font-size) / 2);
+  }
 
-	h5 {
-		font-size: calc(var(--h5-base-font-size) / 2);
-	}
+  h5 {
+    font-size: calc(var(--h5-base-font-size) / 2);
+  }
 
-	body {
-		font-size: calc(var(--base-font-size) - 4px);
-	}
+  body {
+    font-size: calc(var(--base-font-size) - 4px);
+  }
 
-	main {
-		padding: 1em;
-	}
+  main {
+    padding: 1em;
+  }
 }
 
 .sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
-	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
-	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
-	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
-	white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  /* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+  clip: rect(1px 1px 1px 1px);
+  /* maybe deprecated but we need to support legacy browsers */
+  clip: rect(1px, 1px, 1px, 1px);
+  /* modern browsers, clip-path works inwards from each corner */
+  clip-path: inset(50%);
+  /* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
+  white-space: nowrap;
 }

@@ -3,16 +3,18 @@ title: 'Export CSV like a Pro in React'
 description: 'Comprehensive introduction to CSV, including React based apps'
 pubDate: 'Oct 16 2023'
 heroImage: '/blog/images/csv.svg'
-tags: ["react", "JS"]
+tags: ['react', 'JS']
 ---
 
-If you've ever worked on an analytical dashboard or any system dealing with standardized data, you probably already know that exporting 
+If you've ever worked on an analytical dashboard or any system dealing with standardized data, you probably already know that exporting
 data from such systems is one of the fundamental features. In this post, I'll explain how you can implement CSV export in React-based applications with minimal effort.
 
-<strong>Comma-separated values (CSV)</strong> is a text file format that usually uses commas to separate values (although some applications 
-and tools use different separators, such as a semicolon). Data is stored in plain text, where each row represents a single record. The first row typically serves as 
-the header (a headless file is also acceptable). Each record should contain the same number of fields, which are separated by a delimiter. An example file in this 
-format is shown below.
+<strong>Comma-separated values (CSV)</strong> is a text file format that usually
+uses commas to separate values (although some applications and tools use different
+separators, such as a semicolon). Data is stored in plain text, where each row represents
+a single record. The first row typically serves as the header (a headless file is
+also acceptable). Each record should contain the same number of fields, which are
+separated by a delimiter. An example file in this format is shown below.
 
 ```csv
 name,age,employmentStatus
@@ -22,65 +24,91 @@ Kate,27,employed
 Bob,67,retired
 ```
 
-Undeniable advantages of this format include simplicity, human readability, relatively small file size, as well as good portability to 
+Undeniable advantages of this format include simplicity, human readability, relatively small file size, as well as good portability to
 other applications (e.g. spreadsheets). Conversion to and from other formats is relatively simple. Data equivalent in JSON format looks like:
 
 ```json
 [
-  {"name": "Fred", "age": 33, "employmentStatus":  "employed"},
-  {"name": "John", "age": 46, "employmentStatus": "unemployed"},
-  {"name": "Kate", "age": 27, "employmentStatus": "employed"},
-  {"name": "Bob", "age": 67, "employmentStatus": "retired"},
+  { "name": "Fred", "age": 33, "employmentStatus": "employed" },
+  { "name": "John", "age": 46, "employmentStatus": "unemployed" },
+  { "name": "Kate", "age": 27, "employmentStatus": "employed" },
+  { "name": "Bob", "age": 67, "employmentStatus": "retired" }
 ]
 ```
 
-To get CSV out of JSON we can use following code snippet (considering newest 
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in#description" target="_blank" rel="noopener noreferrer">ECMA spec</a>
-`Object.keys` will preserve order of creation - there is no integer like keys). Please also note that we don't use quotes for fields, which 
-would be necessary in the case of fields containing a character that corresponds to the separator.
+To get CSV out of JSON we can use following code snippet (considering newest
 
+<a
+  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in#description"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  ECMA spec
+</a>
+`Object.keys` will preserve order of creation - there is no integer like keys). Please
+also note that we don't use quotes for fields, which would be necessary in the case
+of fields containing a character that corresponds to the separator.
 
 ```js
-const csv = [Object.keys(data[0])]
-  .concat(data.map(Object.values))
-  .join('\r\n')
+const csv = [Object.keys(data[0])].concat(data.map(Object.values)).join('\r\n')
 ```
-In HTML world we use anchor tag not only for opening a links, but also for downloading things. By defining <strong>download</strong> property 
+
+In HTML world we use anchor tag not only for opening a links, but also for downloading things. By defining <strong>download</strong> property
 we ensure such behaviour. Optionally you can pass <i>filename</i> as its value (without value browser will try to guess name and extension).
 Another mandatory property is <strong>href</strong> which is nothing more than URL of specifc resource (not only HTTP-based). We have 3 options here:
+
 <ul class="list-disc mb-1">
-    <li>use static file hosted on same origin</li>
-    <li>create data URL on the fly and use <i>data</i> scheme</li>
-    <li>create a blob and use <i>blob</i> scheme</li>
+  <li>use static file hosted on same origin</li>
+  <li>
+    create data URL on the fly and use <i>data</i> scheme
+  </li>
+  <li>
+    create a blob and use <i>blob</i> scheme
+  </li>
 </ul>
 
-In case of static files you just need to provide its location on a server. For example I store <i>test.csv</i>&nbsp; in data folder. In such 
-scenario file can be downloaded from  <a download="test.csv" class="text-blue-400 hover:text-blue-700" href="/data/test.csv">this link</a>. Next one from the 
-list - Data URL - prefixed with `data:` scheme allow you to embeed small files inline in document. It can be a choice in case of CSV files. By transforming our test 
+In case of static files you just need to provide its location on a server. For example I store <i>test.csv</i>&nbsp; in data folder. In such
+scenario file can be downloaded from <a download="test.csv" class="text-blue-400 hover:text-blue-700" href="/data/test.csv">this link</a>. Next one from the
+list - Data URL - prefixed with `data:` scheme allow you to embeed small files inline in document. It can be a choice in case of CSV files. By transforming our test
 file into data URL we obtain:
 
- 
 ```textplain
 data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired
 ```
 
-It consists of 4 parts: <i>data</i> prefix, <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank">MIME type</a> 
-, charset and encoded data (in global window object you can find `encodeURIComponent` function which do a job for You). Link with data URL is available 
-<a class="text-blue-400 hover:text-blue-700" href="data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired" download="test.csv">here</a>.
-You can compare both files in any editor - no difference at all! Last but not least - blob, which in general can take a form of immutable text (including CSV) 
-or binary data. Dealing with blob is rather simple. We have to call its constructor with our CSV data and right after that create string (so called object URL) by using 
-`URL.createObjectURL`. Such a string can be passed directly as `href` attribute.
+It consists of 4 parts: <i>data</i> prefix, <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types" target="_blank">MIME type</a>
+, charset and encoded data (in global window object you can find `encodeURIComponent` function which do a job for You). Link with data URL is available
+
+<a
+  class="text-blue-400 hover:text-blue-700"
+  href="data:text/csv;charset=utf-8,name%2Cage%2CemploymentStatus%0D%0AFred%2C33%2Cemployed%0D%0AJohn%2C46%2Cunemployed%0D%0AKate%2C27%2Cemployed%0D%0ABob%2C67%2Cretired"
+  download="test.csv"
+>
+  here
+</a>
+. You can compare both files in any editor - no difference at all! Last but not least
+- blob, which in general can take a form of immutable text (including CSV) or binary
+data. Dealing with blob is rather simple. We have to call its constructor with our
+CSV data and right after that create string (so called object URL) by using `URL.createObjectURL`.
+Such a string can be passed directly as `href` attribute.
 
 ```js
-const blob = new Blob([csv], { type: 'text/csv;charset=utf-8'})
+const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
 const href = URL.createObjectURL(blob)
 ```
 
-Finally let's move blob based solution into React environment. A few years ago I've created React hook called 
-<a href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">use-exportable-csv</a>, which encapsulates entire procedure. 
-All you have to do is to provide data (in JSON-like format or just 2D array). Optionally  you can specify options (delimiter, headers and [BOM](https://en.wikipedia.org/wiki/Byte_order_mark)). 
-Hook returns link which can be used directly in anchor tag. Example implementation you can find below  (in this example we fetch data from <i>jsonplaceholder</i> endpoint,
-so that link is created dynamically, just like in real world). When unomunting component link in unbound from a document.
+Finally let's move blob based solution into React environment. A few years ago I've created React hook called
+
+<a href="https://www.npmjs.com/package/use-exportable-csv" target="_blank">
+  use-exportable-csv
+</a>
+, which encapsulates entire procedure. All you have to do is to provide data (in
+JSON-like format or just 2D array). Optionally you can specify options (delimiter,
+headers and [BOM](https://en.wikipedia.org/wiki/Byte_order_mark)). Hook returns link
+which can be used directly in anchor tag. Example implementation you can find below
+(in this example we fetch data from <i>jsonplaceholder</i> endpoint, so that link
+is created dynamically, just like in real world). When unomunting component link
+in unbound from a document.
 
 ```jsx
 import React, { useEffect, useState } from 'react'
@@ -109,14 +137,13 @@ export default function CSVLink() {
 Thanks to [Astro framework](https://astro.build/) which I use for building this blog I can embeed such a component inside mdx file. Adding a little
 bit of styling and we get interactive result, as you can see below.
 
-import ExportCSV from '../../components/blog-samples/ExportCSV.jsx';
+import ExportCSV from '../../components/blog-samples/ExportCSV.jsx'
 
 <div class="flex justify-center my-4">
-    <button className="p-2 bg-lime-500 rounded-md hover:scale-110 ease-in-out duration-300 hover:bg-lime-400">
-        <ExportCSV client:visible client:only="react" />
-    </button>
+  <button className="p-2 bg-lime-500 rounded-md hover:scale-110 ease-in-out duration-300 hover:bg-lime-400">
+    <ExportCSV client:visible client:only="react" />
+  </button>
 </div>
-
 
 After clicking on a button, you will download a blob containig CSV file. You can now import file in any spreadsheet, or just view a content in VS Code, or whatever editor you use.
 
