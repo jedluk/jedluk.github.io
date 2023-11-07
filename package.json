@@ -8,7 +8,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "format": "prettier --write .",
+    "format": "prettier --write . --plugin=prettier-plugin-astro",
     "astro": "astro",
     "convert-webp": "node scripts/convertToWebp.cjs",
     "replace-img-src": "node scripts/replaceImageSource.cjs",
