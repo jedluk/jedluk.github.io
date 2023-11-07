@@ -11,7 +11,7 @@ import Pagination from '../../components/Pagination.astro'
 import type { Page } from 'astro'
 
 export async function getStaticPaths({
-  paginate,
+  paginate
 }): Promise<Page<CollectionEntry<'blog'>>> {
   const posts = await getCollection('blog')
   const sortedPosts = posts.sort(
@@ -20,8 +20,8 @@ export async function getStaticPaths({
   return paginate(sortedPosts, {
     pageSize: 3,
     props: {
-      tags: getTagsByCount(sortedPosts),
-    },
+      tags: getTagsByCount(sortedPosts)
+    }
   })
 }
 
