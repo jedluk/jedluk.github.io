@@ -1,15 +1,14 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
 import moon from '../assets/moon.svg'
 import sun from '../assets/sun.svg'
 ---
 
 <header class="dark:bg-[var(--bg-dark-light)]">
 	<nav>
-		<h2>
-			<a href="/">{SITE_TITLE}</a>
-		</h2>
+		<a href="/">
+			<img class="w-8 h-8 md:w-10 md:h-10 rounded-md hover:-translate-y-1 shadow-md shadow-violet-400/50 ease-linear duration-200" src="/jl.svg" alt="Jedrzej Lukasiuk home" />
+		</a>
 		<div class="grow" />
 		<div class="internal-links">
 			<HeaderLink href="/blog">Blog</HeaderLink>
@@ -17,7 +16,7 @@ import sun from '../assets/sun.svg'
 		</div>
 		<button data-id="theme-toggler" class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100 dark:hover:bg-[var(--bg-dark)]">
 			<img class="hidden dark:block invert" src={sun.src} alt="sun" />
-			<img class="block dark:hidden" src={moon.src} alt="moon" /> 
+			<img class="dark:hidden" src={moon.src} alt="moon" /> 
 		</button>
 	</nav>
 </header>
