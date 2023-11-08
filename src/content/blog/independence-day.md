@@ -2,7 +2,8 @@
 title: 'Independence day'
 description: "Polish independence day"
 pubDate: 'Nov 11 2023'
-heroImage: '/blog/flying-trip/palace.png'
+heroImage: '/blog/images/palace.png'
+tags: []
 ---
 On November 11, 1918, with the end of World War I, Poland regained its independence after 123 years. The dark chapter in the history of my country took place in the second half of the 18th century when the state, torn apart by internal conflicts, was absorbed by its neighbors: Prussia, Austria, and Russia.
 The Partitions occurred in the years 1772, 1792, and 1795. 
