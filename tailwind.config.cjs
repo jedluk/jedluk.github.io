@@ -25,20 +25,21 @@ module.exports = {
     }
   },
   plugins: [
-    plugin(({ addVariant, matchUtilities }) => {
-      addVariant('selected', '&[data-selected="true"]'),
-        matchUtilities({
-          'animation-delay': (value) => {
-            return {
-              'animation-delay': value
-            }
-          },
-          'animation-duration': (value) => {
-            return {
-              'animation-duration': value
-            }
+    plugin(function ({ addVariant, matchUtilities }) {
+      addVariant('selected', '&[data-selected="true"]')
+      addVariant('allowed', '&[data-allowed="true"]')
+      matchUtilities({
+        'animation-delay': (value) => {
+          return {
+            'animation-delay': value
           }
-        })
+        },
+        'animation-duration': (value) => {
+          return {
+            'animation-duration': value
+          }
+        }
+      })
     })
   ]
 }
