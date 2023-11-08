@@ -1,0 +1,63 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+import BaseHead from '../../components/BaseHead.astro'
+import Header from '../../components/Header.astro'
+import Footer from '../../components/Footer.astro'
+import Tag from '../../components/Tag.astro'
+import Posts from '../../components/Posts.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts'
+import { getTagsByCount, type TagInfo } from '../../lib/tags'
+import Pagination from '../../components/Pagination.astro'
+import type { Page } from 'astro'
+
+export async function getStaticPaths({
+  paginate
+}): Promise<Page<CollectionEntry<'blog'>>> {
+  const posts = await getCollection('blog')
+  const sortedPosts = posts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  )
+  return paginate(sortedPosts, {
+    pageSize: 3,
+    props: {
+      tags: getTagsByCount(sortedPosts)
+    }
+  })
+}
+
+const { page, tags } = Astro.props as {
+  tags: TagInfo[]
+  page: Page<CollectionEntry<'blog'>>
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+
+  <body>
+    <Header />
+    <main class="w-[960px]">
+      <div
+        class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1"
+      >
+        {tags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
+      </div>
+      <hr class="mb-8" />
+      <section>
+        <Posts data={page.data} />
+      </section>
+      <div class="flex justify-center mt-10">
+        <Pagination
+          prev={page.url.prev}
+          next={page.url.next}
+          current={page.currentPage}
+          last={page.lastPage}
+        />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

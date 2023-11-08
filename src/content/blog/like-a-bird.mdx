@@ -2,17 +2,19 @@
 title: 'Like a bird'
 description: 'Trackng GeoJSON route in maplibre-gl (bird view)'
 pubDate: 'Oct 28 2023'
-heroImage: '/blog/flying-trip/trip.png'
+heroImage: '/blog/images/trip.png'
+tags: ['maplibre', 'JS', 'React', 'OSM']
 ---
-In the current episode, I will continue discussing maplibre and its features, as well as introducing some new terms. Additionally, 
-you'll learn which tram you should take to get to my neighborhood if you ever visit the city where I live 🤣. As always, I am a 
+
+In the current episode, I will continue discussing maplibre and its features, as well as introducing some new terms. Additionally,
+you'll learn which tram you should take to get to my neighborhood if you ever visit the city where I live 🤣. As always, I am a
 proponent of practice over theory, so you can expect some interesting examples.
 
-If you have read my series titled [Build you own planet with OSM](/blog/osm-intro-vol-1/) you should now already that vector tiles are 
-core element for building modern web maps. But of course, there are several other ways to add data to the map. I'd like to discuss one 
-of them with you - GeoJSON. GeoJSON (as you might suspect, it is based on the JSON format) allows for a straightforward representation of geographic 
-features along with their non-spatial attributes. Its undeniable advantage is simplicity, readability, and ease of transfer between different 
-environments. Following geometries can be described via GeoJSON: points, line strings, polygons and multi-part 
+If you have read my series titled [Build you own planet with OSM](/blog/osm-intro-vol-1/) you should now already that vector tiles are
+core element for building modern web maps. But of course, there are several other ways to add data to the map. I'd like to discuss one
+of them with you - GeoJSON. GeoJSON (as you might suspect, it is based on the JSON format) allows for a straightforward representation of geographic
+features along with their non-spatial attributes. Its undeniable advantage is simplicity, readability, and ease of transfer between different
+environments. Following geometries can be described via GeoJSON: points, line strings, polygons and multi-part
 collections of these types. An example file including the above-mentioned geometries can be found below:
 
 ```json
@@ -64,68 +66,78 @@ collections of these types. An example file including the above-mentioned geomet
   ]
 }
 ```
-As you can see each feature contains 3 properties: `type` - constant string `feature`, `geometry` (always contains `type` and `coordinates`) 
-and `properties` (JSON like object of non-spatial attributes). To understand multi-part geometries you should visit [wikipedia](https://en.wikipedia.org/wiki/GeoJSON#Geometries) 
-(they have nice visual examples), but basically it's nothing more like combining independent parts into single feature (e.g. it will allow to 
-describe single feature containing multiple polygons). Practical example of GeoJSON ? [Here](https://www.zditm.szczecin.pl/en) you will find 
-the public transportation website in my city. Next to timetables they expose map view for each bus/tram line. Tram number 8 is the most 
+
+As you can see each feature contains 3 properties: `type` - constant string `feature`, `geometry` (always contains `type` and `coordinates`)
+and `properties` (JSON like object of non-spatial attributes). To understand multi-part geometries you should visit [wikipedia](https://en.wikipedia.org/wiki/GeoJSON#Geometries)
+(they have nice visual examples), but basically it's nothing more like combining independent parts into single feature (e.g. it will allow to
+describe single feature containing multiple polygons). Practical example of GeoJSON ? [Here](https://www.zditm.szczecin.pl/en) you will find
+the public transportation website in my city. Next to timetables they expose map view for each bus/tram line. Tram number 8 is the most
 commonly used means of public transportation for me. Its timetable can be found [here](https://www.zditm.szczecin.pl/en/maps/line/8/8)
-and map view [here](https://www.zditm.szczecin.pl/pl/mapy/linia/8/8). A little bit of sniffing in chrome developer console and we can see 
-that they use GeoJSON for drawing route on a map. For reason I don't understand now (😅😅😅) we have to use POST method for calling their API, 
+and map view [here](https://www.zditm.szczecin.pl/pl/mapy/linia/8/8). A little bit of sniffing in chrome developer console and we can see
+that they use GeoJSON for drawing route on a map. For reason I don't understand now (😅😅😅) we have to use POST method for calling their API,
 instead usuall GET. Let's use curl then.
+
 ```sh
 curl -X POST https://www.zditm.szczecin.pl/pl/passenger/maps/trajectories/8 -o tram8.json
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100 84751  100 84751    0     0   417k      0 --:--:-- --:--:-- --:--:--  424k
 ```
-Now we can open `tram8.json` file in any code editor. They've used `LineString` to describe tram route, which seems to be a good choice. 
-Additionally I can see 2 non-spatial attributes, which are: <strong>route_variant_number</strong> and <strong>route_variant_type</strong>. 
+
+Now we can open `tram8.json` file in any code editor. They've used `LineString` to describe tram route, which seems to be a good choice.
+Additionally I can see 2 non-spatial attributes, which are: <strong>route_variant_number</strong> and <strong>route_variant_type</strong>.
 For now its purpose is unknown for me. Also I want to know city boundaries. For this purpose I'm using [nominatim](https://nominatim.org/release-docs/develop/api/Search/) -
 open source geocoder. We can use free form query (it's also possible to use reverse geocoding with random point inside), as - <a href="https://www.google.pl/maps/place/Szczecin" target="_blank" rel="noreferrer noopener">Szczecin (my hometown)</a> -
-is seventh largest city in Poland, so there will be no problems to find it. Based on documentation I'm forming pertinent query string - I 
+is seventh largest city in Poland, so there will be no problems to find it. Based on documentation I'm forming pertinent query string - I
 want to get response as GeoJSON.
 
 ```sh
 curl -X GET https://nominatim.openstreetmap.org/search?q=Szczecin&format=geojson&limit=1&polygon_geojson=1 -o szczecin.json
 ```
 
-I'm getting result which I expected - city boundaries, described as <i>Polygon</i>. I'm keeping both files for later use. Now let's 
-prepare some vector godies for our map. A little look on google maps and I'm proposing following cropping area (left, top, right, bottom): 
-`14.4,53.5,14.8,53.3`. For creating tiles I'm using [bash script](/blog/osm-planet/make-tiles.sh) which I've prepared earlier. Let's run 
+I'm getting result which I expected - city boundaries, described as <i>Polygon</i>. I'm keeping both files for later use. Now let's
+prepare some vector godies for our map. A little look on google maps and I'm proposing following cropping area (left, top, right, bottom):
+`14.4,53.5,14.8,53.3`. For creating tiles I'm using [bash script](/blog/assets/make-tiles.sh) which I've prepared earlier. Let's run
 the script with following arguments:
+
 ```sh
 ./make-tiles.sh --bbox 14.4,53.5,14.8,53.3 --output szczecin --dump ./OSM/planet-230918.osm.pbf
 ```
-Just a reminder: you have to pass all 3 options: <i>bbox, output</i> (file name without extension) and <i>dump</i> (location of Planet dump 
-on your computer). After awhile we're getting `szczecin.mbtiles`. In normal circumstances we serve those tiles via tileserver-gl. But today 
-we'll use different approach: `pmtiles`. It's pretty new standard for storing tiled data - single-file archieve which can be stored on a 
-commodity storage, like S3. It makes our web apps "serveless" -  free of external tile backend (like tileserve-gl), which benefits in 
-low-cost, zero-maintenance app. Project is driven by [Protomaps](https://docs.protomaps.com/pmtiles/). Conversion from <i>mbtiles</i> into 
-<i>pmtiles</i> is extremely easy. First, I'm downloading go binary from [there](https://github.com/protomaps/go-pmtiles/releases). Assuming 
-binary is stored in same location as `mbtiles` we do the conversion:
+
+Just a reminder: you have to pass all 3 options: <i>bbox, output</i> (file name without extension) and <i>dump</i> (location of Planet dump
+on your computer). After awhile we're getting `szczecin.mbtiles`. In normal circumstances we serve those tiles via tileserver-gl. But today
+we'll use different approach: `pmtiles`. It's pretty new standard for storing tiled data - single-file archieve which can be stored on a
+commodity storage, like S3. It makes our web apps "serveless" - free of external tile backend (like tileserve-gl), which benefits in
+low-cost, zero-maintenance app. Project is driven by [Protomaps](https://docs.protomaps.com/pmtiles/). Conversion from <i>mbtiles</i> into
+
+<i>pmtiles</i> is extremely easy. First, I'm downloading go binary from [there](https://github.com/protomaps/go-pmtiles/releases).
+Assuming binary is stored in same location as `mbtiles` we do the conversion:
 
 ```sh
 pmtiles convert szczecin.mbtiles szczecin.pmtiles
 ```
-I'm keeping `pmtiles` in git repository so that it can be hosted via gitub pages. Last but not least we define map style. 
+
+I'm keeping `pmtiles` in git repository so that it can be hosted via gitub pages. Last but not least we define map style.
 Instead of creating a style from scratch, I'm customizing an open-source map style - [positron-gl](https://github.com/openmaptiles/positron-gl-style)
-(light theme with big potential for custom visuzalizations, my favorite one ♥️♥️♥️). I'm removing all <i>symbol</i> based layers cause there 
-is no need for them. Secondly I'm updating source property to point into `pmtiles` - I'm using relative url for them, knowing that they 
+(light theme with big potential for custom visuzalizations, my favorite one ♥️♥️♥️). I'm removing all <i>symbol</i> based layers cause there
+is no need for them. Secondly I'm updating source property to point into `pmtiles` - I'm using relative url for them, knowing that they
 will be hosted via github pages. Please notice, that comparing to `mbtiles` we don't define `vector` property, instead we use `url`.
+
 ```json
 "openmaptiles": {
   "type": "vector",
-  "url": "pmtiles:///blog/flying-trip/szczecin.pmtiles",
+  "url": "pmtiles:///blog/assets/szczecin.pmtiles",
   "attribution": "© <a href='https://openstreetmap.org'>OpenStreetMap</a>",
   "minzoom": 0,
   "maxzoom": 14
 }
 ```
-Entire map style is accessible [here](/blog/flying-trip/positron.json). Now we have everything to start work on frontend side 
+
+Entire map style is accessible [here](/blog/assets/positron.json). Now we have everything to start work on frontend side
 of our mini project. Instead of raw HTML + JS script I would like to introduce [react-map-gl](https://www.npmjs.com/package/react-map-gl) -
-collections of React components which wraps mapbox-gl compatibile libraries. We'll also need `pmtiles` package and `maplibre-gl`. 
+collections of React components which wraps mapbox-gl compatibile libraries. We'll also need `pmtiles` package and `maplibre-gl`.
 Example app boilerplate for such configuration looks like that:
+
 ```js
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -145,16 +157,17 @@ export default function MapComponent() {
       mapLib={maplibre}
       initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       minZoom={9}
-      mapStyle="/blog/flying-trip/positron.json"
+      mapStyle="/blog/positron.json"
     />
   )
 }
 ```
+
 The mandatory step to support `pmtiles` is to register its protocol, which is done inside useEffect hook. Next we initialize a map
-with `maplibre` as <i>mapLib</i> props (we can also use `mapbox-gl`, but it requires to create an account on their page and generate a 
-token), and mapStyle which I defined earlier. Also we are setting initial map conditions (latitude, longitude and zoom). In next step we 
-will add 2 layers - one for tram route, and another for city boundaries. Both layers uses GeoJSON as a source (both files I downloaded 
-earlier and they are hosted as static files via github pages). Inside React component I'm simply using `fetch` to get them. Each layer 
+with `maplibre` as <i>mapLib</i> props (we can also use `mapbox-gl`, but it requires to create an account on their page and generate a
+token), and mapStyle which I defined earlier. Also we are setting initial map conditions (latitude, longitude and zoom). In next step we
+will add 2 layers - one for tram route, and another for city boundaries. Both layers uses GeoJSON as a source (both files I downloaded
+earlier and they are hosted as static files via github pages). Inside React component I'm simply using `fetch` to get them. Each layer
 is wrapped in Source component, and both sources have to be children of Map component.
 
 ```js
@@ -163,8 +176,8 @@ const [boundaries, setBoundaries] = useState()
 
 useEffect(() => {
   Promise.all([
-    fetch('/blog/flying-trip/tram8.json'),
-    fetch('/blog/flying-trip/szczecin.json'),
+    fetch('/blog/assets/tram8.json'),
+    fetch('/blog/assets/szczecin.json'),
   ])
     .then((responses) => Promise.all(responses.map((res) => res.json())))
     .then(([tramRoute, boundaries]) => {
@@ -176,12 +189,12 @@ useEffect(() => {
 
 (...)
 
-return (  
+return (
   <Map
     mapLib={maplibre}
     initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
     minZoom={9}
-    mapStyle="/blog/flying-trip/positron.json"
+    mapStyle="/blog/assets/positron.json"
   >
     <Source id="route" type="geojson" data={tramData}>
       <Layer
@@ -219,28 +232,36 @@ return (
   </Map>
 )
 ```
-It looks somewhat familiar, doesn't it? Layer component uses exactly same props as layers in [map style](/blog/flying-trip/positron.json). 
-`id` and `type` are mandatory props, `paint` varies based on selected type. We don't need to define source, as default one is their parent 
-(Source component). Source props are also straightforward: `id`, `type` (<i>geojson</i> in our case) and `data` (we use local component state). 
 
-Last but not least, cherry on top - bird view. I want to implement it in such a way that the camera follows the route, as if it were tracking 
-an invisible tram. And as always <i>maplibre</i> comes to our aid by exposing the `flyTo` function. To make animation smooth, we'll fly between 
-2 consecutive points with some predefined interval. And because our route is already ordered (line string is just an array of points), we just 
-need tiny modification of geojson form. I learned what the <strong>route_variant_type</strong> property is used for - if equals <q>default</q> - it means that the tram is 
-following the default route, while other values indicate that the tram deviates, for example, to the depot. We filter those features with 
-<q>default</q> props, and map coorindanets into flat array. The final step is to correctly set the camera so that it gives the impression of following 
-the real vehicle. I'm using [@turf/bearing](https://www.npmjs.com/package/@turf/bearing) to calculate right angle.
+It looks somewhat familiar, doesn't it? Layer component uses exactly same props as layers in [map style](/blog/assets/positron.json).
+`id` and `type` are mandatory props, `paint` varies based on selected type. We don't need to define source, as default one is their parent
+(Source component). Source props are also straightforward: `id`, `type` (<i>geojson</i> in our case) and `data` (we use local component state).
 
-Source code of enitre app, encapsulated into single React component, you can check 
-[here](https://raw.githubusercontent.com/jedluk/jedluk.github.io/main/src/components/blog-samples/FlyingTrip.jsx). However, you will find the 
+Last but not least, cherry on top - bird view. I want to implement it in such a way that the camera follows the route, as if it were tracking
+an invisible tram. And as always <i>maplibre</i> comes to our aid by exposing the `flyTo` function. To make animation smooth, we'll fly between
+2 consecutive points with some predefined interval. And because our route is already ordered (line string is just an array of points), we just
+need tiny modification of geojson form. I learned what the <strong>route_variant_type</strong> property is used for - if equals <q>default</q> - it means that the tram is
+following the default route, while other values indicate that the tram deviates, for example, to the depot. We filter those features with
+
+<q>default</q> props, and map coorindanets into flat array. The final step is to
+correctly set the camera so that it gives the impression of following the real vehicle.
+I'm using [@turf/bearing](https://www.npmjs.com/package/@turf/bearing) to calculate
+right angle.
+
+Source code of enitre app, encapsulated into single React component, you can check
+[here](https://raw.githubusercontent.com/jedluk/jedluk.github.io/main/src/components/blog-samples/FlyingTrip.jsx). However, you will find the
 complete interactive application below. Hit play button and enjoy your bird trip (also admire my city) 🚀🚀🚀
 
-import Map from '../../components/blog-samples/FlyingTrip.jsx';
+import Map from '../../components/blog-samples/FlyingTrip.jsx'
 
 <div class="w-100 h-[400px]">
-    <Map client:only="react" />
+  <Map client:only="react" />
 </div>
 
-<p class="text-justify mt-5">Huh, we did it again! Enormous portion of knowledge which results in beautiful interactive web app. And what's best - thanks to `pmtiles` application 
-does not require maintaining an additional server for serving veector tiles! As you can see with more mapping tools you know, more interesting possibilities you have. The best is still ahead of us.
-Stay tuned and see you soon!</p>
+<p class="text-justify mt-5">
+  Huh, we did it again! Enormous portion of knowledge which results in beautiful
+  interactive web app. And what's best - thanks to `pmtiles` application does
+  not require maintaining an additional server for serving veector tiles! As you
+  can see with more mapping tools you know, more interesting possibilities you
+  have. The best is still ahead of us. Stay tuned and see you soon!
+</p>

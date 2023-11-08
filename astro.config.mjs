@@ -12,6 +12,6 @@ export default defineConfig({
     mdx(),
     sitemap(),
     react(),
-    tailwind({ applyBaseStyles: false }),
-  ],
+    tailwind({ applyBaseStyles: false })
+  ]
 })

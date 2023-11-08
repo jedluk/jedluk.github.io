@@ -34,9 +34,8 @@ export default function FlyingTrip() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/blog/flying-trip/tram8.json'),
-      fetch('/blog/flying-trip/szczecin.json'),
-      fetch('/blog/flying-trip/palace.json'),
+      fetch('/blog/assets/tram8.json'),
+      fetch('/blog/assets/szczecin.json')
     ])
       .then((responses) => Promise.all(responses.map((res) => res.json())))
       .then(([tramRoute, boundaries, palace]) => {
@@ -55,7 +54,7 @@ export default function FlyingTrip() {
     mapRef?.current.jumpTo({
       center: routeCoordinates[lastIdx.current],
       pitch: 70,
-      zoom: 16,
+      zoom: 16
     })
 
     let timeout = null
@@ -79,7 +78,7 @@ export default function FlyingTrip() {
         curve: 1,
         duration: ANIMATION_MOVE_MS,
         easing: (x) => Math.sin((x * Math.PI) / 2),
-        zoom: 16,
+        zoom: 16
       })
 
       lastIdx.current = currentIdx + 1
@@ -99,7 +98,7 @@ export default function FlyingTrip() {
     latitude: 52.2325207,
     zoom: 15.2,
     pitch: 60,
-    bearing: 20,
+    bearing: 20
   }
   return (
     <Map
@@ -107,7 +106,7 @@ export default function FlyingTrip() {
       mapLib={maplibre}
       initialViewState={viewState}
       minZoom={9}
-      mapStyle="/blog/flying-trip/positron.json"
+      mapStyle="/blog/assets/positron.json"
     >
       {/* <NavigationControl position="top-right" /> */}
       <Source id="route" type="geojson" data={tramRoute}>
@@ -119,14 +118,14 @@ export default function FlyingTrip() {
               'case',
               ['==', ['get', 'route_variant_type'], 'default'],
               'rgb(131, 25, 224)',
-              'rgb(153, 153, 153)',
+              'rgb(153, 153, 153)'
             ],
             'line-width': [
               'case',
               ['==', ['get', 'route_variant_type'], 'default'],
               5,
-              2,
-            ],
+              2
+            ]
           }}
         />
       </Source>
@@ -137,7 +136,7 @@ export default function FlyingTrip() {
           paint={{
             'line-color': 'rgb(140, 41, 49)',
             'line-dasharray': [6, 2],
-            'line-width': 2,
+            'line-width': 2
           }}
         />
       </Source>
@@ -151,11 +150,11 @@ export default function FlyingTrip() {
               'case',
               ['>=', ['get', 'render_min_height'], 100],
               'rgb(255,255,255)',
-              'rgb(221,11,57)',
+              'rgb(221,11,57)'
             ],
             'fill-extrusion-opacity': 0.94,
             'fill-extrusion-height': ['get', 'render_height'],
-            'fill-extrusion-base': ['get', 'render_min_height'],
+            'fill-extrusion-base': ['get', 'render_min_height']
           }}
         />
       </Source>
