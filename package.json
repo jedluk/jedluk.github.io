@@ -11,8 +11,8 @@
     "format": "prettier --write . --plugin=prettier-plugin-astro",
     "astro": "astro",
     "convert-webp": "node scripts/convertToWebp.cjs",
-    "replace-img-src": "node scripts/replaceImageSource.cjs",
-    "clean-webp": "node scripts/clean.cjs webp"
+    "clean-webp": "node scripts/clean.cjs webp",
+    "replace-img-src": "node scripts/replaceImagesSource.cjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.0",
