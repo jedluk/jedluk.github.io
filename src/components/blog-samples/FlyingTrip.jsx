@@ -11,7 +11,6 @@ const ANIMATION_MOVE_MS = 350
 export default function FlyingTrip() {
   const [tramRoute, setTramRoute] = useState()
   const [boundaries, setBoundaries] = useState()
-  const [palace, setPalace] = useState()
   const [isRunning, setRunning] = useState(false)
   const mapRef = useRef(null)
   const lastIdx = useRef(0)
@@ -38,10 +37,9 @@ export default function FlyingTrip() {
       fetch('/blog/assets/szczecin.json')
     ])
       .then((responses) => Promise.all(responses.map((res) => res.json())))
-      .then(([tramRoute, boundaries, palace]) => {
+      .then(([tramRoute, boundaries]) => {
         setTramRoute(tramRoute)
         setBoundaries(boundaries)
-        setPalace(palace)
       })
       .catch(console.error)
   }, [])
@@ -93,22 +91,14 @@ export default function FlyingTrip() {
     }
   }, [routeCoordinates, isRunning])
 
-  const viewState = {
-    longitude: 21.0043177,
-    latitude: 52.2325207,
-    zoom: 15.2,
-    pitch: 60,
-    bearing: 20
-  }
   return (
     <Map
       ref={mapRef}
       mapLib={maplibre}
-      initialViewState={viewState}
       minZoom={9}
       mapStyle="/blog/assets/positron.json"
     >
-      {/* <NavigationControl position="top-right" /> */}
+      <NavigationControl position="top-right" />
       <Source id="route" type="geojson" data={tramRoute}>
         <Layer
           id="route"
@@ -140,30 +130,12 @@ export default function FlyingTrip() {
           }}
         />
       </Source>
-      <Source id="palace" type="geojson" data={palace}>
-        <Layer
-          id="palace"
-          type="fill-extrusion"
-          paint={{
-            'fill-extrusion-vertical-gradient': true,
-            'fill-extrusion-color': [
-              'case',
-              ['>=', ['get', 'render_min_height'], 100],
-              'rgb(255,255,255)',
-              'rgb(221,11,57)'
-            ],
-            'fill-extrusion-opacity': 0.94,
-            'fill-extrusion-height': ['get', 'render_height'],
-            'fill-extrusion-base': ['get', 'render_min_height']
-          }}
-        />
-      </Source>
-      {/* <button
+      <button
         className="absolute left-1 bottom-1 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
         onClick={() => setRunning((prev) => !prev)}
       >
         {isRunning ? 'Pause' : 'Play'}
-      </button> */}
+      </button>
     </Map>
   )
 }

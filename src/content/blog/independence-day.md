@@ -2,7 +2,7 @@
 title: 'Independence day 🇵🇱'
 description: 'Polish independence day'
 pubDate: 'Nov 11 2023'
-heroImage: '/blog/images/palace.png'
+heroImage: '/blog/images/palace_of_culture_and_science.png'
 tags: []
 ---
 
