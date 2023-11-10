@@ -14,16 +14,19 @@ Today, I won't talk about technology. Today is a time for reflection. Reflection
 
 <ul class="text-justify">
     <li>
-        <a href="https://en.wikipedia.org/wiki/Mieszko_I" target="_blank" rel="noopener noreferrer">Mieszko I</a> - first ruler of Poland. He united the scattered Slavic tribes, creating the foundations of the Polish state,
+        <a href="https://en.wikipedia.org/wiki/Mieszko_I" target="_blank" rel="noopener noreferrer">Mieszko I</a> - first historic ruler of Poland. He united the scattered Slavic tribes, creating the foundations of the Polish state,
     </li>
     <li>
-    <a href="https://en.wikipedia.org/wiki/Mieszko_I" target="_blank" rel="noopener noreferrer">Władysław Jagiełło</a>, Grand Duke of Lithuania, later King of Poland (for over 50 years). Founder of the Jagiellonian dynasty, which led Poland to <a href="https://en.wikipedia.org/wiki/Polish_Golden_Age" target="_blank" rel="noopener noreferrer">Polish Golden age</a> in the 16th century,
+        <a href="https://en.wikipedia.org/wiki/Mieszko_I" target="_blank" rel="noopener noreferrer">Władysław Jagiełło</a>, Grand Duke of Lithuania, later King of Poland (for over 50 years). Founder of the Jagiellonian dynasty, which led Poland to <a href="https://en.wikipedia.org/wiki/Polish_Golden_Age" target="_blank" rel="noopener noreferrer">Polish Golden age</a> in the 16th century,
     </li>
     <li>
-        <a href="https://en.wikipedia.org/wiki/Casimir_Pulaski" target="_blank" rel="noopener noreferrer">Kazimierz Pułaski</a>, hero of two nations. After failed mission of protecting Poland from Russian influence (sentenced to death in Poland), he emigrated to new born United States of America and become a leading general, earned the nickname "The Father of American cavalry",
+        <a href="https://en.wikipedia.org/wiki/Casimir_Pulaski" target="_blank" rel="noopener noreferrer">Kazimierz Pułaski</a>, hero of two nations. After failed mission of protecting Poland from Russian influence (sentenced to death in Poland), he emigrated to new born United States of America and become a general, earned the nickname "The Father of American cavalry",
     </li>
     <li>
-     <a href="https://en.wikipedia.org/wiki/Marie_Curie" target="_blank" rel="noopener noreferrer">Maria Skłodowska-Curie</a>, polish chemist and physicst. First woman to win Nobel Prize twice, and the only person to win a Nobel Prize in two scientific fields. The only woman who participated in <a href="https://en.wikipedia.org/wiki/Solvay_Conference" target="_blank" rel="noopener noreferrer">Solvay Conference</a>.
+        <a href="https://en.wikipedia.org/wiki/Marie_Curie" target="_blank" rel="noopener noreferrer">Maria Skłodowska-Curie</a>, polish chemist and physicst. First woman to win Nobel Prize twice, and the only person to win a Nobel Prize in two scientific fields. The only woman who participated in <a href="https://en.wikipedia.org/wiki/Solvay_Conference" target="_blank" rel="noopener noreferrer">Solvay Conference</a>.
+     </li>
+    <li>
+        <a href="https://en.wikipedia.org/wiki/Lech_Wa%C5%82%C4%99sa" target="_blank" rel="noopener noreferrer">Lech Wałęsa</a>, electrician by profession, Nobel Peace Prize winner, first democratically elected President if free Poland (1990-1995). Leader of solidarity movement which contributed to the end of communist rule in Poland
      </li>
 </ul>
 
@@ -31,19 +34,19 @@ Today, I won't talk about technology. Today is a time for reflection. Reflection
 
 <ul class="text-justify">
     <li>
-        <a href="https://en.wikipedia.org/wiki/Christianization_of_Poland#Baptism" target="_blank" rel="noopener noreferrer">The baptism of Poland</a>, 966. In those times, the baptism of the state was synonymous with the baptism of the ruler governing the country. Mieszko I was baptized by the Czechs, sealing the alliance with them by his marriage to Dobrawa,
+        <a href="https://en.wikipedia.org/wiki/Christianization_of_Poland#Baptism" target="_blank" rel="noopener noreferrer">The baptism of Poland</a>, <i>966</i>. In those times, the baptism of the state was synonymous with the baptism of the ruler governing the country. Mieszko I was baptized by the Czechs, sealing the alliance with them by his marriage to Dobrawa,
     </li>
     <li>
-        <a href="https://en.wikipedia.org/wiki/Jagiellonian_University" target="_blank" rel="noopener noreferrer">Creation of the Jagiellonian University</a>, 1364. Founded by Kazimierz III and later renewed by queen Jadwiga is oldest polish university (also oldest in central Europe). Until these days is still one of the best in the country,
+        <a href="https://en.wikipedia.org/wiki/Jagiellonian_University" target="_blank" rel="noopener noreferrer">Creation of the Jagiellonian University</a>, <i>1364</i>. Founded by Kazimierz III and later renewed by queen Jadwiga is oldest polish university (also oldest in central Europe). Until these days is still one of the best in the country,
     </li>
     <li>
-        <a href="https://en.wikipedia.org/wiki/Battle_of_Grunwald" target="_blank" rel="noopener noreferrer">Battle of Grunwald</a>, 15 IX 1410. One of the greatest medieval battles, fought between the Teutonic Order and the Kingdom of Poland, ended in Poland's victory and, consequently, the decline of the Teutonic Order's power. If you speak polish I recommend you to watch those 2 episodes on youtube  <a href="https://www.youtube.com/watch?v=t9pM_lU05I4&ab_channel=surgepolonia" target="_blank" rel="noopener noreferrer">part 1</a> & <a href="https://www.youtube.com/watch?v=9jQH0CDFEms&ab_channel=surgepolonia" target="_blank" rel="noopener noreferrer">part 2</a> - Castellan of Chojnik Castle - Jędrek (same name as mine 🚀🚀🚀) tells the story of this battle in a gripping way,
+        <a href="https://en.wikipedia.org/wiki/Battle_of_Grunwald" target="_blank" rel="noopener noreferrer">Battle of Grunwald</a>, <i>15 IX 1410</i>. One of the greatest medieval battles, fought between the Teutonic Order and the Kingdom of Poland, ended in Poland's victory and, consequently, the decline of the Teutonic Order's power. If you speak polish I recommend you to watch those 2 episodes on youtube  <a href="https://www.youtube.com/watch?v=t9pM_lU05I4&ab_channel=surgepolonia" target="_blank" rel="noopener noreferrer">part 1</a> & <a href="https://www.youtube.com/watch?v=9jQH0CDFEms&ab_channel=surgepolonia" target="_blank" rel="noopener noreferrer">part 2</a> - Castellan of Chojnik Castle - Jędrek (same name as mine 🚀🚀🚀) tells the story of this battle in a gripping way,
     </li>
       <li>
-        <a href="https://en.wikipedia.org/wiki/Deluge_(history)" target="_blank" rel="noopener noreferrer">Deluge</a>, 1655-1660. Invasion and occupation of the Polish territory by Sweden. One of the darkest periods in Polish history, during which the country was utterly devastated, and its power was irreversibly broken,
+        <a href="https://en.wikipedia.org/wiki/Deluge_(history)" target="_blank" rel="noopener noreferrer">Deluge</a>, <i>1655-1660</i>. Invasion and occupation of the Polish territory by Sweden. One of the darkest periods in Polish history, during which the country was utterly devastated, and its power was irreversibly broken,
     </li>
     <li>
-     <a href="https://en.wikipedia.org/wiki/Constitution_of_3_May_1791" target="_blank" rel="noopener noreferrer">Constitution on May 3rd</a>, 1791. First in the Europe, second in the world (after that of the United States). The constitution was supposed to be a rescue for the falling Polish state, it contained a number of thorough reforms. Until this day 3rd May is national holiday in Poland.
+     <a href="https://en.wikipedia.org/wiki/Constitution_of_3_May_1791" target="_blank" rel="noopener noreferrer">Constitution of 3 May</a>, <i>1791</i>. First in the Europe, second in the world (after that of the United States). The constitution was supposed to be a rescue for the falling Polish state, it contained a number of thorough reforms. Until this day 3rd May is national holiday in Poland.
      </li>
 </ul>
 
