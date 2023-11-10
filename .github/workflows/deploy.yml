@@ -27,11 +27,9 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install sharp
-        run: npm install -g sharp@0.32.6
-
       - name: Transform images (webp) and update markdowns
         run: |
+          npm install -g sharp@0.32.6
           npm run convert-webp
           npm run transform-image-tags
 
