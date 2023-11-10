@@ -56,11 +56,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: transformed-images
+          path: public/blog/images
 
       - name: Download updated markdowns
         uses: actions/download-artifact@v3
         with:
           name: updated-markdowns
+          path: src/content/blog
       
       - name: Show static resources
         run: |
