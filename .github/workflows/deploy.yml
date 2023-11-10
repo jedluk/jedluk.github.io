@@ -61,6 +61,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: updated-markdowns
+      
+      - name: Show static resources
+        run: |
+          pwd
+          ls public/blog/images
+
 
       - name: Install, build, and upload your site
         uses: withastro/action@v1
