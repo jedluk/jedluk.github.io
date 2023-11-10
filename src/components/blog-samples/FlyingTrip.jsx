@@ -96,6 +96,7 @@ export default function FlyingTrip() {
       ref={mapRef}
       mapLib={maplibre}
       minZoom={9}
+      initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       mapStyle="/blog/assets/positron.json"
     >
       <NavigationControl position="top-right" />
