@@ -12,7 +12,7 @@
     "astro": "astro",
     "convert-webp": "node scripts/convertToWebp.cjs",
     "clean-webp": "node scripts/clean.cjs webp",
-    "replace-img-src": "node scripts/replaceImagesSource.cjs"
+    "transform-image-tags": "node scripts/transformImageTags.cjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.0",

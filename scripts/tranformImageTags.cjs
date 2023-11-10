@@ -16,9 +16,12 @@ posts.forEach((post) => {
     (match, beforeSrc, imgSrc, afterSrc) => {
       console.log(`transforming ${match}`)
       const basename = imgSrc.slice(0, imgSrc.lastIndexOf('.'))
+
       const src = `${basename}_small.webp`
       const srcset = `${basename}_medium.webp 600w, ${basename}_large.webp 900w`
-      return `<img${beforeSrc}src="${src}" srcset="${srcset}"${afterSrc}/>`
+      const sizes = '(max-width: 600px) 100vw, (max-width: 900px) 50vw'
+
+      return `<img${beforeSrc}src="${src}" srcset="${srcset}" sizes="${sizes}"${afterSrc}/>`
     }
   )
 

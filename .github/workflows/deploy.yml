@@ -33,7 +33,7 @@ jobs:
       - name: Transform images (webp) and update markdowns
         run: |
           npm run convert-webp
-          npm run replace-img-src
+          npm run transform-image-tags
 
       - name: Archive transformed images
         uses: actions/upload-artifact@v3
