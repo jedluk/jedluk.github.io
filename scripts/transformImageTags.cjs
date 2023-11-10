@@ -18,10 +18,12 @@ posts.forEach((post) => {
       const basename = imgSrc.slice(0, imgSrc.lastIndexOf('.'))
 
       const src = `${basename}_small.webp`
-      const srcset = `${basename}_medium.webp 600w, ${basename}_large.webp 900w`
-      const sizes = '(max-width: 600px) 100vw, (max-width: 900px) 50vw'
+      const srcset = [
+        `${basename}_medium.webp 840w`,
+        `${basename}_large.webp 1280w`
+      ].join(',')
 
-      return `<img${beforeSrc}src="${src}" srcset="${srcset}" sizes="${sizes}"${afterSrc}/>`
+      return `<img${beforeSrc}src="${src}" srcset="${srcset}"${afterSrc}/>`
     }
   )
 
