@@ -15,13 +15,63 @@ permissions:
   id-token: write
 
 jobs:
+  transform-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Transform images (webp) and update markdowns
+        run: |
+          yarn add sharp@^0.32.6
+          yarn run convert-webp
+          yarn run transform-image-tags
+
+      - name: Archive transformed images
+        uses: actions/upload-artifact@v3
+        with:
+          name: transformed-images
+          path: public/blog/images
+
+      - name: Archive updated markdowns
+        uses: actions/upload-artifact@v3
+        with:
+          name: updated-markdowns
+          path: src/content/blog
+
   build:
+    needs: transform-images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v3
+      # Load transformed images & updated markdowns first
+      - name: Download transformed images
+        uses: actions/download-artifact@v3
+        with:
+          name: transformed-images
+          path: public/blog/images
+
+      - name: Download updated markdowns
+        uses: actions/download-artifact@v3
+        with:
+          name: updated-markdowns
+          path: src/content/blog
+      
+      - name: Show static resources
+        run: |
+          pwd
+          ls public/blog/images
+
+
       - name: Install, build, and upload your site
-        uses: withastro/action@v0
+        uses: withastro/action@v1
         # with:
           # path: . # The root location of your Astro project inside the repository. (optional)
           # node-version: 16 # The specific version of Node that should be used to build your site. Defaults to 16. (optional)
