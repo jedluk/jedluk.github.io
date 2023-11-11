@@ -34,7 +34,7 @@ export default function FlyingTrip() {
   useEffect(() => {
     Promise.all([
       fetch('/blog/assets/tram8.json'),
-      fetch('/blog/assets/szczecin.json'),
+      fetch('/blog/assets/szczecin.json')
     ])
       .then((responses) => Promise.all(responses.map((res) => res.json())))
       .then(([tramRoute, boundaries]) => {
@@ -52,7 +52,7 @@ export default function FlyingTrip() {
     mapRef?.current.jumpTo({
       center: routeCoordinates[lastIdx.current],
       pitch: 70,
-      zoom: 16,
+      zoom: 16
     })
 
     let timeout = null
@@ -76,7 +76,7 @@ export default function FlyingTrip() {
         curve: 1,
         duration: ANIMATION_MOVE_MS,
         easing: (x) => Math.sin((x * Math.PI) / 2),
-        zoom: 16,
+        zoom: 16
       })
 
       lastIdx.current = currentIdx + 1
@@ -95,8 +95,8 @@ export default function FlyingTrip() {
     <Map
       ref={mapRef}
       mapLib={maplibre}
-      initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       minZoom={9}
+      initialViewState={{ longitude: 14.6, latitude: 53.43, zoom: 9.5 }}
       mapStyle="/blog/assets/positron.json"
     >
       <NavigationControl position="top-right" />
@@ -109,14 +109,14 @@ export default function FlyingTrip() {
               'case',
               ['==', ['get', 'route_variant_type'], 'default'],
               'rgb(131, 25, 224)',
-              'rgb(153, 153, 153)',
+              'rgb(153, 153, 153)'
             ],
             'line-width': [
               'case',
               ['==', ['get', 'route_variant_type'], 'default'],
               5,
-              2,
-            ],
+              2
+            ]
           }}
         />
       </Source>
@@ -127,7 +127,7 @@ export default function FlyingTrip() {
           paint={{
             'line-color': 'rgb(140, 41, 49)',
             'line-dasharray': [6, 2],
-            'line-width': 2,
+            'line-width': 2
           }}
         />
       </Source>

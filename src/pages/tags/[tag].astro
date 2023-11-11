@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content'
+import BaseHead from '../../components/BaseHead.astro'
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts'
+import Header from '../../components/Header.astro'
+import Footer from '../../components/Footer.astro'
+import Posts from '../../components/Posts.astro'
+import { getTagsByCount } from '../../lib/tags'
+import Tag from '../../components/Tag.astro'
+import { extractTags } from '../../lib/tags'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  const tags = getTagsByCount(posts)
+
+  return tags
+    .map(([name]) => name)
+    .map((tag) => ({
+      params: { tag },
+      props: {
+        allTags: tags,
+        posts: posts.filter((post) => extractTags(post).includes(tag))
+      }
+    }))
+}
+
+const { allTags, posts } = Astro.props
+const { tag } = Astro.params
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main class="w-[960px]">
+      <div
+        class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1"
+      >
+        {
+          allTags.map(([name, count]) => (
+            <Tag name={name} count={count} selected={tag === name} />
+          ))
+        }
+      </div>
+      <hr class="mb-8" />
+      <section>
+        <Posts data={posts} />
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

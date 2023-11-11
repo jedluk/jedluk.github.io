@@ -1,92 +1,45 @@
 ---
-import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
-import moon from '../assets/moon.svg'
-import sun from '../assets/sun.svg'
+import HeaderLink from './HeaderLink.astro'
+import ThemeIcon from './ThemeIcon.astro'
 ---
 
-<header>
-	<nav>
-		<h2>
-			<a href="/">{SITE_TITLE}</a>
-		</h2>
-		<div class="grow" />
-		<div class="internal-links">
-			<HeaderLink href="/blog">Blog</HeaderLink>
-			<HeaderLink href="/about">About</HeaderLink>
-		</div>
-		<button data-id="theme-toggler" class="w-[35px] h-[35px] md:w-[50px] md:h-[50px] flex justify-center items-center rounded-md hover:bg-slate-100">
-			<img data-theme="light" class="hidden invert" src={sun.src} alt="sun" />
-			<img data-theme="dark" class="hidden" src={moon.src} alt="moon" /> 
-		</button>
-	</nav>
+<header
+  class="bg-white dark:bg-[var(--bg-dark-light)] m-0 py-0 px-[1em] shadow-md"
+>
+  <nav class="flex items-center justify-between whitespace-nowrap">
+    <a href="/">
+      <img
+        class="w-8 h-8 md:w-10 md:h-10 rounded-md hover:-translate-y-1 shadow-md shadow-violet-400/50 ease-linear duration-200"
+        src="/jl.svg"
+        alt="Jedrzej Lukasiuk home"
+      />
+    </a>
+    <div class="grow"></div>
+    <div class="internal-links">
+      <HeaderLink href="/blog/1">Blog</HeaderLink>
+      <HeaderLink href="/about">About</HeaderLink>
+    </div>
+    <ThemeIcon />
+  </nav>
 </header>
-<script>
-	const body = document.querySelector('body')
-	let theme = body?.dataset.theme ?? 'light'
 
-	document.querySelector("[data-id='theme-toggler']")?.addEventListener('click', function () {
-		if (body !== null) {
-			theme = theme === 'light' ? 'dark' : 'light'
-			body.dataset.theme = theme
-			localStorage.setItem('theme', theme)
-		}
-	})
-</script>
 <style>
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
-	}
-	body[data-theme="dark"] header {
-		background: var(--bg-dark-light);
-	}
-	body[data-theme="light"] img[data-theme="dark"] {
-		display: block;
-	}
-	body[data-theme="dark"] img[data-theme="light"] {
-		display: block;
-	}
-	body[data-theme="dark"] header button:last-of-type:hover {
-		background-color: var(--bg-dark);
-	}
-	h2 {
-		margin: 0;
-		font-size: 1em;
-	}
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	nav a {
-		padding-inline: 0.5em;
-		padding-top: 1em;
-		padding-bottom: 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	@media (max-width: 576px) {
-		nav {
-			white-space: no-wrap;
-		}
-		nav a {
-			padding: 0.5em 0.2rem;
-			margin-right: 0.5rem;
-		}
-		button[data-id="theme-toggler"] {
-			margin-bottom: 4px;
-		}
-	}
+  nav a {
+    padding-inline: 0.5em;
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+    color: var(--black);
+    border-bottom: 4px solid transparent;
+    text-decoration: none;
+  }
+  nav a.active {
+    text-decoration: none;
+    border-bottom-color: var(--accent);
+  }
+  @media (max-width: 576px) {
+    nav a {
+      padding: 0.5em 0.2rem;
+      margin-right: 0.5rem;
+    }
+  }
 </style>

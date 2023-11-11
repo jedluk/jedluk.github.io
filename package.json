@@ -8,10 +8,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "format": "prettier --write . --plugin=prettier-plugin-astro",
     "astro": "astro",
     "convert-webp": "node scripts/convertToWebp.cjs",
-    "replace-img-src": "node scripts/replaceImageSource.cjs",
-    "clean-webp": "node scripts/clean.cjs webp"
+    "clean-webp": "node scripts/clean.cjs webp",
+    "transform-image-tags": "node scripts/transformImageTags.cjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.0",
@@ -33,6 +34,8 @@
   },
   "devDependencies": {
     "mapbox-gl": "^2.15.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.1",
     "sharp": "^0.32.6"
   }
 }
