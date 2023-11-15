@@ -1,0 +1,30 @@
+---
+title: 'Gabor filter'
+description: 'Gabor filter visualization in matplotlib'
+pubDate: 'Nov 15 2023'
+heroImage: '/blog/images/gabor_wave.png'
+tags: ['python']
+---
+
+Dennis Gabor (1900-1979) was Hungarian electrical engineer and physicst. He is most known for inventing holography, for which
+he won Nobel Prize in 1971. Among many other achievements he proposed so called Gabor filter , which will be subject of discussion
+in current post.
+
+From mathematical point of view filter is obtained by mulitpling sinusoid by Gaussian function (<i>j</i> represtens imaginary unit). 
+
+import Latex from '../../components/Latex.astro'
+
+<Latex formula='g(x,y) = e^{j2 \pi fx_0} \times e^{-\frac{1}{2} \left(\frac{x_{\theta}^2}{\sigma_x^2} + \frac{x_{\theta}^2}{\sigma_y^2} \right)}'/>
+
+The coordinates x and y are rotated in the xy plane by <i>theta</i> angle. They can be obtained ussing following formula:
+<Latex formula={`
+    \\begin{aligned} 
+    x_\\theta &= &xcos_\\theta + ysin_\\theta \\\\ 
+    y_\\theta &= - &xsin_\\theta + ycos\\theta \\end{aligned}
+    `}
+/>
+
+
+That's all what I planned for today. In next posts you will find information how to use Gabor filters to 
+realize certain image processing algorithms. Btw. if you've noticed that equation are not written in standard HTML way, I'll suggest you to read about [KaTeX](https://katex.org/), which is 
+web wrapper for [LaTeX](https://www.latex-project.org).
