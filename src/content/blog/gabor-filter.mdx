@@ -1,15 +1,15 @@
 ---
 title: 'Gabor filter'
 description: 'Gabor filter visualization in matplotlib'
-pubDate: 'Nov 15 2023'
-heroImage: '/blog/images/gabor_wave.png'
+pubDate: 'Nov 16 2023'
+heroImage: '/blog/images/gabor_mask1.png'
 tags: ['python']
 ---
 import Latex from '../../components/Latex.astro'
 
 
 Dennis Gabor (1900-1979) was Hungarian electrical engineer and physicst. He is most known for inventing holography, for which
-he won Nobel Prize in 1971. Among many other achievements he proposed so called Gabor filter (1D version, later generalized into 2D) , which will be subject of discussion
+he received Nobel Prize in 1971. Among many other achievements he proposed so called Gabor filter (1D version, later generalized into 2D) , which will be subject of discussion
 in current post.
 
 From mathematical point of view two-dimensional Gabor filter is obtained by mulitpling complex sinusoid (referred to as the carrier) by Gaussian 
@@ -38,24 +38,33 @@ initial equation can be transformed using [Euler's formula](https://en.wikipedia
     className="text-base/10 text-center mb-2"
 />
 
-In practical applications, the even part (based on cosine, which is an even function) or the odd part (based on sine) is usually used. Example filter (even part) with its 
+In practical applications, the even part (based on cosine carrier, which is an even function) or the odd part (based on sine) is usually used. Example filter (even part) with its 
 components is presented below (<i>f=0.4, sigma=2, theta=pi/4, psi=pi/4</i>)
 
-<div class="flex flex-col items-center sm:flex-row justify-center flex-wrap [&>img]:w-[48%] [&>img]:h-[150px] sm:[&>img]:h-[250px]">
+<div class="flex flex-col gap-2 items-center sm:flex-row justify-center flex-wrap [&>img]:grow [&>img]:h-[150px] sm:[&>img]:h-[250px]">
     <img alt="carrier" src="/blog/images/gabor_envelope.png" />
     <img alt="evelope" src="/blog/images/gabor_carrier.png" />
     <img alt="gabor filter" src="/blog/images/gabor_full.png" />
 </div>
 
-OK, now you can ask long awaited question: where it is actually used ? It turns out that it can be utilized in image processing, primarly in texture analysis. Thanks
-to adjustable filter parameters (frequency and orientation) we can identify image features like edges, or in more general extract features from image. Feature extraction 
-is based on a two-dimensional discrete convolution operation, where as a mask we use Gabor filter. As a mask we understand 2D image, which as a pixels stores values of the 
-complex Gabor function calculated at discrete points. Example masks you can see below.
+OK, now you can ask long awaited question: where it is actually used ? It turns out that it can be utilized in image processing, primarly in texture analysis. And to be honest with you 
+it was main topic in my engineering thesis😅. I'm not considering myself as expert in this matter, but as a practitioner. Thanks to adjustable filter parameters (frequency and orientation) we can identify image features like edges, or in more general extract 
+features from image. Feature extraction is based on a two-dimensional discrete convolution operation, where as a mask we use Gabor filter. As a mask we understand 2D image, which as a pixels stores values of the 
+complex Gabor function calculated at discrete points. Example masks you can find below (see how frequency and orientation effects on mask shape).
 
-That's all I planned for today. In next posts you will find information how to use Gabor filters to 
+<div class="px-2 flex flex-col sm:flex-row gap-2 items-center justify-center">
+    <img alt="gabor mask variant 1" src="/blog/images/gabor_mask1.png" />
+    <img alt="gabor mask variant 2" src="/blog/images/gabor_mask2.png" />
+</div>
+
+
+Alright, since we've just delved into some heavy mathematics, it's a suitable time to wrap up for today and take a breather. Just to sum up from technical aspects I used simple Python 
+script with <i>matplotlib</i> and <i>numpy</i> to visualize filters. Entire script you can find [here](/blog/assets/gabor.py).
+
+In next posts you will find information how to use Gabor filters to 
 realize certain image processing algorithms. Btw. if you've noticed that equations are not written in standard HTML way, 
 I'll suggest you to read about [KaTeX](https://katex.org/), which is web wrapper for
 
 <Latex formula='\LaTeX' />
 
-I'll adding LaTeX to my list of upcoming posts as well, so stay tuned. See you in next episode !
+I'am adding LaTeX to my list of upcoming posts as well, so stay tuned. See you in next episode !
