@@ -3,3 +3,4 @@
 
 export const SITE_TITLE = 'Lukasiuk Home'
 export const SITE_DESCRIPTION = 'Welcome to Jedrzej Lukasiuk website!'
+export const PAGINATION_SIZE = 5
