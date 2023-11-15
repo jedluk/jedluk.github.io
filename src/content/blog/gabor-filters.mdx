@@ -1,30 +1,58 @@
 ---
 title: 'Gabor filter'
 description: 'Gabor filter visualization in matplotlib'
-pubDate: 'Nov 15 2023'
+pubDate: 'Nov 16 2023'
 heroImage: '/blog/images/gabor_wave.png'
 tags: ['python']
 ---
-
-Dennis Gabor (1900-1979) was Hungarian electrical engineer and physicst. He is most known for inventing holography, for which
-he won Nobel Prize in 1971. Among many other achievements he proposed so called Gabor filter , which will be subject of discussion
-in current post.
-
-From mathematical point of view filter is obtained by mulitpling sinusoid by Gaussian function (<i>j</i> represtens imaginary unit). 
-
 import Latex from '../../components/Latex.astro'
 
-<Latex formula='g(x,y) = e^{j2 \pi fx_0} \times e^{-\frac{1}{2} \left(\frac{x_{\theta}^2}{\sigma_x^2} + \frac{x_{\theta}^2}{\sigma_y^2} \right)}'/>
 
-The coordinates x and y are rotated in the xy plane by <i>theta</i> angle. They can be obtained ussing following formula:
+Dennis Gabor (1900-1979) was Hungarian electrical engineer and physicst. He is most known for inventing holography, for which
+he won Nobel Prize in 1971. Among many other achievements he proposed so called Gabor filter (1D version, later generalized into 2D) , which will be subject of discussion
+in current post.
+
+From mathematical point of view two-dimensional Gabor filter is obtained by mulitpling complex sinusoid (referred to as the carrier) by Gaussian 
+function (referred to as an envelope)
+
+<Latex 
+    formula='g(x,y) = e^{i (2\pi f x_{\theta} + \psi) } \times e^{-\frac{1}{2} \left(\frac{x_{\theta}^2}{\sigma_x^2} + \frac{x_{\theta}^2}{\sigma_y^2} \right)}' 
+    className="text-center mb-1" 
+/>
+
+where <i>i</i> represtens imaginary unit , <i>psi</i> - phase and <i>sigma</i> standard deviation of the envelope in the x and y axes. The coordinates x and y are 
+rotated in the xy plane by <i>theta</i> angle. They can be obtained using following formula:
 <Latex formula={`
     \\begin{aligned} 
-    x_\\theta &= &xcos_\\theta + ysin_\\theta \\\\ 
-    y_\\theta &= - &xsin_\\theta + ycos\\theta \\end{aligned}
+    x_\\theta &= &x\\cos(\\theta) + y\\sin(\\theta) \\\\ 
+    y_\\theta &= - &x\\sin(\\theta) + y\\cos(\\theta )\\end{aligned}
     `}
 />
 
+initial equation can be transformed using [Euler's formula](https://en.wikipedia.org/wiki/Euler%27s_formula) to a form
+
+<Latex formula={` g(x,y) = 
+    \\cos(2\\pi fx_{\\theta} + \\psi) \\cdot e^{-\\frac{1}{2} \\left(\\frac{x_{\\theta}^2}{\\sigma_x^2} + \\frac{x_{\\theta}^2}{\\sigma_y^2} \\right)}
+    + i\\sin(2\\pi fx_{\\theta} + \\psi) \\cdot e^{-\\frac{1}{2} \\left(\\frac{x_{\\theta}^2}{\\sigma_x^2} + \\frac{x_{\\theta}^2}{\\sigma_y^2} \\right)}
+    `}
+    className="text-base/10 text-center mb-2"
+/>
+
+In practical applications, the even part (based on cosine, which is an even function) or the odd part (based on sine) is usually used. Example filter (even part) with its 
+components is presented below (<i>f=0.4, sigma=2, theta=pi/4, psi=pi/4</i>)
+
+<div class="flex flex-col items-center sm:flex-row justify-center flex-wrap [&>img]:w-[48%]">
+    <img alt="carrier" src="/blog/images/gabor_envelope.png" />
+    <img alt="evelope" src="/blog/images/gabor_carrier.png" />
+    <img alt="gabor filter" src="/blog/images/gabor_full.png" />
+</div>
+
+OK, now you can ask long awaited question: where it is actually used ? It turns out that it is used in image processing.
 
 That's all what I planned for today. In next posts you will find information how to use Gabor filters to 
-realize certain image processing algorithms. Btw. if you've noticed that equation are not written in standard HTML way, I'll suggest you to read about [KaTeX](https://katex.org/), which is 
-web wrapper for [LaTeX](https://www.latex-project.org).
+realize certain image processing algorithms. Btw. if you've noticed that equations are not written in standard HTML way, 
+I'll suggest you to read about [KaTeX](https://katex.org/), which is web wrapper for
+
+<Latex formula='\LaTeX' />
+
+I'll adding LaTeX to my list of upcoming posts as well, so stay tuned. See you in next episode !
