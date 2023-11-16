@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   transform-images:
+    if: false # astro has a problem of showing smaller images. Disabling job to figure out why
     runs-on: ubuntu-latest
 
     steps:
@@ -52,23 +53,22 @@ jobs:
       - name: Checkout your repository using git
         uses: actions/checkout@v3
       # Load transformed images & updated markdowns first
-      - name: Download transformed images
-        uses: actions/download-artifact@v3
-        with:
-          name: transformed-images
-          path: public/blog/images
+      # - name: Download transformed images
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: transformed-images
+      #     path: public/blog/images
 
-      - name: Download updated markdowns
-        uses: actions/download-artifact@v3
-        with:
-          name: updated-markdowns
-          path: src/content/blog
+      # - name: Download updated markdowns
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: updated-markdowns
+      #     path: src/content/blog
       
-      - name: Show static resources
-        run: |
-          pwd
-          ls public/blog/images
-
+      # - name: Show static resources
+      #   run: |
+      #     pwd
+      #     ls public/blog/images
 
       - name: Install, build, and upload your site
         uses: withastro/action@v1
