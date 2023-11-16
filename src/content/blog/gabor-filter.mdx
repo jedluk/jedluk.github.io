@@ -1,6 +1,6 @@
 ---
 title: 'Gabor filter'
-description: 'Gabor filter visualization in matplotlib'
+description: 'Gabor filter: math basis and visualization in Python with matplotlib'
 pubDate: 'Nov 16 2023'
 heroImage: '/blog/images/gabor_mask1.png'
 tags: ['python']
@@ -52,7 +52,7 @@ it was main topic in my engineering thesis😅. I'm not considering myself as ex
 features from image. Feature extraction is based on a two-dimensional discrete convolution operation, where as a mask we use Gabor filter. As a mask we understand 2D image, which as a pixels stores values of the 
 complex Gabor function calculated at discrete points. Example masks you can find below (see how frequency and orientation effects on a mask).
 
-<div class="px-2 flex flex-col md:flex-row gap-2 items-center justify-center [&>img]:flex-grow">
+<div class="px-2 flex items-center justify-around flex-col md:flex-row gap-2 md:[&>img]:max-w-[50%]">
     <img alt="gabor mask variant 1" src="/blog/images/gabor_mask1.png" />
     <img alt="gabor mask variant 2" src="/blog/images/gabor_mask2.png" />
 </div>
