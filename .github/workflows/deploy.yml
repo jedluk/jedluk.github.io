@@ -15,39 +15,39 @@ permissions:
   id-token: write
 
 jobs:
-  # disable job temporarily to figure out why astro has problem with serving images for smaller resolutions
-  # transform-images:
-  #   runs-on: ubuntu-latest
+  transform-images:
+    if: false # disable job temporarily to figure out why astro has problem with serving images for smaller resolutions
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-  #     - name: Transform images (webp) and update markdowns
-  #       run: |
-  #         yarn add sharp@^0.32.6
-  #         yarn run convert-webp
-  #         yarn run transform-image-tags
+      - name: Transform images (webp) and update markdowns
+        run: |
+          yarn add sharp@^0.32.6
+          yarn run convert-webp
+          yarn run transform-image-tags
 
-  #     - name: Archive transformed images
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: transformed-images
-  #         path: public/blog/images
+      - name: Archive transformed images
+        uses: actions/upload-artifact@v3
+        with:
+          name: transformed-images
+          path: public/blog/images
 
-  #     - name: Archive updated markdowns
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: updated-markdowns
-  #         path: src/content/blog
+      - name: Archive updated markdowns
+        uses: actions/upload-artifact@v3
+        with:
+          name: updated-markdowns
+          path: src/content/blog
 
   build:
-    needs: transform-images
+    # needs: transform-images
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
