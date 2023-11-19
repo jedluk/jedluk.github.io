@@ -1,0 +1,27 @@
+---
+title: 'Whats is the weather?'
+description: 'Build global low resolution temperature map with NOAA and GDAL'
+pubDate: 'Nov 21 2023'
+heroImage: '/blog/images/global_temperature_map.png'
+tags: ['bash']
+---
+import NOAALink from '../../components/blog-samples/NOAALink.jsx'
+
+Today I'll show you how in few simple steps build low resolution (0.25 degree) global temperature map, similar to 
+[Ventusky](https://www.ventusky.com/) is offering. I'll use data provided by - [National Oceanic and 
+Atmosfpheric Admistation](https://nomads.ncep.noaa.gov/), which is common source in case of similar visualizations.
+
+When comes to global temperature map first thing we should talk about is so called resolution. It determines the 
+number of nodal points for which the value of the interpolated parameter is assigned. To clarify what I'm talking
+about take a look on image below.
+<div class="flex justify-center [&>img]:w-[200px] sm:[&>img]:w-[300px]">
+    <img src="/blog/images/grid.png" alt="grid" />
+</div>
+
+Vertical lines represents meridians, horizontal lines - parallels, dots - nodal points. In such case (please note numbers 
+assigned) resolution is equal 0.25 degree. Another commonly used resolutions are 0.5 degree and 1 degree (please note that smaller 
+resolution results in better quality). Knowing that 1° of latitude is equal around 111 kilometers we can easily calculate that in 
+model will be calculate each 27.8 km. You might argue that it is high already resolution, but nowdays we can easily observe that temperature
+across one city might vary by several Celsius degrees, therefore I would be reserved with such judgments. 
+
+{/* <img src="/blog/images/gfs_setup.png" alt="GFS setup" /> */}
