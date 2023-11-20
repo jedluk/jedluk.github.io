@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import TechIcon from '../components/TechIcon.astro'
 ---
 
 <!doctype html>
@@ -42,42 +43,54 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
       <div
         class="tech-icons absolute top-0 left-0 w-full h-full overflow-hidden -z-10 [&>div]:block [&>div]:absolute [&>div]:bottom-[-150px] [&>div]:bg-center [&>div]:bg-contain [&>div]:bg-no-repeat"
       >
-        <div
-          class="bg-[url('/tech/osm.svg')] w-20 h-20 left-1/4 animate-tech animation-delay-0"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/react.svg')] w-8 h-8 left-[10%] animate-tech animation-delay-[2000ms] animation-duration-[12000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/clickhouse.svg')] w-8 h-8 left-3/4 animate-tech animation-delay-[4000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/js.svg')] w-16 h-16 left-[40%] animate-tech animation-delay-[2500ms] animation-duration-[18000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/ts.svg')] w-8 h-8 left-[65%] animate-tech animation-delay-[3000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/maplibre.svg')] w-28 h-28 left-[10%] animate-tech animation-delay-[3000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/python.svg')] w-14 h-14 left-[20%] animate-tech animation-delay-[7000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/nodejs.svg')] left-1/2 w-7 h-7 animate-tech animation-delay-[4000ms] animation-duration-[20000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/opencv.svg')] -right-2 w-36 h-36 animate-tech animation-delay-0 animation-duration-[11000ms]"
-        >
-        </div>
+        <TechIcon
+          icon="osm.svg"
+          classes="w-20 h-20 left-1/4"
+          animationDelay={2000}
+        />
+        <TechIcon
+          icon="react.svg"
+          classes="w-8 h-8 left-[10%]"
+          animationDelay={2000}
+          animationTime={12_000}
+        />
+        <TechIcon
+          icon="clickhouse.svg"
+          classes="w-8 h-8 left-3/4"
+          animationDelay={4000}
+        />
+        <TechIcon
+          icon="js.svg"
+          classes="w-16 h-16 left-[40%]"
+          animationDelay={1500}
+          animationTime={18000}
+        />
+        <TechIcon
+          icon="ts.svg"
+          classes="w-8 h-8 left-[65%]"
+          animationDelay={3000}
+        />
+        <TechIcon
+          icon="maplibre.svg"
+          classes="w-28 h-28 left-[10%]"
+          animationDelay={3000}
+        />
+        <TechIcon
+          icon="python.svg"
+          classes="w-14 h-14 left-[20%]"
+          animationDelay={7000}
+        />
+        <TechIcon
+          icon="nodejs.svg"
+          classes="left-1/2 w-7 h-7"
+          animationDelay={4000}
+          animationTime={20000}
+        />
+        <TechIcon
+          icon="opencv.svg"
+          classes="-right-2 w-36 h-36"
+          animationTime={11000}
+        />
       </div>
     </main>
     <Footer />

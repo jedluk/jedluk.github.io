@@ -1,0 +1,24 @@
+---
+interface Props {
+  icon: string
+  animationDelay?: number
+  classes?: string
+  animationTime?: number
+}
+
+const {
+  icon,
+  classes = '',
+  animationDelay = 0,
+  animationTime = 25_000
+} = Astro.props
+---
+
+<div
+  class={[
+    `bg-[url('/tech/${icon}')]`,
+    `animate-tech animation-delay-[${animationDelay}ms] animation-duration-[${animationTime}ms]`,
+    classes
+  ].join(' ')}
+>
+</div>
