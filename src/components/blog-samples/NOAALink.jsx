@@ -21,7 +21,7 @@ export default function NOAALink() {
       rel="noopener noreferrer"
       href={`https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl?dir=${dir}`}
     >
-      NOAA GFS page
+      NOAA Global Forecast System
     </a>
   )
 }
