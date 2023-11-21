@@ -7,6 +7,7 @@ old_files=(
     "temp_color.tif" 
     "output.tif"
     "output.png"
+    "output.tif.aux.xml",
     "output.png.aux.xml"
 )
 

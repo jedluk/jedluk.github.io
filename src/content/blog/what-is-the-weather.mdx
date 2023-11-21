@@ -145,7 +145,7 @@ gdaldem color-relief temp.tif palette_celsius.txt temp_color.tif -alpha
 <i>gdal_translate</i> does exactly thing as it says - converts raster between 2 different formats. By adding <i>a_srs</i> argument we change projection into EPSG:4326. 
 As an output we get TIFF image. Second command converts grayscale image into colorful image using  `palette_celsius.txt`. This simple file contains 4 columns:
 temperature value (in Celsius) as well as three color components R, G, B associated with this value. In each next row we define color for different value in ascending order.
-I'm borrowing colors and thresholds from ventusky website. Entire file content you can see below.
+I'm borrowing colors and thresholds from Ventusky website. Entire file content you can see below.
 
 ```txt
 -40 238 238 238
@@ -166,10 +166,11 @@ I'm borrowing colors and thresholds from ventusky website. Entire file content y
 ```
 If you get lost somwhere around the road, you can see entire bash script [here](/blog/assets/gen_temp_map.sh). Keep in my mind 
 that in corner case which I did not cover, script will not generate image cause NOAA folder does not exist yet (folders are not 
-created punctually at the times they are named). In such case you can manually overwrite hour with previous one. I'm running the script and open the image. Now I know what is the weather 😅.
+created punctually, there is always some delay). In such case you can manually overwrite hour with previous one. I'm running the 
+script and view the image. Now I know what is the weather 😅.
 
 <img src="/blog/images/global_temperature_map.png" alt="Global temperature map" />
-<div class="flex mt-4 [&>div]:h-[30px] [&>div]:grow [&>div]:text-center flex-wrap">
+<div class="flex mt-2 [&>div]:h-[20px] sm:[&>div]:h-[30px] [&>div]:grow [&>div]:text-center flex-wrap [&>div]:text-sm sm:[&>div]:text-lg">
     <div class="bg-[rgb(238,238,238)]">
         <span>-40</span>
     </div>
@@ -217,7 +218,8 @@ created punctually at the times they are named). In such case you can manually o
     </div>
 </div>
 
-Pretty cool as for couple of bash commands don't you think ? Just to make things clear typically RGB image is not send to the frontend application.
-Usually app fetches grayscale image, then it's drawn on a canvas using webgl shaders, where color pallete is applied. But the script I've prepared 
-is perfect for home made visualizations. That's all what I've prepared for today. I hope next time you'll think about the weather You just run the script.
-See you soon! 
+Pretty cool as for tiny bash script don't you think ? Just to make things clear typically RGB image is not send to the frontend application.
+Usually app fetches grayscale image, which is later drawn on a canvas using WebGL shaders, where color pallete is applied. But the script I've prepared 
+is perfect for home made visualizations. NOAA gives you limitless possibilities , you can check temperature on different levels (even below the ground!). Also 
+other parameters are available like relative humidity, pressure , wind speed. It's very good place to experiments. That's all what I wanted to share today. 
+I hope next time you'll think about the weather You just run the script 🤣. See you soon! 
