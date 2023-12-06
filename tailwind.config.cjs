@@ -25,21 +25,9 @@ module.exports = {
     }
   },
   plugins: [
-    plugin(function ({ addVariant, matchUtilities }) {
+    plugin(function ({ addVariant }) {
       addVariant('selected', '&[data-selected="true"]')
       addVariant('allowed', '&[data-allowed="true"]')
-      matchUtilities({
-        'animation-delay': (value) => {
-          return {
-            'animation-delay': value
-          }
-        },
-        'animation-duration': (value) => {
-          return {
-            'animation-duration': value
-          }
-        }
-      })
     })
   ]
 }
