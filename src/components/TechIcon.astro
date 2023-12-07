@@ -2,7 +2,6 @@
 interface Props {
   icon: string
   delay?: number
-  animationDelay?: number
   classes?: string
   animationTime?: number
 }
@@ -15,10 +14,7 @@ const animationDuration = `${animationTime}s`
 ---
 
 <div
-  class={[
-    `bg-[url('/tech/${icon}')]`,
-    `animate-tech animation-delay-[${animationDelay}ms] animation-duration-[${animationTime}ms]`,
-    classes
-  ].join(' ')}
+  style={{ backgroundImage, animationDelay, animationDuration }}
+  class=`absolute -bottom-[150px] block animate-tech bg-center bg-contain bg-no-repeat ${classes}`
 >
 </div>
