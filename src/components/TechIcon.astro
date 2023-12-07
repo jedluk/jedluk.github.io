@@ -1,17 +1,17 @@
 ---
 interface Props {
   icon: string
+  delay?: number
   animationDelay?: number
   classes?: string
   animationTime?: number
 }
 
-const {
-  icon,
-  classes = '',
-  animationDelay = 0,
-  animationTime = 25_000
-} = Astro.props
+const { icon, classes = '', delay = 0, animationTime = 25 } = Astro.props
+
+const backgroundImage = `url('/tech/${icon}')`
+const animationDelay = `${delay}s`
+const animationDuration = `${animationTime}s`
 ---
 
 <div
