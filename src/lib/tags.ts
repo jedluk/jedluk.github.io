@@ -18,6 +18,8 @@ export function getTagsByCount(posts: CollectionEntry<'blog'>[]): TagInfo[] {
 
   return Array.from(tagsCountMap.entries()).sort(
     ([name1, count1], [name2, count2]) =>
-      count1 === count2 ? (name1 > name2 ? 1 : -1) : count2 > count1 ? 1 : -1
+      count1 === count2
+        ? name1 > name2 ? 1 : -1
+        : count2 > count1 ? 1 : -1
   )
 }

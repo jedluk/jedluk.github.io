@@ -1,0 +1,138 @@
+---
+title: 'Tags in Astro'
+description: 'Comprehensive guide to include tags for your blog in Astro.'
+pubDate: 'Dec 11 2023'
+heroImage: '/blog/images/astro-tags.svg'
+tags: ['JS', 'Astro']
+---
+
+I'm still learning about [Astro](https://astro.build/) environment, but today I want to share with You how I approached adding 
+tags to my blog.
+
+All the posts are written with Markdown / MDX (markdown on steroids which allow to embeed JSX elements). Each such file 
+has structured content, and by that, I mean:
+
+<ul>
+    <li>header</li>
+    <li>actual post content</li>
+</ul>
+
+Example header looks like below:
+
+```md
+---
+title: 'Introduction to OpenCV'
+description: 'Applying basics image processing operations in OpenCV with Python'
+pubDate: 'Sep 26 2023'
+heroImage: '/blog/images/bambo_bin.jpg'
+tags: ['python', 'openCV']
+---
+```
+
+As you can suspect all those fields are later used on blog page, where all articles are listed. Also they match <i>schema</i> defined
+in config located inside <i>content</i> dir.
+```js
+import { defineCollection, z } from 'astro:content'
+
+const blog = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    tags: z.array(z.string()),
+    updatedDate: z.coerce.date().optional(),
+    heroImage: z.string().optional()
+  })
+})
+```
+
+Idea behind collecting tags is rather simple. First of all you have to know that Astro is static site builder.
+It means it does a significant job during the build, generating HTML files which later, on runtime, are sent to a browser. It's opposite 
+approach to SPA (Single Page Application), where entire application is bundled during the build and later, on runtime, sent to a client where DOM is 
+dynamically build. Astro exposes API to enhance page content during the build. One of such functions is [getStaticPaths](https://docs.astro.build/pl/reference/api-reference/#getstaticpaths). 
+This function works for dynamic pages only (those files which are surrounded by square brackets - like [page].astro). Function should return array of object which are pre-rendered by astro.
+Also it allows to provide custom props for each page. It's perfect place to pass tags. As mentioned earlier procedure of generating tags is not complicated at all:
+<ul>
+  <li>all tags (from all articles) are extracted and transformed to lowercase (avoid duplication in case of case insensitive notation)</li>
+  <li>tags are counted based on its name</li>
+  <li>tags are sorted based on count and by name</li>
+</ul> 
+
+Function which takes collection of posts and returns array of tuples (name with tag count) is presented below.
+
+```js
+export function extractTags(post: CollectionEntry<'blog'>): string[] {
+  return post.data.tags.map((tag) => tag.toLowerCase())
+}
+
+export function getTagsByCount(posts: CollectionEntry<'blog'>[]): [string, number][] {
+  const tagsCountMap = posts
+    .map(extractTags)
+    .flat()
+    .reduce(
+      (acc, tag) => acc.set(tag, (acc.get(tag) ?? 0) + 1),
+      new Map<string, number>()
+    )
+
+  return Array.from(tagsCountMap.entries()).sort(
+    ([name1, count1], [name2, count2]) =>
+      count1 === count2
+        ? name1 > name2 ? 1 : -1
+        : count2 > count1 ? 1 : -1
+  )
+}
+```
+
+This function operates on collection of posts. But it's still not clear where to get this. The previously mentioned functioin - <i>getStaticPaths</i> - comes to our aid.
+Due to its async nature we are able to read entire collection first (built-in <i>getCollection</i> function). Our job is to transform all posts and return Astro-understable
+objects. I'm doing following then:
+<ul>
+  <li>read all posts</li>
+  <li>sort them by publication date (newest goes first)</li>
+  <li>use built-in <i>paginate</i> function to slice all posts into chunks (each chunk will be rendered to different page:
+  `/blog/1`, `/blog/2`, ...), based on provided size</li>
+  <li>add additional props for each page (like tags)</li>
+</ul>
+
+
+```js
+export async function getStaticPaths({
+  paginate
+}): Promise<Page<CollectionEntry<'blog'>>> {
+  const posts = await getCollection('blog')
+  const sortedPosts = posts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  )
+  return paginate(sortedPosts, {
+    pageSize: PAGINATION_SIZE,
+    props: {
+      tags: getTagsByCount(sortedPosts)
+    }
+  })
+}
+```
+Last but not least <i>tags</i> props is used when defining view. Please note I'm using Astro component, not React one (the way how we create 
+them is similar, but component definition differs).
+```jsx
+<div
+  class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1"
+>
+  {tags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
+</div>
+```
+
+The result of above mentioned effort is visible [here](/blog/1), on top of the page. Also, each tag is interactive so after clicking on it
+you'll be redirected to a dynamic page which contain filtered posts. Hint: it's also done with <i>getStaticPaths</i> function.
+
+That's all I wanted to share today. As you could see, adding tags with Astro is a fairly simple task. Also, for some of you, the getStaticPath function may 
+be associated with the Next.js (up to version 12). Even though these two frameworks are somewhat similar in some aspects, Astro focuses on its own architecture 
+called Astro Island. Next.js, on the other hand, has moved towards Server-Side Components and server actions. It's yet another topic to blog, to compare both 😅 
+
+As the holidays are approaching rapidly, I would like to wish you and your loved ones a healthy, joyful, and family-filled celebration. May they be a time of relaxation and rejuvenation.
+
+P.S. I have plan to release 2 posts until end of the year , so stay tuned!
+
+
+
+
+
