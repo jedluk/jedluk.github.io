@@ -1,9 +1,120 @@
 ---
 title: 'Tags in Astro'
-description: 'Comprehensive guide to add tags for your blog in Astro.'
-pubDate: 'Nov 30 2023'
+description: 'Comprehensive guide to include tags for your blog in Astro.'
+pubDate: 'Dec 12 2023'
 heroImage: '/blog/images/astro-tags.svg'
 tags: ['JS', 'Astro']
 ---
 
-Today I . As 
+I'm still learning about [Astro](https://astro.build/) environment, but today I want to share with You how I approached adding 
+tags to content on my blog.
+
+All the posts on my blog are written with Markdown / MDX (markdown on steroids which allow to embeed JSX elements). Each such file 
+has structured content, and I mean it:
+
+<ul>
+    <li>header</li>
+    <li>actual post content</li>
+</ul>
+
+Example header looks like below:
+
+```md
+---
+title: 'Introduction to OpenCV'
+description: 'Applying basics image processing operations in OpenCV with Python'
+pubDate: 'Sep 26 2023'
+heroImage: '/blog/images/bambo_bin.jpg'
+tags: ['python', 'openCV']
+---
+```
+
+As you can suspect all those fields are later used on blog main page, where all articles are listed. Also they match <i>schema</i> defined
+in config located inside <i>content</i> dir.
+```js
+import { defineCollection, z } from 'astro:content'
+
+const blog = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    tags: z.array(z.string()),
+    updatedDate: z.coerce.date().optional(),
+    heroImage: z.string().optional()
+  })
+})
+```
+
+Idea behind collecting tags is rather simple. First of all you have to know that Astro is static site builder.
+It means it does a significant job during the build, generating HTML files which later, on runtime, are sent to a browser. It's opposite 
+approach to SPA (Single Page Application), where entire application is bundled during the build and later, on runtime, sent to a client, where DOM is 
+dynamically build. Astro exposes API to enhance static content during the build. One of such functions is [getStaticPaths](https://docs.astro.build/pl/reference/api-reference/#getstaticpaths). 
+This function works for dynamic pages (those files which are surrounded by square brackets - []). Function should return array of object which are pre-rendered by astro.
+Also it allows to provide custom props for each page. It's perfect place to pass tags. As mentioned earlier procedure of generating tags is not complicated at all:
+<ul>
+  <li>all tags are extracted and transformed to lowercase (avoid duplication in case of case insensitive notation)</li>
+  <li>tags are counted based on its name</li>
+  <li>tags are sorted based on count and later by name</li>
+  <li>tags are passed as a props</li>
+</ul> 
+
+Function which takes collection of posts and returns array of tuples (name with tag count) is presented below.
+
+```js
+export function extractTags(post: CollectionEntry<'blog'>): string[] {
+  return post.data.tags.map((tag) => tag.toLowerCase())
+}
+
+export function getTagsByCount(posts: CollectionEntry<'blog'>[]): [string, number][] {
+  const tagsCountMap = posts
+    .map(extractTags)
+    .flat()
+    .reduce(
+      (acc, tag) => acc.set(tag, (acc.get(tag) ?? 0) + 1),
+      new Map<string, number>()
+    )
+
+  return Array.from(tagsCountMap.entries()).sort(
+    ([name1, count1], [name2, count2]) =>
+      count1 === count2 ? (name1 > name2 ? 1 : -1) : count2 > count1 ? 1 : -1
+  )
+}
+```
+
+This function is used inisde <i>getStaticPaths</i>. We should return list of objects based on which paths will be pre-rendered.
+I'm doing following:
+<ul>
+  <li>read all posts</li>
+  <li>sort them by publication date (newest first)</li>
+  <li>use built-in <i>paginate</i> function to slice all posts into chunks (each chunk will be rendered to different page:
+  `/blog/1`, `/blog/2`, ...)</li>
+  <li>add additional props for each page (like tags)</li>
+</ul>
+
+
+```js
+export async function getStaticPaths({
+  paginate
+}): Promise<Page<CollectionEntry<'blog'>>> {
+  const posts = await getCollection('blog')
+  const sortedPosts = posts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  )
+  return paginate(sortedPosts, {
+    pageSize: PAGINATION_SIZE,
+    props: {
+      tags: getTagsByCount(sortedPosts)
+    }
+  })
+}
+```
+Last but not least <i>tags</i> props is used when defining view. Please note I'm using Astro component, not React one (the way how we create 
+them is similar, but component definition differs).
+```jsx
+<div
+  class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1"
+>
+  {tags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
+</div>
+```
