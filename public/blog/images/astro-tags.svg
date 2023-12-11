@@ -15,7 +15,7 @@
         transform="rotate(-20) translate(-20,30)"
         fill="rgb(179, 136, 255)" 
     />
-    <text x="-12" y="44" transform="rotate(-20)" fill="white">
+    <text x="-16" y="44" transform="rotate(-20)" fill="white">
         MAKE
     </text>
      <rect 
@@ -26,7 +26,7 @@
         transform="translate(62,30)"
         fill="rgb(179, 136, 255)" 
     />
-    <text x="66" y="44" fill="white">SOME</text>
+    <text x="64" y="44" fill="white">SOME</text>
      <rect 
         width="50" 
         height="20" 
