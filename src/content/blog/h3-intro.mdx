@@ -1,0 +1,238 @@
+---
+title: 'H3 intro'
+description: 'Introduction to H3 geospatial indexing system'
+pubDate: 'Dec 27 2023'
+heroImage: '/blog/images/h3_globe.png'
+tags: ['H3']
+---
+import Latex from '../../components/Latex.astro'
+
+
+It looks like a futuristic model of a soccer ball designed for the World Cup, doesn't it? In reality, it's the planet Earth with visible continents alongside with a H3 grid, which will be the subject of today's discussion.
+
+The simplest definiton of <strong>H3</strong> is: geospatial indexing system that partitions the world into hexagonal cells. H3 is <strong>hierarchical</strong> system (every cell has 7 child below in hierarchy), with 16 resolutions levels (numbered from 0 to 15). System is developed by [Uber](https://www.uber.com/blog/h3/) and its first version was released in 2018.
+
+Idea behind hexagonal system is presented below.
+
+<div class="flex justify-center">
+    <img src="/blog/images/hex_grouping.png" alt="hex groups" />
+</div>
+
+We resign from discrete representation of the phenomenon for the sake of continuous cell representation. You decide what resolution is applicable for your specific scenario (cell size varies from ~4.3 mln square kilometers down to 1 square meter).
+Detailed information of cells on different levels is presented below. Please note that for all levels grid contains exactly 12 pentagons (otherwise creating approximation of the globe would not be possible).
+
+<table class="bg-slate-50 dark:text-white dark:bg-slate-700">
+    <tr class="bg-slate-200 dark:bg-slate-800">
+        <th>Res</th>
+        <th>Number of cells</th>
+        <th>Average hexagon area (km2)</th>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>122</td>
+        <td>4,357,449.416078381	</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>842</td>
+        <td>609,788.441794133</td>
+    </tr>   
+    <tr>
+        <td>2</td>
+        <td>5,882</td>
+        <td>86,801.780398997</td>
+    </tr>   
+    <tr>
+        <td>3</td>
+        <td>41,162</td>
+        <td>12,393.434655088</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>288,122</td>
+        <td>1,770.347654491</td>
+    </tr>
+     <tr>
+        <td>5</td>
+        <td>2,016,842</td>
+        <td>252.903858182</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>14,117,882</td>
+        <td>36.129062164</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>98,825,162</td>
+        <td>5.161293360</td>
+    </tr>
+     <tr>
+        <td>8</td>
+        <td>691,776,122</td>
+        <td>0.737327598</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>4,842,432,842</td>
+        <td>0.105332513</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>33,897,029,882</td>
+        <td>0.015047502</td>
+    </tr>
+    <tr>
+        <td>11</td>
+        <td>237,279,209,162</td>
+        <td>0.002149643</td>
+    </tr>
+    <tr>
+        <td>12</td>
+        <td>1,660,954,464,122</td>
+        <td>0.000307092</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>11,626,681,248,842</td>
+        <td>0.000043870</td>
+    </tr>
+    <tr>
+        <td>14</td>
+        <td>81,386,768,741,882</td>
+        <td>0.000006267</td>
+    </tr>
+    <tr>
+        <td>15</td>
+        <td>569,707,381,193,162</td>
+        <td>0.000000895</td>
+    </tr>
+</table>
+
+
+Let's consider pseudo-random point with coordinates (somwehere in Warsaw, capital of Poland):
+
+<Latex formula="\lambda = 21.004714 \quad \varphi = 52.244534" />
+
+With usage of [H3 API](https://h3geo.org/docs/api/indexing) we can easily obtain H3 index (originally API is written in C, but multiple [bindings](https://h3geo.org/docs/community/bindings) are available). H3 index is unique identifier of the cell. 
+Traditionally for this purpose we use a hexadecimal number, but with some implementations (like in Clickhouse) index is represented by 64 bites long integer (in JS called Big Int).
+
+<table class="bg-slate-50 dark:text-white dark:bg-slate-700 mb-4">
+    <tr class="bg-slate-200 dark:bg-slate-800">
+        <th>Res</th>
+        <th>H3 index (hexadecimal)</th>
+        <th>H3 index (Big Int)</th>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>801ffffffffffff</td>
+        <td>577023702256844799</td>
+    </tr>
+      <tr>
+        <td>1</td>
+        <td>811f7ffffffffff</td>
+        <td>581518505791193087</td>
+    </tr>
+      <tr>
+        <td>2</td>
+        <td>821f57fffffffff</td>
+        <td>586019356639494143</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>831f53fffffffff</td>
+        <td>590522681388957695</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>841f53dffffffff</td>
+        <td>595026272426393599</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>851f53cbfffffff</td>
+        <td>599529866685054975</td>
+    </tr>
+     <tr>
+        <td>6</td>
+        <td>851f53cbfffffff</td>
+        <td>604033465641336831</td>
+    </tr>
+       <tr>
+        <td>7</td>
+        <td>861f53c97ffffff</td>
+        <td>608537065168044031</td>
+    </tr>
+      <tr>
+        <td>8</td>
+        <td>881f53c91dfffff</td>
+        <td>613040664793317375</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>891f53c91d3ffff</td>
+        <td>617544264419901439</td>
+    </tr>
+     <tr>
+        <td>10</td>
+        <td>8a1f53c91d0ffff</td>
+        <td>622047864047075327</td>
+    </tr>
+     <tr>
+        <td>11</td>
+        <td>8b1f53c91d0bfff</td>
+        <td>626551463674429439</td>
+    </tr>
+     <tr>
+        <td>12</td>
+        <td>8c1f53c91d095ff</td>
+          <td>631055063301789183</td>
+    </tr>
+    <tr>
+        <td>13</td>
+        <td>8d1f53c91d094bf</td>
+        <td>635558662929159359</td>
+    </tr>
+    <tr>
+        <td>14</td>
+        <td>8e1f53c91d094b7</td>
+        <td>640062262556529847</td>
+    </tr>
+      <tr>
+        <td>15</td>
+        <td>8f1f53c91d094b0</td>
+        <td>644565862183900336</td>
+    </tr>
+</table>
+    
+    
+Alright, so let's get to the point. What are the practical applications of H3 system ? Consider images below.
+
+<div class="max:w-full flex justify-between [&>img]:w-[33%]">
+    <img src="/blog/images/city-polygon.png" alt="hex-approximation size 8" />
+    <img src="/blog/images/city-hex8.png" alt="hex-approximation size 8" />
+    <img src="/blog/images/city-hex10.png" alt="hex-approximation size 8" />
+</div>
+
+All 3 images show boundaries of my hometown. First (from the left) is pure geoJSON. This is most accurate representation of boundaries. Next two options are H3 based approximation (see how hex 10 based appoximation is close to the original).
+Total number of hexagons is equal:
+<ul>
+    <li>resolution 8: <strong>465</strong></li>
+    <li>resolution 10: <strong>22727</strong></li>
+</ul>
+
+And now the problem: check if point belongs to given city or no (or in more general if the point is in polygon or no). As we can read on [Wikipedia](https://en.wikipedia.org/wiki/Point_in_polygon), it's not simple task at all.
+With H3 we can convert point into cell and check if elements is included in hash-map and by this reduce time complexity to O(1)! Similar approach can be used when checking for country boundaries or even house boundaries (remember smallest hex has around 1 square meter).
+
+BTW. images are taken from web app I wrote some time ago , called [hexifier](https://lukasi.uk/hexifier). It allows you to convert geoJSON into cells (you define resolution) and later export into CSV or plain text. If you want to understand 
+H3 system better I recommend to play around with this tool.
+
+Another example. At my work (I'm working for company called [MobilePhysics](http://mobilephysics.com/)) we collect a lots of environmental data (several dozen million of points per day). Simplest (and fastest as well) way to visualize them
+is to use H3 cells. Below you can see average PM2.5 values on the globe presented as H3 cells of resolution 3 (this is where hierarchical structure works like a charm - API gives us possibility to check parent of any resolution, this is why averaging is simple).
+
+<img src="/blog/images/mp_globe.png" alt="mobilephysics globe" />
+
+Do you feel the potential hidden in H3 geospatial indexing system? If no, just give it a chance and try with your specific scenario! There are lots of functions which help
+you to use H3 in most desirable way. 
+
+I hope you enjoyed presented examples. For today that's all, but I have good news - I've already started working on next article - my annual technology summary. See you soon!
