@@ -1,0 +1,70 @@
+---
+title: 'Gabor filter'
+description: 'Gabor filter: math basis and visualization in Python with matplotlib'
+pubDate: 'Nov 16 2023'
+heroImage: '/blog/images/gabor_mask1.png'
+tags: ['python']
+---
+import Latex from '../../components/Latex.astro'
+
+
+Dennis Gabor (1900-1979) was Hungarian electrical engineer and physicst. He is most known for inventing holography, for which
+he received Nobel Prize in 1971. Among many other achievements he proposed so called Gabor filter (1D version, later generalized into 2D) , which will be subject of discussion
+in current post.
+
+From mathematical point of view two-dimensional Gabor filter is obtained by mulitpling complex sinusoid (referred to as the carrier) by Gaussian 
+function (referred to as an envelope)
+
+<Latex 
+    formula='g(x,y) = e^{i (2\pi f x_{\theta} + \psi) } \times e^{-\frac{1}{2} \left(\frac{x_{\theta}^2}{\sigma_x^2} + \frac{x_{\theta}^2}{\sigma_y^2} \right)}' 
+    className="text-center mb-1" 
+/>
+
+where <i>i</i> represtens imaginary unit , <i>psi</i> - phase and <i>sigma</i> standard deviation of the envelope in the x and y axes. The coordinates x and y are 
+rotated in the xy plane by <i>theta</i> angle. They can be obtained using following formula:
+<Latex formula={`
+    \\begin{aligned} 
+    x_\\theta &= &x\\cos(\\theta) + y\\sin(\\theta) \\\\ 
+    y_\\theta &= - &x\\sin(\\theta) + y\\cos(\\theta )\\end{aligned}
+    `}
+/>
+
+initial equation can be transformed using [Euler's formula](https://en.wikipedia.org/wiki/Euler%27s_formula) to a form
+
+<Latex formula={` g(x,y) = 
+    \\cos(2\\pi fx_{\\theta} + \\psi) \\cdot e^{-\\frac{1}{2} \\left(\\frac{x_{\\theta}^2}{\\sigma_x^2} + \\frac{x_{\\theta}^2}{\\sigma_y^2} \\right)}
+    + i\\sin(2\\pi fx_{\\theta} + \\psi) \\cdot e^{-\\frac{1}{2} \\left(\\frac{x_{\\theta}^2}{\\sigma_x^2} + \\frac{x_{\\theta}^2}{\\sigma_y^2} \\right)}
+    `}
+    className="text-base/10 text-center mb-2"
+/>
+
+In practical applications, the even part (based on cosine carrier, which is an even function) or the odd part (based on sine) is usually used. Example filter (even part) with its 
+components is presented below (<i>f=0.4, sigma=2, theta=pi/4, psi=pi/4</i>)
+
+<div class="flex flex-col gap-2 items-center sm:flex-row justify-center [&>img]:grow [&>img]:h-[150px] sm:[&>img]:h-[250px]">
+    <img alt="carrier" src="/blog/images/gabor_envelope.png" />
+    <img alt="evelope" src="/blog/images/gabor_carrier.png" />
+    <img alt="gabor filter" src="/blog/images/gabor_full.png" />
+</div>
+
+OK, now you can ask long awaited question: where it is actually used ? It turns out that it can be utilized in image processing, primarly in texture analysis. And to be honest with you 
+it was main topic in my engineering thesis😅. I'm not considering myself as expert in this matter, but as a practitioner. Thanks to adjustable filter parameters (frequency and orientation) we can identify image features like edges, or in more general extract 
+features from image. Feature extraction is based on a two-dimensional discrete convolution operation, where as a mask we use Gabor filter. As a mask we understand 2D image, which as a pixels stores values of the 
+complex Gabor function calculated at discrete points. Example masks you can find below (see how frequency and orientation effects on a mask).
+
+<div class="px-2 flex items-center justify-around flex-col md:flex-row gap-2 md:[&>img]:max-w-[50%]">
+    <img alt="gabor mask variant 1" src="/blog/images/gabor_mask1.png" />
+    <img alt="gabor mask variant 2" src="/blog/images/gabor_mask2.png" />
+</div>
+
+
+Alright, since we've just delved into some heavy mathematics, it's a suitable time to wrap up for today and take a breather. Just to sum up from technical aspects I used simple Python 
+script with <i>matplotlib</i> and <i>numpy</i> to visualize filters. Entire script you can find [here](/blog/assets/gabor.py).
+
+In next posts you will find information how to use Gabor filters to 
+realize certain image processing algorithms. Btw. if you've noticed that equations are not written in standard HTML way, 
+I'll suggest you to read about [KaTeX](https://katex.org/), which is web wrapper for
+
+<Latex formula='\LaTeX' />
+
+I'am adding LaTeX to my list of upcoming posts as well, so stay tuned. See you in next episode !

@@ -1,0 +1,20 @@
+---
+interface Props {
+  icon: string
+  delay?: number
+  classes?: string
+  animationTime?: number
+}
+
+const { icon, classes = '', delay = 0, animationTime = 25 } = Astro.props
+
+const backgroundImage = `url('/tech/${icon}')`
+const animationDelay = `${delay}s`
+const animationDuration = `${animationTime}s`
+---
+
+<div
+  style={{ backgroundImage, animationDelay, animationDuration }}
+  class=`absolute -bottom-[150px] block animate-tech bg-center bg-contain bg-no-repeat ${classes}`
+>
+</div>

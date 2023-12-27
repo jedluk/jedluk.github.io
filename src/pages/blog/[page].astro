@@ -5,7 +5,7 @@ import Header from '../../components/Header.astro'
 import Footer from '../../components/Footer.astro'
 import Tag from '../../components/Tag.astro'
 import Posts from '../../components/Posts.astro'
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts'
+import { SITE_TITLE, SITE_DESCRIPTION, PAGINATION_SIZE } from '../../consts'
 import { getTagsByCount, type TagInfo } from '../../lib/tags'
 import Pagination from '../../components/Pagination.astro'
 import type { Page } from 'astro'
@@ -18,7 +18,7 @@ export async function getStaticPaths({
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   )
   return paginate(sortedPosts, {
-    pageSize: 3,
+    pageSize: PAGINATION_SIZE,
     props: {
       tags: getTagsByCount(sortedPosts)
     }

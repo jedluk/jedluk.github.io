@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+import TechIcon from '../components/TechIcon.astro'
 ---
 
 <!doctype html>
@@ -27,8 +28,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
       </p>
       <p class="mt-1 text-justify">
         At the end let me explain why I've decided to run this blog. I strongly
-        belive that each good developer should pay off his dept to open-source
-        community either but contribuitng, or sharing knowledge. Your tech trace
+        belive that each good developer should pay off his debt to open-source
+        community either but contributing, or sharing knowledge. Your tech trace
         might eventually turn into your own <strong>monument</strong> just like
         ancient poet <i>Horace</i> says in his famous poem <q>Ode III, 30</q>
         <blockquote class="my-4 text-lg">
@@ -39,45 +40,39 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
            annorum series et fuga temporum.
         </blockquote>
       </p>
-      <div
-        class="tech-icons absolute top-0 left-0 w-full h-full overflow-hidden -z-10 [&>div]:block [&>div]:absolute [&>div]:bottom-[-150px] [&>div]:bg-center [&>div]:bg-contain [&>div]:bg-no-repeat"
-      >
-        <div
-          class="bg-[url('/tech/osm.svg')] w-20 h-20 left-1/4 animate-tech animation-delay-0"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/react.svg')] w-8 h-8 left-[10%] animate-tech animation-delay-[2000ms] animation-duration-[12000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/clickhouse.svg')] w-8 h-8 left-3/4 animate-tech animation-delay-[4000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/js.svg')] w-16 h-16 left-[40%] animate-tech animation-delay-[2500ms] animation-duration-[18000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/ts.svg')] w-8 h-8 left-[65%] animate-tech animation-delay-[3000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/maplibre.svg')] w-28 h-28 left-[10%] animate-tech animation-delay-[3000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/python.svg')] w-14 h-14 left-[20%] animate-tech animation-delay-[7000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/nodejs.svg')] left-1/2 w-7 h-7 animate-tech animation-delay-[4000ms] animation-duration-[20000ms]"
-        >
-        </div>
-        <div
-          class="bg-[url('/tech/opencv.svg')] -right-2 w-36 h-36 animate-tech animation-delay-0 animation-duration-[11000ms]"
-        >
-        </div>
+      <div class="absolute -z-10 top-0 left-0 w-full h-full overflow-hidden">
+        <TechIcon icon="osm.svg" classes="w-20 h-20 left-1/4" delay={2} />
+        <TechIcon
+          icon="react.svg"
+          classes="w-8 h-8 left-[10%]"
+          delay={2}
+          animationTime={12}
+        />
+        <TechIcon icon="clickhouse.svg" classes="w-8 h-8 left-3/4" delay={4} />
+        <TechIcon
+          icon="js.svg"
+          classes="w-16 h-16 left-[40%]"
+          delay={1.5}
+          animationTime={18}
+        />
+        <TechIcon icon="ts.svg" classes="w-8 h-8 left-[65%]" delay={3} />
+        <TechIcon
+          icon="maplibre.svg"
+          classes="w-28 h-28 left-[10%]"
+          delay={3}
+        />
+        <TechIcon icon="python.svg" classes="w-14 h-14 left-[20%]" delay={7} />
+        <TechIcon
+          icon="nodejs.svg"
+          classes="left-1/2 w-7 h-7"
+          delay={4}
+          animationTime={20}
+        />
+        <TechIcon
+          icon="opencv.svg"
+          classes="-right-2 w-36 h-36"
+          animationTime={11}
+        />
       </div>
     </main>
     <Footer />

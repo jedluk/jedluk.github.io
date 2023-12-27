@@ -1,0 +1,225 @@
+---
+title: 'What is the weather?'
+description: 'Build global low resolution temperature map with NOAA and GDAL'
+pubDate: 'Nov 21 2023'
+heroImage: '/blog/images/global_temperature_map.png'
+tags: ['bash']
+---
+Today I'll show you how in few simple steps build global temperature map, similar to 
+[Ventusky](https://www.ventusky.com/) is offering. I'll use data provided by - [National Oceanic and 
+Atmosfpheric Admistation](https://www.weather.gov/), which is common source in case of similar visualizations.
+
+When comes to global temperature map first thing we should talk about is so called resolution. It determines the 
+number of nodal points for which the value of the interpolated parameter is assigned. To clarify what I'm talking
+about take a look on image below.
+
+<div class="flex justify-center [&>img]:w-[200px] md:[&>img]:w-[400px]">
+    <img src="/blog/images/grid.png" alt="grid" />
+</div>
+
+Vertical lines represents meridians, horizontal lines - parallels, dots - nodal points. In such case (please note numbers 
+assigned) resolution is equal 0.25 degree. Another commonly used resolutions are 0.5 degree and 1 degree (please note that smaller 
+resolution results in more accurate model). Knowing that 1° of latitude is equal around 111 kilometers we can easily calculate that in case of 
+abovementioned grid, nodes are approximately 28 km away. You might argue that it is high resolution already, but nowdays we can easily observe 
+that temperature across one city might vary by several Celsius degrees, therefore I would be reserved with such judgments. Let's choose 0.25 
+degree for this tutorial.
+
+I'm visiting [NOAA GFS page](https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl) (GFS stands for <i>Global Forecasting System</i>), all other 
+models and resolutions are availabe [here](https://nomads.ncep.noaa.gov/). You should see there 10 subdirectories (state for Nov 21, 2023), 
+for the last 10 days. They release forecasts each 6 hours, starting from midnight - inside selected day directory you should find another subfolders named 
+after hours: <i>00, 06, 12, 18</i>. Keep in mind it's UTC time (aligned with meridian 0°), not your local one. The new forecasts appears typically dozen of minutes
+after corresponding time (this is the case with today's data, for previous days you should see always all 4 folders). In next page you have to choose 
+<i>atmos</i> subdir (probably it's shorcut for atmoshpheric). Now you should finally see GRIB (<i>General Regularly-distributed Information in Binary form</i>) 
+filter configuration
+
+<img src="/blog/images/gfs_setup.png" alt="GFS setup" />
+
+Starting from top of the page you can select one of files: <i>*.anl, *.f000, *.f001, *.f002, ..., *.f384</i>. ANL file refers to an analysis file. 
+The analysis represents the initial state of the atmosphere at the beginning of a model run. On the other hand, the <i>f000, f001, f002</i> etc., represent forecast hours. 
+These files contain the model's predictions for different hours into the future, starting from the initial analysis time (in such case f000 means model prediction for now, last one - 
+ f384 - 16 days from now). I'm selecting current hour (.f000)
+
+Next you can select model options. I haven't deciphered all the possible options yet, but I think description is quite straightforward. In case of global temperature map 
+following parameters are needed:
+
+<ul>
+    <li> level desired: 2m above ground (this is what we as humans feel)</li>
+    <li> variables desired: TMP (temperature) </li>
+    <li> subregion: left longitude: -180°, right longitude: 180°, top latitude: 90°, bottom latitude: -90° (entire world)</li>
+</ul>
+
+At the bottom of the page we check <i>Show the URL only for web programming</i> and click <i>Start download</i>. We'll be
+redirected to a page which shows a link to direct download. I'm copying the link since I preffer to encapsulate entire process
+in bash script.
+
+```sh
+#!/bin/bash
+
+day=$(date -u '+%Y%m%d') # use UTC time
+current_hour=$(date -u +'%H')
+
+if [ $current_hour -lt 6 ]; then
+    rounded_hour="00"
+elif [ $current_hour -lt 12 ]; then
+    rounded_hour="06"
+elif [ $current_hour -lt 18 ]; then
+    rounded_hour="12"
+else
+    rounded_hour="18"
+fi
+
+BASE_URL="https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25.pl"
+DIR="dir=%2Fgfs.${day}%2F${rounded_hour}%2Fatmos"
+FILE="file=gfs.t${rounded_hour}z.pgrb2.0p25.f000"
+VAR="var_TMP=on"
+LEVEL="lev_2_m_above_ground=on"
+REGION="subregion=&toplat=90&leftlon=-180&rightlon=180&bottomlat=-90"
+URL="${BASE_URL}?${DIR}&${FILE}&${VAR}&${LEVEL}&${REGION}"
+echo "\nDownloading data from noaa - ${URL}\n"
+curl -L $URL -o temp.grib2
+```
+
+There is no magic here, just one thing to remember is to round current hour into hours predefined by NOAA: <i>00, 06, 12 or 18</i>. Also I'm defining 
+each search parameter in the new line to make script more readable. Last but not least is to fetch data with cURL - I want to save file as <i>temp.grib2</i>. 
+After getting data I want to process the file. For this reason we will need CLI tool called GDAL (<i>Geospatial Data Abstraction Library</i>) - translator library 
+for raster and vector geospatial data formats. On MacOS it can be downloaded with [brew](https://formulae.brew.sh/formula/gdal#default). For other operating 
+systems download instruction can be found [here](https://gdal.org/download.html). Once installed I'm checking file with <i>gdalinfo</i> command.
+
+```sh
+> gdalinfo temp.grib2 
+Driver: GRIB/GRIdded Binary (.grb, .grb2)
+Files: temp.grib2
+Size is 1440, 721
+Coordinate System is:
+GEOGCRS["Coordinate System imported from GRIB file",
+    DATUM["unnamed",
+        ELLIPSOID["Sphere",6371229,0,
+            LENGTHUNIT["metre",1,
+                ID["EPSG",9001]]]],
+    PRIMEM["Greenwich",0,
+        ANGLEUNIT["degree",0.0174532925199433,
+            ID["EPSG",9122]]],
+    CS[ellipsoidal,2],
+        AXIS["latitude",north,
+            ORDER[1],
+            ANGLEUNIT["degree",0.0174532925199433,
+                ID["EPSG",9122]]],
+        AXIS["longitude",east,
+            ORDER[2],
+            ANGLEUNIT["degree",0.0174532925199433,
+                ID["EPSG",9122]]]]
+Data axis to CRS axis mapping: 2,1
+Origin = (-180.125000000000000,90.125000000000000)
+Pixel Size = (0.250000000000000,-0.250000000000000)
+Corner Coordinates:
+Upper Left  (-180.1250000,  90.1250000) (180d 7'30.00"W, 90d 7'30.00"N)
+Lower Left  (-180.1250000, -90.1250000) (180d 7'30.00"W, 90d 7'30.00"S)
+Upper Right ( 179.8750000,  90.1250000) (179d52'30.00"E, 90d 7'30.00"N)
+Lower Right ( 179.8750000, -90.1250000) (179d52'30.00"E, 90d 7'30.00"S)
+Center      (  -0.1250000,   0.0000000) (  0d 7'30.00\"W,  0d 0' 0.01"N)
+Band 1 Block=1440x1 Type=Float64, ColorInterp=Undefined
+  Description = 2[m] HTGL="Specified height level above ground"
+  Metadata:
+    GRIB_COMMENT=Temperature [C]
+    GRIB_DISCIPLINE=0(Meteorological)
+    GRIB_ELEMENT=TMP
+    GRIB_FORECAST_SECONDS=0
+    GRIB_IDS=CENTER=7(US-NCEP) SUBCENTER=0 MASTER_TABLE=2 LOCAL_TABLE=1 SIGNF_REF_TIME=1(Start_of_Forecast) REF_TIME=2023-11-20T12:00:00Z PROD_STATUS=0(Operational) TYPE=1(Forecast)
+    GRIB_PDS_PDTN=0
+    GRIB_PDS_TEMPLATE_ASSEMBLED_VALUES=0 0 2 0 81 0 0 1 0 103 0 2 255 0 0
+    GRIB_PDS_TEMPLATE_NUMBERS=0 0 2 0 81 0 0 0 1 0 0 0 0 103 0 0 0 0 2 255 0 0 0 0 0
+    GRIB_REF_TIME=1700481600
+    GRIB_SHORT_NAME=2-HTGL
+    GRIB_UNIT=[C]
+    GRIB_VALID_TIME=1700481600
+```
+
+We can see couple important informations here. First of all image size is 1440 x 721 pixels. It is saved on 1 band, using Float64. In metadata section we can see that 
+Celsius is used as a temperature unit. That's enough I have to know. I'm adding 2 new lines to my script now:
+
+```sh
+gdal_translate -of GTiff -sds -a_srs EPSG:4326 temp.grib2 temp.tif
+gdaldem color-relief temp.tif palette_celsius.txt temp_color.tif -alpha          
+```
+
+<i>gdal_translate</i> does exactly thing as it says - converts raster between 2 different formats. By adding <i>a_srs</i> argument we change projection into EPSG:4326. 
+As an output we get TIFF image. Second command converts grayscale image into colorful image using  `palette_celsius.txt`. This simple file contains 4 columns:
+temperature value (in Celsius) as well as three color components R, G, B associated with this value. In each next row we define color for different value in ascending order.
+I'm borrowing colors and thresholds from Ventusky website. Entire file content you can see below.
+
+```txt
+-40 238 238 238
+-30 255 170 255
+-20 145 9 145
+-15 36 24 106
+-10 85 78 177
+-5 62 121 198
+0 75 182 152
+5 89 208 73
+10 190 228 61
+15 235 215 53
+20 234 164 62
+25 229 109 83
+30 190 48 102
+40 107 21 39
+50 43  0  1
+```
+If you get lost somwhere around the road, you can see entire bash script [here](/blog/assets/gen_temp_map.sh). Keep in my mind 
+that in corner case which I did not cover, script will not generate image cause NOAA folder does not exist yet (folders are not 
+created punctually, there is always some delay). In such case you can manually overwrite hour with previous one. I'm running the 
+script and view the image. Now I know what is the weather 😅.
+
+<img src="/blog/images/global_temperature_map.png" alt="Global temperature map" />
+<div class="flex mt-2 [&>div]:h-[20px] sm:[&>div]:h-[30px] [&>div]:grow [&>div]:text-center flex-wrap [&>div]:text-sm sm:[&>div]:text-lg">
+    <div class="bg-[rgb(238,238,238)]">
+        <span>-40</span>
+    </div>
+    <div class="bg-[rgb(255,170,255)]">
+        <span>-30</span>
+    </div>
+    <div class="bg-[rgb(145,9,145)]">
+        <span class="text-white">-20</span>
+    </div>
+    <div class="bg-[rgb(36,24,106)]">
+        <span class="text-white">-15</span>
+    </div>
+    <div class="bg-[rgb(85,78,177)]">
+        <span class="text-white">-10</span>
+    </div>
+    <div class="bg-[rgb(62,121,198)]">
+        <span class="text-white">-5</span>
+    </div>
+    <div class="bg-[rgb(75,182,152)]">
+        <span >0</span>
+    </div>
+    <div class="bg-[rgb(89,208,73)]">
+        <span>5</span>
+    </div>
+    <div class="bg-[rgb(190,228,61)]">
+        <span>10</span>
+    </div>
+    <div class="bg-[rgb(235,215,53)]">
+        <span>15</span>
+    </div>
+    <div class="bg-[rgb(234,164,62)]">
+        <span>20</span>
+    </div>
+    <div class="bg-[rgb(229,109,83)]">
+        <span class="text-white">25</span>
+    </div>
+    <div class="bg-[rgb(190,48,102)]">
+        <span class="text-white">30</span>
+    </div>
+    <div class="bg-[rgb(107,21,39)]">
+        <span class="text-white">40</span>
+    </div>
+    <div class="bg-[rgb(43,0,1)]">
+        <span class="text-white">50</span>
+    </div>
+</div>
+
+Pretty cool as for tiny bash script don't you think ? Just to make things clear typically RGB image is not send to the frontend application.
+Usually app fetches grayscale image, which is later drawn on a canvas using WebGL shaders, where color pallete is applied. But the script I've prepared 
+is perfect for home made visualizations. NOAA gives you limitless possibilities , you can check temperature on different levels (even below the ground!). Also 
+other parameters are available like relative humidity, pressure , wind speed. It's very good place to experiments. That's all what I wanted to share today. 
+I hope next time you'll think about the weather You just run the script 🤣. See you soon! 
