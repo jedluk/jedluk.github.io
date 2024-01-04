@@ -11,34 +11,15 @@ import TechIcon from '../components/TechIcon.astro'
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body>
+  <body class="flex flex-col min-h-screen">
     <Header title={SITE_TITLE} />
-    <main class="relative py-[2em] px-[1em]">
-      <h1>Hello, Stranger!</h1>
+    <main class="relative py-[2em] px-[1em] flex-grow">
+      <h1>Hi there, I'm <strong>Jędrzej</strong>!</h1>
+      <h2 class="text-brand font-bold">I'm a Software Engineer</h2>
       <p class="text-justify">
-        Welcome to Jedrzej Lukasiuk's home page. This is my little space in the
-        universe. If you'd like to get to know me better, go to <a href="/about"
-          >about</a
-        > page. On my blog you will find posts related to:
-        <i
-          >React, Javascript, Typescript, NodeJS, Python, OpenCV, MapLibre, Open
-          Street Map, ClickHouse</i
-        > (it's not an exhaustive list, but it will give you a general idea of
-        what to expect).
-      </p>
-      <p class="mt-1 text-justify">
-        At the end let me explain why I've decided to run this blog. I strongly
-        belive that each good developer should pay off his debt to open-source
-        community either but contributing, or sharing knowledge. Your tech trace
-        might eventually turn into your own <strong>monument</strong> just like
-        ancient poet <i>Horace</i> says in his famous poem <q>Ode III, 30</q>
-        <blockquote class="my-4 text-lg">
-          Exegi monumentum aere perennius <br />
-           regalique situ pyramidum altius, <br />
-           quod non imber edax, non aquilo impotens <br />
-           possit diruere aut innumerabilis <br />
-           annorum series et fuga temporum.
-        </blockquote>
+        I specializes in the broadly understood JavaScript ecosystem (with React
+        as primary tech). Feel free to play around with my website where you can
+        find some interesting articles on my <a href="/blog/1">blog</a>.
       </p>
       <div class="absolute -z-10 top-0 left-0 w-full h-full overflow-hidden">
         <TechIcon icon="osm.svg" classes="w-20 h-20 left-1/4" delay={2} />
