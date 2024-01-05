@@ -9,16 +9,14 @@ import ThemeIcon from './ThemeIcon.astro'
   <nav class="flex items-center justify-between whitespace-nowrap">
     <a href="/">
       <img
-        class="w-8 h-8 md:w-10 md:h-10 rounded-md hover:-translate-y-1 shadow-md shadow-violet-400/50 ease-linear duration-200"
+        class="w-8 h-8 md:w-10 md:h-10 rounded-md shadow-md shadow-violet-400/50 ease-linear duration-200"
         src="/jl.svg"
         alt="Jedrzej Lukasiuk home"
       />
     </a>
     <div class="grow"></div>
-    <div class="internal-links">
-      <HeaderLink href="/blog/1">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
-    </div>
+    <HeaderLink href="/blog/1">Blog</HeaderLink>
+    <HeaderLink href="/about">About</HeaderLink>
     <ThemeIcon />
   </nav>
 </header>
@@ -32,11 +30,11 @@ import ThemeIcon from './ThemeIcon.astro'
     border-bottom: 4px solid transparent;
     text-decoration: none;
   }
-  nav a.active {
+  nav a:not(:first-of-type).active {
     text-decoration: none;
     border-bottom-color: var(--accent);
   }
-  nav a:hover {
+  nav a:not(:first-of-type):hover {
     border-bottom-color: var(--accent);
   }
   @media (max-width: 576px) {
