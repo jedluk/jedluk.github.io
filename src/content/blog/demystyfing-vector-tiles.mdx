@@ -1,0 +1,22 @@
+---
+title: 'Demystifying vector tiles'
+description: 'Demys'
+pubDate: 'Jan 18 2024'
+heroImage: '/blog/images/tile.png'
+tags: ['JS', 'OSM']
+---
+
+Hello! Welcome in the New Year! I hope You had a good time during the Christmas break. Today I want to talk about
+vector tiles. If you follow my blog frequently you should already knew that I talked about them in 2-post series called 
+<i>Build your own Planet with OSM</i> ([here](/blog/osm-intro-vol-1/) & [there](/blog/osm-intro-vol-2/)). Today I'll show
+you how the look from inside and how browser deal with them.
+
+As I mentioned in those articles, the data used to render the map on the client-side application is transmitted in the 
+form of so-called tiles, in the PBF format. Tiles are build with straightfowrad assumption: each map zoom level have
+well-known amount of tiles, that contain data specific to that level. The first zoom level is 0, consisting of 1 tile.
+On this level you can observe rounded continents boundaries with oceans (map generalization). Each next zoom contains 4 times more tiles 
+each tile have 4 children). This approach is presented in the form of the diagram below.
+
+
+
+<img src="/blog/images/tiles_tree.png" alt="tiles tree" />
