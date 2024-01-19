@@ -1,0 +1,164 @@
+---
+title: 'Demystifying vector tiles'
+description: 'Demys'
+pubDate: 'Jan 19 2024'
+heroImage: '/blog/images/tile.png'
+tags: ['JS', 'OSM']
+---
+
+Hello! Welcome in the New Year! I hope You had a good time during the Christmas break. Today I want to talk about
+vector tiles. If you follow my blog frequently you should remember this concept from 2-post series called 
+<i>Build your own Planet with OSM</i> ([part 1](/blog/osm-intro-vol-1/) & [part 2](/blog/osm-intro-vol-2/)). Today I'll show
+you how they look from inside and how to deal with them.
+
+As I mentioned in those articles, the data used to render the map on the client-side is transmitted in the 
+form of so-called tiles, in the PBF format. Tiles are build with straightfowrad assumption: each map zoom level contains
+well-known amount of tiles, which are populated with data specific to that level. Each next map zoom level contains 4 times more tiles 
+(each tile have 4 children). Such an approach is presented in the form of the diagram below.
+
+<img src="/blog/images/tiles_tree.png" alt="tiles tree" />
+
+Different map tiles providers (like [Mapbox](https://www.mapbox.com/) or [Maptiler](https://www.maptiler.com/)) might vary when comes 
+to max zoom level but usually it's around 22-23. To be precise: I've already shown you how to set up your own tile server (and how to create tiles as well), 
+but it doesn't serve the purpose in production applications where global coverage and support for users worldwide are required. It's ideal for small-scale 
+projects or proof-of-concept applications. To give you high level overview of what to expect on different zoom levels, I can give following 
+examples: level 2 - you will be able to see country boundaries, level 4: large rivers, 5: large lakes, 6: large roads, 12: local city streets, 13: buildings.
+
+I have chosen a specific tile that will be the subject of analysis in the further part of the post. It can be described by a triple:
+
+
+```sh
+zoom: 15
+x: 17517
+y: 12175
+```
+
+I will not tell You what it contains now 🤫.
+
+Now coding part 🤓. I'm creating new nodejs-based project. Also I'm installing dependencies which will be used later.
+```sh
+npm init -y
+npm i pbf node-fetch@2 @mapbox/vector-tile
+```
+
+I'm using maptiler API to get single tile (no bias here, you can use any other map tile provider). For creating new account no credit card is required. In
+<a href="https://www.maptiler.com/cloud/pricing/" target="_blank" rel="noopener noreferrer">FREE plan</a> you will get 100k free requests per month. Once you'll have an account you can get your own API key. Let's fetch single tile then and see how it looks from inside!
+
+```sh
+curl -o tile "https://api.maptiler.com/tiles/v3/0/0/0.pbf?key=<your_own_key_here>"
+cat tile
+```
+
+💣💣💣
+
+<img src="/blog/images/tile.png" alt="tile symbols" class="mt-2"/>
+
+Booom! I especially changed terminal layout to looks like in Matrix movie 🤣 This is exactly how tile looks from inside. Just a binary data. 
+
+OK, now our goal is to see what actually this tile contains and for this reason we want to see something meaningful (from human perspective). 
+Let's convert fetching part into node first. Remember we are using node environment, not a browser (this is why I use commonJS modules)!
+
+
+```js
+const fetch = require('node-fetch')
+const fs = require('fs')
+
+const { API_KEY } = process.env
+
+function fetchTile(tileCoords) {
+  const [zoom, x, y] = tileCoords
+  const url = `https://api.maptiler.com/tiles/v3/${zoom}/${x}/${y}.pbf?key=${API_KEY}`
+
+  return fetch(url)
+    .then((response) => {
+      if (response.ok) {
+        return response.arrayBuffer()
+      }
+      throw new Error('Network Error')
+    })
+}
+
+const tileCoords = [15, 17517, 12175]
+fetchTile(tileCoords)
+  .then((protoBuffer) => fs.writeFileSync('tile.pbf', Buffer.from(protoBuffer)))
+  .then(() => console.log('Job done. Bye.'))
+```
+
+A few words of explanation: before running a script please define API_KEY in your environment variables (on MacOS `export API_KEY=<your_api_key>`). If the HTTP request 
+contains binary data in the response, we need to handle it through a buffer. Eventually we dump the buffer to a file using the standard fs module. Now `tile.pbf` contains
+exactly same data as a file created with cURL.
+
+In next step we process PBF  with mapbox package called <i>[vector-tile-js](https://github.com/mapbox/vector-tile-js)</i>. Please note that for web applications similar process is
+executed in the web worker (your main thread remains untouched, and the application runs smoothly). Also in the web, app fetches & processes several or a few dozen tiles at once!
+
+```js
+const { VectorTile } = require('@mapbox/vector-tile')
+const Protobuf = require('pbf')
+
+const processBuffer = (protoBuffer, [zoom, x, y]) => {
+  const { layers } = new VectorTile(new Protobuf(protoBuffer))
+  const features = {}
+
+  for (const layerName of Object.keys(layers)) {
+    const currentLayer = layers[layerName]
+    features[layerName] = []
+    for (let i = 0; i < currentLayer.length; i++) {
+      const feature = currentLayer.feature(i).toGeoJSON(x, y, zoom)
+      features[layerName].push(feature)
+    }
+  }
+
+  return features
+}
+
+``` 
+
+<i>VectorTile</i> instance always contains <i>layers</i> property. In our case layers are named according to official [OSM schema](https://github.com/openmaptiles/openmaptiles/tree/master/layers).
+Single layer looks like below:
+
+```js
+ building: VectorTileLayer {
+    version: 2,
+    name: 'building',
+    extent: 4096,
+    length: 6,
+    _pbf: {
+      buf: <Buffer 1a 5a 0a 07 61 65 72 6f 77 61 79 12 38 08 f5 df 95 e4 01 12 02 00 00 18 03 22 2a 09 b8 0c a2 3d 8a 01 0c 13 12 0d 14 07 18 00 14 08 10 10 0c 12 04 16 ... 58567 more bytes>,
+      pos: 58617,
+      type: 0,
+      length: 58617
+    },
+    _keys: [ 'render_height', 'render_min_height' ],
+    _values: [
+      26,  0, 22, 5,
+       4, 15,  8
+    ],
+    _features: [ 215, 283, 329, 17529, 17599, 17650 ]
+  },
+  ```
+
+ 
+
+I'm iterating over each layer in a tile and convert all features into geoJSON. Please note that we have to pass tile coordinates to get geoJSON - because tile itself
+contains only relative coordinates (this allows for a reduction in the size of the tile). Finally I'm joining code pieces I presented earlier. Let's save building features
+into a geoJSON collection.
+
+```js
+const tileCoords = [15, 17517, 12175]
+fetchTile(tileCoords)
+  .then((protoBuffer) => processBuffer(protoBuffer, tileCoords))
+  .then(({ building: features }) =>
+    fs.writeFileSync(
+      'building.geojson',
+      JSON.stringify({ type: 'FeatureCollection', features })
+    )
+  )
+  .then(() => console.log('Job done. Bye.'))
+```
+
+OK, job done! In Visual Studio Code you can see file content directly, by using <a href="https://marketplace.visualstudio.com/items?itemName=RandomFractalsInc.geo-data-viewer" target="_blank">Geo Data Viewer</a> plugin. 
+Alternatively you can use awesome web app, called <a href="https://geojson.io/" target="_blank" rel="noopener noreferrer">geojson.io</a>.
+Just paste file content into JSON viewer. Now you should know what tile presents 😊 I'll give you a hint: it's the house of a famous person, likely known by everyone in the world.
+
+And so we've reached the end of this story. As always, I hope you enjoyed it! Btw. soon I'll be attending [Next JS conference](https://kongresnextjs.pl/) in Warsaw. If you want to
+meet and talk about maps , drop me a line ✉️. When I come back, I will definitely share my experiences!
