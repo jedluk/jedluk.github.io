@@ -13,17 +13,16 @@ you how they look from inside and how to deal with them.
 
 As I mentioned in those articles, the data used to render the map on the client-side is transmitted in the 
 form of so-called tiles, in the PBF format. Tiles are build with straightfowrad assumption: each map zoom level contains
-well-known amount of tiles, which are populated with data specific to that level. On this level you can observe rounded 
-continents boundaries with oceans (map generalization). Each next map zoom level contains 4 times more tiles (each tile have 
-4 children). Such an approach is presented in the form of the diagram below.
+well-known amount of tiles, which are populated with data specific to that level. Each next map zoom level contains 4 times more tiles 
+(each tile have 4 children). Such an approach is presented in the form of the diagram below.
 
 <img src="/blog/images/tiles_tree.png" alt="tiles tree" />
 
 Different map tiles providers (like [Mapbox](https://www.mapbox.com/) or [Maptiler](https://www.maptiler.com/)) might vary when comes 
-to max zoom level but usually it's around 22-23. To be precise: I've already shown you how to set up your tile server, but it doesn't 
-serve the purpose in production applications where global coverage and support for users worldwide are required. It's ideal for small-scale 
+to max zoom level but usually it's around 22-23. To be precise: I've already shown you how to set up your own tile server (and how to create tiles as well), 
+but it doesn't serve the purpose in production applications where global coverage and support for users worldwide are required. It's ideal for small-scale 
 projects or proof-of-concept applications. To give you high level overview of what to expect on different zoom levels, I can give following 
-examples: level 4 - you will be able to see large rivers, 5 - large lakes, level 6: large roads, level 12: local city streets, level 13: buildings.
+examples: level 2 - you will be able to see country boundaries, level 4: large rivers, 5: large lakes, 6: large roads, 12: local city streets, 13: buildings.
 
 I have chosen a specific tile that will be the subject of analysis in the further part of the post. It can be described by a triple:
 
@@ -42,8 +41,8 @@ npm init -y
 npm i pbf node-fetch@2 @mapbox/vector-tile
 ```
 
-I'm using maptiler API to get single tile (no bias here, you can any other map tile provider). You can create new account (no card required) and use <a href="https://www.maptiler.com/cloud/pricing/" target="_blank" rel="noopener noreferrer">FREE plan</a>,
-which gives you 100k free requests per month. Once you'll have an account you can get your own API key. Let's fetch single tile then and see how it looks from inside!
+I'm using maptiler API to get single tile (no bias here, you can use any other map tile provider). For creating new account no credit card is required. In
+<a href="https://www.maptiler.com/cloud/pricing/" target="_blank" rel="noopener noreferrer">FREE plan</a> you will get 100k free requests per month. Once you'll have an account you can get your own API key. Let's fetch single tile then and see how it looks from inside!
 
 ```sh
 curl -o tile "https://api.maptiler.com/tiles/v3/0/0/0.pbf?key=<your_own_key_here>"
@@ -90,7 +89,8 @@ contains binary data in the response, we need to handle it through a buffer. Eve
 exactly same data as a file created with cURL.
 
 In next step we process PBF  with mapbox package called <i>[vector-tile-js](https://github.com/mapbox/vector-tile-js)</i>. Please note that for web applications similar process is
-executed in the web worked (your main thread remains untouched, and the application runs smoothly).
+executed in the web worker (your main thread remains untouched, and the application runs smoothly). Also in the web, app fetches & processes several or a few dozen tiles at once!
+
 ```js
 const { VectorTile } = require('@mapbox/vector-tile')
 const Protobuf = require('pbf')
@@ -156,7 +156,9 @@ fetchTile(tileCoords)
   .then(() => console.log('Job done. Bye.'))
 ```
 
-OK, job done! In Visual Studio Code you can see file content directly, by using <a href="https://marketplace.visualstudio.com/items?itemName=RandomFractalsInc.geo-data-viewer" target="_blank">Geo Data Viewer</a> plugin. Alternatively you can awesome web app, called <a href="https://geojson.io/" target="_blank" rel="noopener noreferrer">geojson.io</a>.
+OK, job done! In Visual Studio Code you can see file content directly, by using <a href="https://marketplace.visualstudio.com/items?itemName=RandomFractalsInc.geo-data-viewer" target="_blank">Geo Data Viewer</a> plugin. 
+Alternatively you can use awesome web app, called <a href="https://geojson.io/" target="_blank" rel="noopener noreferrer">geojson.io</a>.
 Just paste file content into JSON viewer. Now you should know what tile presents 😊 I'll give you a hint: it's the house of a famous person, likely known by everyone in the world.
 
-And so we've reached the end of this story. As always, I hope you enjoyed it!
+And so we've reached the end of this story. As always, I hope you enjoyed it! Btw. soon I'll be attending [Next JS conference](https://kongresnextjs.pl/) in Warsaw. If you want to
+meet and talk about maps , drop me a line ✉️. When I come back, I will definitely share my experiences!
