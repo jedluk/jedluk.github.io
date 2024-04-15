@@ -1,0 +1,102 @@
+---
+title: 'Simple cache layer for NextJS'
+description: 'Build simple cache layer for NextJS in dozen minutes'
+pubDate: 'Apr 16 2024'
+heroImage: '/blog/images/database-cache.svg'
+tags: ['JS']
+---
+Hi there! Welcome after short break. Recently it was busy time for me and I did not have a time to write something meaningful. Sorry for that 🙏🙏🙏 Today I want to share
+with You real case I've met recently when developing NextJS based app (Next13+ with app router).
+
+Next13 was a big release. Some folks say it’s like bump from AngularJS to Angular 2 (which practically was completely new framework). To be honest I don't have much 
+expierience with earlier Next. I know some basiscs and I had occassion to work with it in one commercial project, but I didn't dive into its details at that time cause 
+project itself was really in a bad shape and I spent most of the time on trying to understand dependencies among entire system. I know that Next was considered as front-end framework.
+
+Last year I finally found some time to touch a base with Next - I completed 2 projects (conducted on YouTube) and also enrolled in a course (which has just ended). In the 
+same time at my current work I decided to implement one of services in Next13. Now I have quite a substantial knowledge on this topic, and I can share my thoughts with you.
+
+OK, let's start: 2 important things you have to know about Next13+:
+- it renders [Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) by default (unless you mark your specific component with 'use client' directive)
+- it applies strong [caching policy](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#caching-data).
+
+People say that in programming there are two hard things: cache invalidation and naming things. And since Next.js takes care of half of the problems for us, it's already a big relief.
+I thought so too until I started implementing the API in my service 🤣 (in my concrete scenario Next-based app is used as a standalone web application but
+it also exposes [its API](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)).
+
+The way how you define your API is rather simple. You build folder structure under `app/api`. Each nested folder corresponds to endpoint fragment. The final point is `route.ts` (or `route.js`) file. 
+You can also use dynamic routes, by using triple dots for folder name (e.g. [...param]). Inside file itself you define function named after HTTP verb - you can use one of:
+<i>GET, POST, PUT, PATCH, DELETE, HEAD, and OPTIONS</i>. 
+
+```ts
+// app/api/data/route.ts
+export async function GET(_: NextRequest) {
+  return NextResponse.json({ data: [] })
+}
+```
+
+Now you can call your endpoint e.g. with cURL:
+
+```sh
+curl -X GET http://localhost:3000/api/data
+```
+For now all good. Now we want to fill our data with something meaningful. In my scenario I've built abstraction over Clickhouse client which reads 
+required data for me. But in general at this point You might want to get data from any source (other endpoint, Redis, PostgreSQL ...). Evertyhing went 
+well until I pushed my change to remote, which triggered CI, where docker image is built (for such scenario you have to set <i>output</i> as <i>"standalone"</i> inside `next.config.js`). 
+Build failed (on my local machine it passed). A bit of digging, and I stumbled upon this [thread](https://github.com/vercel/next.js/discussions/35534#discussioncomment-6019573).
+Next tries to pre-render API routes, but in CI envrionment variables are not definied yet ... (they are passed later, when the image is being launched). Strange. 
+You could try building an abstraction over your database client, which during the build phase becomes a mock, but that requires some serious gymnastics and strong nerves.
+Another workaround for this issue is to override build step in `package.json` with
+
+```sh
+"build": "next build --build-mode=experimental-compile"
+```
+
+But that will completely disable the cache. So, we're back to square one. Let's try then to do it on our own. Consider function below.
+
+```ts
+function simpleCache<T>(
+  cacheMaxAgeMillis: number,
+  dataFetcher: () => Promise<T>
+) {
+  let cache: T
+  let lastReadTime: number
+
+  return async () => {
+    const now = Date.now()
+    if (!lastReadTime || now - lastReadTime > cacheMaxAgeMillis) {
+      lastReadTime = now
+      cache = await dataFetcher()
+    }
+    return cache
+  }
+}
+```
+
+Just dozen lines of code and logic is super simple. You pass max cache age and function which reads data from any source.
+If cached data is stale then it's overrided from a source. Otherwise it's returned from a memory. Now we have to update our
+route handler.
+
+```ts
+const QUARTER_IN_MS = 15 * 60 * 1000
+const getData = simpleCache(QUARTER_IN_MS, client.getData.bind(client))
+
+export async function GET(_: NextRequest) {
+  const cachedData = await getData()
+  return NextResponse.json({ cachedData })
+}
+```
+Voilà! First user who hit this endpoint will actually read DB and prime a cache. For the next 15 minutes, each subsequent 
+user will receive data from a cache. Later, the next user will fill our cache, and so on in a cycle. The block diagram for 
+such a solution looks as follows:
+
+<img src="/blog/images/simple_cache.png" className="w-full" alt="simple cache diagram" />
+
+Of course, this won't be a good solution for every case (for example, I'm thinking about passing dynamic arguments to the DB query here).
+But in cases where data remains unchanged within a certain time interval and is displayed in the same form for all users, it's worth considering 
+this solution to speed up the response from your endpoint. In the case of analytical databases (such as ClickHouse) where a query can scan millions 
+of records at once (thus consuming significant resources), and the data is inherently static, this approach seems to be a good solution.
+
+
+
+
+
