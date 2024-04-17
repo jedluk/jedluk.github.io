@@ -8,19 +8,22 @@ tags: ['JS']
 Hi there! Welcome after short break. Recently it was busy time for me and I did not have a time to write something meaningful. Sorry for that 🙏🙏🙏 Today I want to share
 with You real case I've met recently when developing NextJS based app (Next13+ with app router).
 
-Next13 was a big release. Some folks say it’s like bump from AngularJS to Angular 2 (which practically was completely new framework). To be honest I don't have much 
-expierience with earlier Next. I know some basiscs and I had occassion to work with it in one commercial project, but I didn't dive into its details at that time cause 
-project itself was really in a bad shape and I spent most of the time on trying to understand dependencies among entire system. I know that Next was considered as front-end framework.
 
-Last year I finally found some time to touch a base with Next - I completed 2 projects (conducted on YouTube) and also enrolled in a course (which has just ended). In the 
-same time at my current work I decided to implement one of services in Next13. Now I have quite a substantial knowledge on this topic, and I can share my thoughts with you.
+Next.js 13 was a significant release. Some people say it's like the transition from AngularJS to Angular 2 (which was practically a completely new framework). To be honest, 
+I don't have much experience with earlier versions of Next.js. I know some basics, and I had the opportunity to work with it on one commercial project, but I didn't delve 
+into its details at that time because the project itself was in bad shape, and I spent most of my time trying to understand the dependencies within the entire system. 
+I know that Next.js was considered a front-end framework.
+
+Last year, I finally found some time to get acquainted with Next.js. I completed 2 projects (conducted on YouTube) and also enrolled in a course (which has just ended). 
+At the same time, in my current job, I decided to implement one of the services using Next.js 13. Now I have quite substantial knowledge on this topic, and I can share 
+my thoughts with you.
 
 OK, let's start: 2 important things you have to know about Next13+:
 - it renders [Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components) by default (unless you mark your specific component with 'use client' directive)
 - it applies strong [caching policy](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating#caching-data).
 
 People say that in programming there are two hard things: cache invalidation and naming things. And since Next.js takes care of half of the problems for us, it's already a big relief.
-I thought so too until I started implementing the API in my service 🤣 (in my concrete scenario Next-based app is used as a standalone web application but
+I thought so too until I started implementing the API in my application 🤣 (in my concrete scenario Next-based app is used as a standalone web application but
 it also exposes [its API](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)).
 
 The way how you define your API is rather simple. You build folder structure under `app/api`. Each nested folder corresponds to endpoint fragment. The final point is `route.ts` (or `route.js`) file. 
@@ -39,19 +42,25 @@ Now you can call your endpoint e.g. with cURL:
 ```sh
 curl -X GET http://localhost:3000/api/data
 ```
-For now all good. Now we want to fill our data with something meaningful. In my scenario I've built abstraction over Clickhouse client which reads 
-required data for me. But in general at this point You might want to get data from any source (other endpoint, Redis, PostgreSQL ...). Evertyhing went 
-well until I pushed my change to remote, which triggered CI, where docker image is built (for such scenario you have to set <i>output</i> as <i>"standalone"</i> inside `next.config.js`). 
-Build failed (on my local machine it passed). A bit of digging, and I stumbled upon this [thread](https://github.com/vercel/next.js/discussions/35534#discussioncomment-6019573).
-Next tries to pre-render API routes, but in CI envrionment variables are not definied yet ... (they are passed later, when the image is being launched). Strange. 
-You could try building an abstraction over your database client, which during the build phase becomes a mock, but that requires some serious gymnastics and strong nerves.
-Another workaround for this issue is to override build step in `package.json` with
+
+So far, everything is good. Now we want to populate our data with something meaningful. In my scenario, I've built an abstraction over the ClickHouse client, which retrieves the required data for me. 
+But in general, at this point, you might want to fetch data from any source (such as another endpoint, Redis, PostgreSQL, etc.). Evertyhing went well until I pushed my change to remote, which triggered CI process, 
+where docker image is built (for such scenario you have to set <i>output</i> as <i>"standalone"</i> inside `next.config.js`). Build failed (on my local machine it passed). A bit of digging, and I stumbled upon this 
+[thread](https://github.com/vercel/next.js/discussions/35534#discussioncomment-6019573). Next tries to pre-render API routes, but in CI envrionment variables are not definied yet ... (they are passed later, when the image is being launched). 
+Strange. You could try building an abstraction over your database client, which during the build phase becomes a mock, but that requires some serious gymnastics and strong nerves.
+
+Another solution to this problem was suggested in the thread I mentioned. You can override build step in `package.json`:
 
 ```sh
 "build": "next build --build-mode=experimental-compile"
 ```
 
-But that will completely disable the cache. So, we're back to square one. Let's try then to do it on our own. Consider function below.
+This will cause complete cache bypass. So, we're back to square one 😅. Let's take a break and think about what we want to achieve. Our requirements:
+
+- cache should be valid for predefined amount of time
+- if cache is not valid then data is returned from DB
+
+Consider function below.
 
 ```ts
 function simpleCache<T>(
@@ -72,9 +81,9 @@ function simpleCache<T>(
 }
 ```
 
-Just dozen lines of code and logic is super simple. You pass max cache age and function which reads data from any source.
-If cached data is stale then it's overrided from a source. Otherwise it's returned from a memory. Now we have to update our
-route handler.
+
+Just a dozen lines of code, and the logic is super simple. You pass the maximum cache age and a function that reads data from any source. If the cached data is stale, it's overridden by data from the source. 
+Otherwise, it's returned from memory. Now we have to update our route handler.
 
 ```ts
 const QUARTER_IN_MS = 15 * 60 * 1000
@@ -91,12 +100,16 @@ such a solution looks as follows:
 
 <img src="/blog/images/simple_cache.png" className="w-full" alt="simple cache diagram" />
 
-Of course, this won't be a good solution for every case (for example, I'm thinking about passing dynamic arguments to the DB query here).
+
+Of course, this won't be a good solution for every case (for example, I'm thinking about passing dynamic arguments to the DB query here). 
 But in cases where data remains unchanged within a certain time interval and is displayed in the same form for all users, it's worth considering 
 this solution to speed up the response from your endpoint. In the case of analytical databases (such as ClickHouse) where a query can scan millions 
 of records at once (thus consuming significant resources), and the data is inherently static, this approach seems to be a good solution.
 
 
+That's all I wanted to share with you today. To be honest, I don't fully understand Next.js's architectural decision - but you have to live with it. Watching a 
+certain YouTube video yesterday, I heard a very wise sentence: <q>If you have something to do, don't look for excuses not to do it, look for a way.</q> (the sentence may have sounded different, but 
+the meaning remains). Exactly this path was used for the problem I had. Remember this in your daily tasks!
 
 
 
