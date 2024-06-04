@@ -8,3 +8,58 @@ tags: ['js']
 
 Hi there ! Today I was reading some code I have wrtitten around 3 years ago (😅😅😅) and I had an epiphany. 
 Thus I want to share with you my reflection on code readability.
+
+Consider function below (for the purpose of article I've modified the original function I found today):
+```js
+function isDoable(dish) {
+  return ![
+    'squid in batter',
+    'pork goulash with potatoes',
+    'dumplings with cabbage and mushrooms',
+    'pork chop with rice'
+  ].includes(dish)
+}
+```
+
+I think it's pretty straightforward. It returns true while dish is on the predefined list. But wait ... 
+Actually it returns false in this case ! It's all because negation sign before the array ... While the array 
+has many elements it is difficult to pay attention to this small detail. I think in such scenario we can sacrifice simplest solution 
+to gain readability. Eventually we don't expect that final solution will increase complexity of the function drastically. Let's try refactor a bit. 
+
+```js
+function isDoable(dish) {
+  const isOnList = [
+    'squid in batter',
+    'pork goulash with potatoes',
+    'dumplings with cabbage and mushrooms',
+    'pork chop with rice'
+  ].includes(dish)
+  return !isOnList
+}
+```
+
+Now it's clear that we are looking for a dish which is not on the list, but it requires one more variable to introduce. Hmmm. Maybe ternary operator ?
+```js
+function isDoable(dish) {
+  return [
+    'squid in batter',
+    'pork goulash with potatoes',
+    'dumplings with cabbage and mushrooms',
+    'pork chop with rice'
+  ].includes(dish) ? false : true
+}
+```
+Looks unnatural as includes itself return boolean value. Maybe we can borrow the approach from react ? Do you remember how you can render components 
+under certain conditions ? We can use <strong>ampersand operator (&&)</strong>
+```js
+function isDoable(dish) {
+  return [
+    'squid in batter',
+    'pork goulash with potatoes',
+    'dumplings with cabbage and mushrooms',
+    'pork chop with rice'
+  ].includes(dish) && false
+}
+```
+
+Perfect ! This reflects the programmer's intentions in a very nice way. We can translate it into humand words into: <i> if first thing is true, return the second</i> (which is false in our case). 
