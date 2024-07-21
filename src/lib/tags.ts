@@ -1,13 +1,14 @@
 import type { CollectionEntry } from 'astro:content'
 
-export type TagInfo = [string, number]
+export type TagTuple = [string, number]
 
 export function extractTags(post: CollectionEntry<'blog'>): string[] {
   return post.data.tags.map((tag) => tag.toLowerCase())
 }
 
+
 // sort unique tags by count first and then by name
-export function getTagsByCount(posts: CollectionEntry<'blog'>[]): TagInfo[] {
+export function getTagsByCount(posts: CollectionEntry<'blog'>[]): TagTuple[] {
   const tagsCountMap = posts
     .map(extractTags)
     .flat()
@@ -21,5 +22,16 @@ export function getTagsByCount(posts: CollectionEntry<'blog'>[]): TagInfo[] {
       count1 === count2
         ? name1 > name2 ? 1 : -1
         : count2 > count1 ? 1 : -1
+  )
+}
+
+export type YearTuple = [number, number]
+
+export function getTagsByYear(posts: CollectionEntry<'blog'>[]): YearTuple[] {
+  return Array.from(
+    posts.reduce((acc, post) => {
+      const year = post.data.pubDate.getFullYear()
+      return acc.set(year, 1 + (acc.get(year) ?? 0))
+    }, new Map<number, number>()).entries()
   )
 }

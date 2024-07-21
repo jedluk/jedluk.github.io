@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         brand: 'rgb(179, 136, 255)',
+        'brand-secondary': 'rgb(0, 151, 167)',
         accent: 'var(--accent)'
       },
       animation: {
