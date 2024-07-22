@@ -4,7 +4,7 @@ import ThemeIcon from './ThemeIcon.astro'
 ---
 
 <header
-  class="bg-white dark:bg-[var(--bg-dark-light)] m-0 py-0 px-[1em] shadow-md"
+  class="bg-white dark:bg-[var(--bg-dark-light)] m-0 py-[0.5em] px-[1em] shadow-md"
 >
   <nav class="flex items-center justify-between whitespace-nowrap">
     <a href="/">
@@ -20,27 +20,3 @@ import ThemeIcon from './ThemeIcon.astro'
     <ThemeIcon />
   </nav>
 </header>
-
-<style>
-  nav a {
-    padding-inline: 0.5em;
-    padding-top: 1em;
-    padding-bottom: 0.5em;
-    color: var(--black);
-    border-bottom: 4px solid transparent;
-    text-decoration: none;
-  }
-  nav a:not(:first-of-type).active {
-    text-decoration: none;
-    border-bottom-color: var(--accent);
-  }
-  nav a:not(:first-of-type):hover {
-    border-bottom-color: var(--accent);
-  }
-  @media (max-width: 576px) {
-    nav a {
-      padding: 0.5em 0.2rem;
-      margin-right: 0.5rem;
-    }
-  }
-</style>
