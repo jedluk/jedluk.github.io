@@ -19,5 +19,3 @@ export default defineConfig({
     '/tags/[tag]': '/blog/tags/[tag]'
   }
 })
-
-import { defineConfig } from 'astro/config'
