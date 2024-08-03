@@ -17,7 +17,7 @@ export async function getStaticPaths() {
     .map((year) => ({
       params: { year },
       props: {
-        allTags: tags,
+        allYears: tags,
         posts: posts
           .filter((post) => post.data.pubDate.getFullYear() == Number(year))
           .sort((post1, post2) =>
@@ -27,8 +27,8 @@ export async function getStaticPaths() {
     }))
 }
 
-const { allTags, posts } = Astro.props
-const { year } = Astro.params
+const { allYears, posts } = Astro.props
+const { year: yearParam } = Astro.params
 ---
 
 <!doctype html>
@@ -43,12 +43,13 @@ const { year } = Astro.params
         class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1"
       >
         {
-          allTags.map(([name, count]) => (
+          allYears.map(([year, count]) => (
             <Tag
               isYear
-              name={String(name)}
+              secondary
+              name={String(year)}
               count={count}
-              selected={year === String(name)}
+              selected={year === Number(yearParam)}
             />
           ))
         }
