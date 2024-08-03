@@ -52,7 +52,7 @@ const { page, tags, years } = Astro.props as {
       >
         {tags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
         <div class="w-full my-1" />
-        {years.map(([year, count]) => <Tag selected secondary name={String(year)} count={count}) />)}
+        {years.map(([year, count]) => <Tag selected isYear secondary name={String(year)} count={count}) />)}
       </div>
       <hr class="mb-8" />
       <section>

@@ -2,11 +2,13 @@
 interface Props {
   name: string
   secondary?: boolean
+  isYear?: boolean
   selected: boolean
   count?: number
 }
 
-const { name, count, selected, secondary = false } = Astro.props
+const { name, count, selected, secondary = false, isYear = false } = Astro.props
+const link = ['/blog', isYear ? 'years' : 'tags', name.toLowerCase()].join('/')
 ---
 
 <span
@@ -28,7 +30,7 @@ const { name, count, selected, secondary = false } = Astro.props
     'selected:shadow-sm selcted:shadow-violet-400/50'
   ].join(' ')}
 >
-  <a href={`/tags/${name.toLowerCase()}`} class="text-white hover:text-white">
+  <a href={link} class="text-white hover:text-white">
     {name.toUpperCase()}
     {count && ` (${count})`}
   </a>

@@ -1,31 +1,32 @@
 ---
 import { getCollection } from 'astro:content'
-import BaseHead from '../../components/BaseHead.astro'
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts'
-import Header from '../../components/Header.astro'
-import Footer from '../../components/Footer.astro'
-import Posts from '../../components/Posts.astro'
-import { getTagsByCount } from '../../lib/tags'
-import Tag from '../../components/Tag.astro'
-import { extractTags } from '../../lib/tags'
+import BaseHead from '../../../components/BaseHead.astro'
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts'
+import Header from '../../../components/Header.astro'
+import Footer from '../../../components/Footer.astro'
+import Posts from '../../../components/Posts.astro'
+import { getTagsByYear } from '../../../lib/tags'
+import Tag from '../../../components/Tag.astro'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
-  const tags = getTagsByCount(posts)
+  const tags = getTagsByYear(posts)
 
   return tags
     .map(([name]) => name)
-    .map((tag) => ({
-      params: { tag },
+    .map((year) => ({
+      params: { year },
       props: {
         allTags: tags,
-        posts: posts.filter((post) => extractTags(post).includes(tag))
+        posts: posts.filter(
+          (post) => post.data.pubDate.getFullYear() == Number(year)
+        )
       }
     }))
 }
 
 const { allTags, posts } = Astro.props
-const { tag } = Astro.params
+const { year } = Astro.params
 ---
 
 <!doctype html>
@@ -41,7 +42,12 @@ const { tag } = Astro.params
       >
         {
           allTags.map(([name, count]) => (
-            <Tag name={name} count={count} selected={tag === name} />
+            <Tag
+              isYear
+              name={String(name)}
+              count={count}
+              selected={year === String(name)}
+            />
           ))
         }
       </div>
