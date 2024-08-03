@@ -13,5 +13,11 @@ export default defineConfig({
     sitemap(),
     react(),
     tailwind({ applyBaseStyles: false })
-  ]
+  ],
+  redirects: {
+    '/blog': '/blog/1',
+    '/tags/[tag]': '/blog/tags/[tag]'
+  }
 })
+
+import { defineConfig } from 'astro/config'
