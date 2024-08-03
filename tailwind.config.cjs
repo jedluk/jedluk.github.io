@@ -27,7 +27,8 @@ module.exports = {
   },
   plugins: [
     plugin(function ({ addVariant }) {
-      addVariant('selected', '&[data-selected="true"]')
+      addVariant('selected', '&[data-selected]')
+      addVariant('active', '&[data-active]')
       addVariant('allowed', '&[data-allowed="true"]')
     })
   ]
