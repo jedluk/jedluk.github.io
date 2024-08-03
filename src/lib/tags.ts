@@ -28,10 +28,10 @@ export function getTagsByCount(posts: CollectionEntry<'blog'>[]): TagTuple[] {
 export type YearTuple = [number, number]
 
 export function getTagsByYear(posts: CollectionEntry<'blog'>[]): YearTuple[] {
-  return Array.from(
-    posts.reduce((acc, post) => {
-      const year = post.data.pubDate.getFullYear()
-      return acc.set(year, 1 + (acc.get(year) ?? 0))
-    }, new Map<number, number>()).entries()
-  )
+  const tags = posts.reduce((acc, post) => {
+    const year = post.data.pubDate.getFullYear()
+    return acc.set(year, 1 + (acc.get(year) ?? 0))
+  }, new Map<number, number>())
+
+  return Array.from(tags.entries()).sort(([year1], [year2]) => year2 > year1 ? 1 : -1)
 }
