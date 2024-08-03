@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { name, count, selected, secondary = false, isYear = false } = Astro.props
-const link = ['/blog', isYear ? 'years' : 'tags', name.toLowerCase()].join('/')
+const link = `/blog/${isYear ? 'years' : 'tags'}/${name.toLowerCase()}`
 ---
 
 <span
