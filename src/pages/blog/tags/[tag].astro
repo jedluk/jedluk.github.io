@@ -19,7 +19,11 @@ export async function getStaticPaths() {
       params: { tag },
       props: {
         allTags: tags,
-        posts: posts.filter((post) => extractTags(post).includes(tag))
+        posts: posts
+          .filter((post) => extractTags(post).includes(tag))
+          .sort((post1, post2) =>
+            post1.data.pubDate > post2.data.pubDate ? -1 : 1
+          )
       }
     }))
 }

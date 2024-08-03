@@ -18,9 +18,11 @@ export async function getStaticPaths() {
       params: { year },
       props: {
         allTags: tags,
-        posts: posts.filter(
-          (post) => post.data.pubDate.getFullYear() == Number(year)
-        )
+        posts: posts
+          .filter((post) => post.data.pubDate.getFullYear() == Number(year))
+          .sort((post1, post2) =>
+            post1.data.pubDate > post2.data.pubDate ? -1 : 1
+          )
       }
     }))
 }
