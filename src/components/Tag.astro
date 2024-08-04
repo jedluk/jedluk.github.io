@@ -1,11 +1,14 @@
 ---
 interface Props {
   name: string
+  secondary?: boolean
+  isYear?: boolean
   selected: boolean
   count?: number
 }
 
-const { name, count, selected } = Astro.props
+const { name, count, selected, secondary = false, isYear = false } = Astro.props
+const link = `/blog/${isYear ? 'years' : 'tags'}/${name.toLowerCase()}`
 ---
 
 <span
@@ -18,12 +21,16 @@ const { name, count, selected } = Astro.props
     'py-0.5',
     'rounded-full',
     'bg-gray-400 dark:bg-gray-600',
-    'hover:bg-brand dark:hover:bg-brand ease-in-out duration-300',
-    'selected:bg-brand dark:selected:bg-brand',
+    secondary
+      ? 'hover:bg-brand-secondary dark:hover:bg-brand-secondary ease-in-out duration-300'
+      : 'hover:bg-brand dark:hover:bg-brand ease-in-out duration-300',
+    secondary
+      ? 'selected:bg-brand-secondary dark:selected:bg-brand-secondary'
+      : 'selected:bg-brand dark:selected:bg-brand',
     'selected:shadow-sm selcted:shadow-violet-400/50'
   ].join(' ')}
 >
-  <a href={`/tags/${name.toLowerCase()}`} class="text-white hover:text-white">
+  <a href={link} class="text-white hover:text-white">
     {name.toUpperCase()}
     {count && ` (${count})`}
   </a>

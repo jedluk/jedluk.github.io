@@ -6,7 +6,12 @@ import Footer from '../../components/Footer.astro'
 import Tag from '../../components/Tag.astro'
 import Posts from '../../components/Posts.astro'
 import { SITE_TITLE, SITE_DESCRIPTION, PAGINATION_SIZE } from '../../consts'
-import { getTagsByCount, type TagInfo } from '../../lib/tags'
+import {
+  getTagsByCount,
+  type TagTuple,
+  getTagsByYear,
+  type YearTuple
+} from '../../lib/tags'
 import Pagination from '../../components/Pagination.astro'
 import type { Page } from 'astro'
 
@@ -20,13 +25,15 @@ export async function getStaticPaths({
   return paginate(sortedPosts, {
     pageSize: PAGINATION_SIZE,
     props: {
+      years: getTagsByYear(sortedPosts),
       tags: getTagsByCount(sortedPosts)
     }
   })
 }
 
-const { page, tags } = Astro.props as {
-  tags: TagInfo[]
+const { page, tags, years } = Astro.props as {
+  years: YearTuple[]
+  tags: TagTuple[]
   page: Page<CollectionEntry<'blog'>>
 }
 ---
@@ -44,6 +51,8 @@ const { page, tags } = Astro.props as {
         class="flex justify-center items-start flex-wrap odd:items-end min-w-fit mx-4 mb-4 [&>span]:mb-1"
       >
         {tags.map(([tag, count]) => <Tag selected name={tag} count={count} />)}
+        <div class="w-full my-1" />
+        {years.map(([year, count]) => <Tag selected isYear secondary name={String(year)} count={count}) />)}
       </div>
       <hr class="mb-8" />
       <section>

@@ -1,13 +1,13 @@
 ---
 import { getCollection } from 'astro:content'
-import BaseHead from '../../components/BaseHead.astro'
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts'
-import Header from '../../components/Header.astro'
-import Footer from '../../components/Footer.astro'
-import Posts from '../../components/Posts.astro'
-import { getTagsByCount } from '../../lib/tags'
-import Tag from '../../components/Tag.astro'
-import { extractTags } from '../../lib/tags'
+import BaseHead from '../../../components/BaseHead.astro'
+import { SITE_DESCRIPTION, SITE_TITLE } from '../../../consts'
+import Header from '../../../components/Header.astro'
+import Footer from '../../../components/Footer.astro'
+import Posts from '../../../components/Posts.astro'
+import { getTagsByCount } from '../../../lib/tags'
+import Tag from '../../../components/Tag.astro'
+import { extractTags } from '../../../lib/tags'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog')
@@ -19,7 +19,11 @@ export async function getStaticPaths() {
       params: { tag },
       props: {
         allTags: tags,
-        posts: posts.filter((post) => extractTags(post).includes(tag))
+        posts: posts
+          .filter((post) => extractTags(post).includes(tag))
+          .sort((post1, post2) =>
+            post1.data.pubDate > post2.data.pubDate ? -1 : 1
+          )
       }
     }))
 }
