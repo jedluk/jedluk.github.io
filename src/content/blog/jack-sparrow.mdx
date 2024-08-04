@@ -1,0 +1,85 @@
+---
+title: 'Jack Sparrow'
+description: 'Compass Pro for maplibre-gl'
+pubDate: 'Aug 4 2024'
+heroImage: '/blog/images/compass-pro.png'
+tags: ['maplibre', 'JS', 'React']
+---
+Hello and welcome! It's great to see you after these few months of my inactivity. The recent time has been quite 
+demanding for me as I changed employers, and the initial period at a new job is always intense, so I haven't had 
+much time for blogging. Today, I'd like to use this article as a form of self-promotion :)
+
+Some time ago, I've created and published a compass component (which I named [maplibre-compass-pro](https://github.com/jedluk/maplibre-compass-pro)), 
+fully compatible with the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) library. In this article, I'd 
+like to introduce you to its API and also show how it looks in a real application.
+
+But first, let me explain my motivation for creating it. On one gloomy autumn evening (autumn is really gloomy in Poland), 
+I watched Pirates of the Caribbean once again. As you probably know, one of Jack Sparrow's main attributes is his [compass](https://pirates.fandom.com/wiki/Jack_Sparrow%27s_compass), 
+which always points the way to his goal. Since I was working intensively on a map-based application at the time, I began to 
+wonder if there was a library with an advanced compass in a classic style, similar to the one from the movie. By default, 
+MapLibre offers a compass feature, but it's a very basic version and lacks anything exciting. I coudln't find the one so I've
+just started coding. Below I'm presenting how maplibre-compass-pro looks like (bottom left corner). In upper right corner you can see built-in implementation.
+
+<img class="w-full" alt="Compass in Franfkurt" src="/blog/images/compass-london.png" />
+
+The main features of compass are: 
+- predefined sizes (from 'xs' to 'xl')
+- typescript support
+- possibility to visualize pitch
+- possibility to display cardinal directions
+- and last but not least it just looks awesome 😊 
+
+To get started with compass and maplibre you need to write just a few lines of
+code. Important thing - remember to import both maplibre & compass CSS styles. Otherwise result might be unexpected.
+
+```js
+import 'maplibre-gl/dist/maplibre-gl.css'
+import 'maplibre-compass-pro/dist/style.css'
+import maplibregl from 'maplibre-gl'
+import { Compass } from 'maplibre-compass-pro'
+
+const map = new maplibregl.Map({
+	container: 'map',
+	style: '/mapStyle.json',
+	center: [14.5, 53.4],
+	zoom: 11,
+})
+
+const compass = new Compass({ size: 'sm' })
+map.addControl(compass, 'bottom-left')
+```
+
+In compass constructor you can specify default view and behaviour. 
+
+```ts
+type CompassProps = {
+	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' // default 'md'
+	visualizePitch?: boolean // default false
+	displayDirections?: boolean // default false (use cardinal directions instead of needle)
+	onClick?: () => void // default map.resetNorthPitch
+}
+```
+
+Below ⬇️⬇️⬇️ you can see code sanbox I've prepared earlier. Try it out by checking different sizes and switching between
+cardinal directions and needle !
+
+
+<iframe src="https://codesandbox.io/embed/tv38ck?view=Editor+%2B+Preview&module=%2Fsrc%2Findex.ts"
+	style="width:100%; height: 500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="peaceful-mirzakhani"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
+
+
+
+It's also possible to embeed compass in [react-map-gl](https://github.com/visgl/react-map-gl) by adding lightweight
+wrapper component. By the way originally I developed component compatibile with react-map-gl only and I called it 
+[map-gl-compass-pro](https://github.com/jedluk/map-gl-compass-pro). However, I later realized that this was a mistake 
+because people wouldn't be able to use it with other frameworks. Therefore, I decided to build a VanillaJS version 
+that would allow for easy adaptation to any application. Map-gl-compass-pro will become the official wrapper for 
+maplibre-compass-pro (I need to spend some time on aligning them). Maplibre-compass-pro is now also on the official 
+list of plugins for use with MapLibre - check out the [awesome maplibre](https://github.com/maplibre/awesome-maplibre) page.
+
+If you appreciate my work don't hessistate to give me a star on  github 😅 Also I'll be more than please to see it embedded 
+in your own application 🚀🚀🚀 With that said, I'll wrap up today's episode and hope to see you again soon 👋👋👋
